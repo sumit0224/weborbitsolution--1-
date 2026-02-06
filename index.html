@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebOrbitSolution | Premium Web Agency</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#20B2AA', // Light Sea Green
+              dark: '#000000',
+              light: '#FFFFFF',
+              surface: '#111111',
+            },
+            fontFamily: {
+              heading: ['"Rock Salt"', 'cursive'],
+              body: ['"Inter"', 'Helvetica', 'sans-serif'],
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        cursor: none; /* Hide default cursor for custom one */
+        overflow-x: hidden;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #111;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #20B2AA;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #17807a;
+      }
+      
+      /* Swiper Customization */
+      .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 0.5;
+      }
+      .swiper-pagination-bullet-active {
+        background: #20B2AA;
+        opacity: 1;
+      }
+      
+      /* Selection Color */
+      ::selection {
+        background-color: #20B2AA;
+        color: #000;
+      }
+
+      /* Ladder Loader Styles */
+      .loader-blind {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 20%;
+        background-color: #20B2AA; /* Cyan Blue */
+        z-index: 9998;
+        transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1);
+        will-change: transform;
+      }
+      
+      .loader-text-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        font-family: 'Rock Salt', cursive;
+        color: #000000; /* Black */
+        font-size: 2.5rem;
+        font-weight: bold;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      }
+
+      /* Custom Ziggle Filter Class */
+      .ziggle-effect {
+        filter: url("#liquid-flow");
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "gsap/": "https://esm.sh/gsap@^3.14.2/",
+    "gsap": "https://esm.sh/gsap@^3.14.2",
+    "swiper/": "https://esm.sh/swiper@^12.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <!-- SVG Filter Definition for Liquid/Ziggle Effect -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+      <defs>
+        <filter id="liquid-flow">
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="1" result="noise">
+             <animate attributeName="baseFrequency" dur="8s" values="0.015; 0.025; 0.015" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Ladder Loader Structure -->
+    <div id="loader-wrapper">
+      <div id="loader-text" class="loader-text-container">WebOrbit</div>
+      
+      <!-- 5 Vertical Blinds (Ladder Effect) -->
+      <div class="loader-blind" style="left: 0%; transition-delay: 0.0s;"></div>
+      <div class="loader-blind" style="left: 20%; transition-delay: 0.1s;"></div>
+      <div class="loader-blind" style="left: 40%; transition-delay: 0.15s;"></div>
+      <div class="loader-blind" style="left: 60%; transition-delay: 0.2s;"></div>
+      <div class="loader-blind" style="left: 80%; transition-delay: 0.25s;"></div>
+    </div>
+
+    <div id="root"></div>
+    
+    <script>
+      window.addEventListener('load', () => {
+        const text = document.getElementById('loader-text');
+        const blinds = document.querySelectorAll('.loader-blind');
+        const wrapper = document.getElementById('loader-wrapper');
+        
+        // Step 1: Fade out text
+        setTimeout(() => {
+          text.style.opacity = '0';
+          text.style.transform = 'translate(-50%, -60%)'; // Slight drift up
+        }, 1200);
+
+        // Step 2: Slide blinds up (Ladder Effect)
+        setTimeout(() => {
+          blinds.forEach(blind => {
+            blind.style.transform = 'translateY(-100%)';
+          });
+          
+          // Cleanup
+          setTimeout(() => {
+            wrapper.remove();
+          }, 2000); // Wait for transition + delay
+        }, 1600);
+      });
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

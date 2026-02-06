@@ -1,0 +1,207 @@
+import React, { useState, FormEvent } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
+}
+
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  message?: string;
+}
+
+const Contact: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Simulate API call - replace with actual endpoint
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      console.log('Form submitted:', formData);
+      setSubmitStatus('success');
+      setFormData({ firstName: '', lastName: '', email: '', message: '' });
+      setErrors({});
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  return (
+    <section id="contact" className="py-24 md:py-32 bg-black text-white relative overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+
+          {/* Left Column: Text & CTA */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <h3 className="font-heading text-4xl text-primary mb-4 rotate-[-2deg]">Contact Us</h3>
+              <h2 className="font-body font-black text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter uppercase mb-8">
+                Let's Chat
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-400 font-light max-w-md leading-relaxed">
+                Have a project in mind? We'd love to hear about it. Let's create something great together!
+              </p>
+            </div>
+
+            {/* Prefer a Call Box */}
+            <div className="mt-16 lg:mt-0 p-8 border border-white/10 bg-white/5 rounded-sm relative group cursor-pointer hover:border-primary/50 transition-colors">
+              <h4 className="font-heading text-3xl text-primary mb-2">Prefer a Call?</h4>
+              <p className="text-gray-400 text-sm mb-0">Book 30-mins intro call with us.</p>
+
+              <a href="#" className="absolute bottom-8 right-8 flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm group-hover:text-white transition-colors">
+                Book a Call <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Form */}
+          <div className="bg-[#111] p-8 md:p-12 rounded-sm border border-white/5">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="firstName" className="text-sm text-gray-400">First Name</label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="Enter first name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={`w-full bg-black border ${errors.firstName ? 'border-red-500' : 'border-white/10'} p-4 text-white focus:outline-none focus:border-primary transition-colors placeholder-gray-700`}
+                  />
+                  {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="lastName" className="text-sm text-gray-400">Last Name</label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Enter last name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={`w-full bg-black border ${errors.lastName ? 'border-red-500' : 'border-white/10'} p-4 text-white focus:outline-none focus:border-primary transition-colors placeholder-gray-700`}
+                  />
+                  {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm text-gray-400">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full bg-black border ${errors.email ? 'border-red-500' : 'border-white/10'} p-4 text-white focus:outline-none focus:border-primary transition-colors placeholder-gray-700`}
+                />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm text-gray-400">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  placeholder="Your message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={`w-full bg-black border ${errors.message ? 'border-red-500' : 'border-white/10'} p-4 text-white focus:outline-none focus:border-primary transition-colors placeholder-gray-700 resize-none`}
+                ></textarea>
+                {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+              </div>
+
+              {submitStatus === 'success' && (
+                <div className="bg-primary/20 border border-primary text-primary px-4 py-3 rounded">
+                  Thank you! Your message has been sent successfully.
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="bg-red-500/20 border border-red-500 text-red-500 px-4 py-3 rounded">
+                  Something went wrong. Please try again.
+                </div>
+              )}
+
+              <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-6">
+                <p className="text-xs text-gray-500 max-w-xs">
+                  By submitting you agree to our <span className="text-white font-bold">Terms of Service</span> and <span className="text-white font-bold">Privacy Policy</span>.
+                </p>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full md:w-auto px-12 py-4 bg-[#222] text-white font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all duration-300 cursor-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending...' : 'Submit'}
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
