@@ -34,6 +34,10 @@
     font-family: var(--font-rock);
   }
 
+  .font-body-alt {
+    font-family: "Helvetica", Arial, sans-serif;
+  }
+
   .page-container {
     @apply w-full max-w-none px-15;
   }

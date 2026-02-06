@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Parallax } from 'swiper/modules';
 import { Project } from '../types';
 import { ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // Swiper styles are imported in index.html
 
@@ -71,6 +72,9 @@ const Portfolio: React.FC = () => {
         <div>
           <h2 className="font-heading text-2xl md:text-4xl text-white mb-4">Selected Work</h2>
           <p className="text-primary font-body uppercase tracking-widest text-sm">Showcase 2024-2025</p>
+          <p className="text-gray-400 text-sm mt-4">
+            See more on the <Link to="/work" className="text-primary font-semibold hover:underline">web design portfolio</Link>.
+          </p>
         </div>
         
         {/* Navigation buttons will be injected by Swiper */}
@@ -103,11 +107,16 @@ const Portfolio: React.FC = () => {
         >
           {projects.map((project) => (
             <SwiperSlide key={project.id} className="group cursor-hover relative overflow-hidden rounded-lg">
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${project.image})` }}
+              <img
+                src={project.image}
+                alt={`${project.title} ${project.category} website project`}
+                loading="lazy"
+                decoding="async"
+                width={1200}
+                height={800}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 data-swiper-parallax="-20%"
-              ></div>
+              />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
               
               <div className="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

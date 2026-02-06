@@ -4,12 +4,16 @@ import SiteLayout from './layouts/SiteLayout';
 import Home from './pages/Home';
 import ServicesPage from './pages/ServicesPage';
 import WorkPage from './pages/WorkPage';
+import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import NotFound from './pages/NotFound';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 
 function App() {
   useEffect(() => {
@@ -25,11 +29,15 @@ function App() {
         <Route index element={<Home />} />
         <Route path="services" element={<ServicesPage />} />
         <Route path="work" element={<WorkPage />} />
+        <Route path="pricing" element={<PricingPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="blog" element={<BlogPage />} />
+        <Route path="blog/:slug" element={<BlogPostPage />} />
         <Route path="terms" element={<TermsPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="admin/login" element={<AdminLoginPage />} />
+        <Route path="admin" element={<AdminDashboardPage />} />
         <Route path="404" element={<NotFound />} />
         <Route path="*" element={<NotFound />} />
       </Route>

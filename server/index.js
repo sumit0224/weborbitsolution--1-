@@ -2,8 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import cookieParser from 'cookie-parser';
 import { Inquiry } from './models/Inquiry.js';
+import { BlogPost } from './models/BlogPost.js';
 
 dotenv.config();
 
@@ -23,6 +26,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '1mb' }));
+app.use(cookieParser());
 
 const mailEnabled = Boolean(
   process.env.SMTP_HOST &&
@@ -58,6 +62,85 @@ const sendMail = async ({ to, subject, html, replyTo }) => {
     replyTo,
   });
 };
+
+// --- Admin Session Helpers ---
+
+const SESSION_COOKIE = 'wo_admin';
+const SESSION_DAYS = Number(process.env.ADMIN_SESSION_DAYS || 7);
+const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || '';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const COOKIE_SAMESITE = process.env.COOKIE_SAMESITE || 'lax';
+const COOKIE_SECURE = process.env.COOKIE_SECURE === 'true';
+
+const safeCompare = (value, expected) => {
+  const a = Buffer.from(String(value));
+  const b = Buffer.from(String(expected));
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+};
+
+const createSessionToken = (email) => {
+  const payload = {
+    email,
+    exp: Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000,
+  };
+  const base = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', SESSION_SECRET).update(base).digest('base64url');
+  return `${base}.${signature}`;
+};
+
+const verifySessionToken = (token) => {
+  if (!token || !SESSION_SECRET) return null;
+  const [base, signature] = token.split('.');
+  if (!base || !signature) return null;
+  const expected = crypto.createHmac('sha256', SESSION_SECRET).update(base).digest('base64url');
+  if (!safeCompare(signature, expected)) return null;
+  try {
+    const payload = JSON.parse(Buffer.from(base, 'base64url').toString('utf8'));
+    if (!payload.exp || Date.now() > payload.exp) return null;
+    return payload;
+  } catch (error) {
+    return null;
+  }
+};
+
+const setSessionCookie = (res, token) => {
+  res.cookie(SESSION_COOKIE, token, {
+    httpOnly: true,
+    sameSite: COOKIE_SAMESITE,
+    secure: COOKIE_SECURE,
+    maxAge: SESSION_DAYS * 24 * 60 * 60 * 1000,
+    path: '/',
+  });
+};
+
+const clearSessionCookie = (res) => {
+  res.cookie(SESSION_COOKIE, '', {
+    httpOnly: true,
+    sameSite: COOKIE_SAMESITE,
+    secure: COOKIE_SECURE,
+    maxAge: 0,
+    path: '/',
+  });
+};
+
+const requireAdmin = (req, res, next) => {
+  const token = req.cookies[SESSION_COOKIE];
+  const payload = verifySessionToken(token);
+  if (!payload) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  req.admin = payload;
+  next();
+};
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
 // --- Email Templates ---
 
@@ -191,6 +274,157 @@ app.post('/api/inquiry', async (req, res) => {
   } catch (error) {
     console.error('Inquiry error:', error);
     res.status(500).json({ error: 'Failed to submit inquiry.' });
+  }
+});
+
+// --- Admin Auth ---
+
+app.post('/api/admin/login', (req, res) => {
+  const { email, password } = req.body || {};
+
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
+    return res.status(500).json({ error: 'Admin login is not configured.' });
+  }
+
+  if (!safeCompare(email, ADMIN_EMAIL) || !safeCompare(password, ADMIN_PASSWORD)) {
+    return res.status(401).json({ error: 'Invalid credentials.' });
+  }
+
+  const token = createSessionToken(email);
+  setSessionCookie(res, token);
+  res.json({ ok: true, admin: { email } });
+});
+
+app.post('/api/admin/logout', (req, res) => {
+  clearSessionCookie(res);
+  res.json({ ok: true });
+});
+
+app.get('/api/admin/me', (req, res) => {
+  const token = req.cookies[SESSION_COOKIE];
+  const payload = verifySessionToken(token);
+  if (!payload) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  res.json({ ok: true, admin: { email: payload.email } });
+});
+
+// --- Blog Public ---
+
+app.get('/api/blog/posts', async (req, res) => {
+  try {
+    const posts = await BlogPost.find({ published: true })
+      .sort({ date: -1 })
+      .select('title slug excerpt date readTime author category featuredImage');
+    res.json({ posts });
+  } catch (error) {
+    console.error('Fetch posts error:', error);
+    res.status(500).json({ error: 'Failed to load posts.' });
+  }
+});
+
+app.get('/api/blog/posts/:slug', async (req, res) => {
+  try {
+    const post = await BlogPost.findOne({ slug: req.params.slug, published: true });
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+    res.json({ post });
+  } catch (error) {
+    console.error('Fetch post error:', error);
+    res.status(500).json({ error: 'Failed to load post.' });
+  }
+});
+
+// --- Blog Admin ---
+
+app.get('/api/admin/posts', requireAdmin, async (req, res) => {
+  try {
+    const posts = await BlogPost.find().sort({ date: -1 });
+    res.json({ posts });
+  } catch (error) {
+    console.error('Admin posts error:', error);
+    res.status(500).json({ error: 'Failed to load posts.' });
+  }
+});
+
+app.post('/api/admin/posts', requireAdmin, async (req, res) => {
+  try {
+    const {
+      title,
+      slug,
+      excerpt,
+      date,
+      readTime,
+      author,
+      category,
+      featuredImage,
+      sections,
+      metaTitle,
+      metaDescription,
+      published = true,
+    } = req.body || {};
+
+    if (!title || !excerpt || !author || !category || !featuredImage?.src || !featuredImage?.alt) {
+      return res.status(400).json({ error: 'Missing required fields.' });
+    }
+
+    const finalSlug = slug ? slugify(slug) : slugify(title);
+    const finalDate = date || new Date().toISOString().split('T')[0];
+
+    const post = await BlogPost.create({
+      title,
+      slug: finalSlug,
+      excerpt,
+      date: finalDate,
+      readTime: readTime || '5 min read',
+      author,
+      category,
+      featuredImage,
+      sections: sections || [],
+      metaTitle,
+      metaDescription,
+      published,
+    });
+
+    res.status(201).json({ post });
+  } catch (error) {
+    console.error('Create post error:', error);
+    res.status(500).json({ error: 'Failed to create post.' });
+  }
+});
+
+app.put('/api/admin/posts/:id', requireAdmin, async (req, res) => {
+  try {
+    const updates = { ...req.body };
+    if (updates.slug) {
+      updates.slug = slugify(updates.slug);
+    }
+    if (updates.title && !updates.slug) {
+      updates.slug = slugify(updates.title);
+    }
+
+    const post = await BlogPost.findByIdAndUpdate(req.params.id, updates, { new: true });
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+    res.json({ post });
+  } catch (error) {
+    console.error('Update post error:', error);
+    res.status(500).json({ error: 'Failed to update post.' });
+  }
+});
+
+app.delete('/api/admin/posts/:id', requireAdmin, async (req, res) => {
+  try {
+    const post = await BlogPost.findByIdAndDelete(req.params.id);
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('Delete post error:', error);
+    res.status(500).json({ error: 'Failed to delete post.' });
   }
 });
 

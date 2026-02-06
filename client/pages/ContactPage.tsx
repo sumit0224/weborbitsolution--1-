@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Contact from '../components/Contact';
+import Seo from '../components/Seo';
 
 const ContactPage: React.FC = () => {
   const location = useLocation();
@@ -9,6 +10,11 @@ const ContactPage: React.FC = () => {
 
   return (
     <section className="bg-black text-white pt-32">
+      <Seo
+        title="Contact WebOrbitSolution | Start Your Web Project"
+        description="Contact WebOrbitSolution to discuss web design, development, branding, and SEO services. Get a clear project plan and timeline."
+        path="/contact"
+      />
       <div className="px-6 md:px-12 mb-12">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Let’s Talk</p>
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
@@ -19,7 +25,7 @@ const ContactPage: React.FC = () => {
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
           {planName
             ? `You're interested in the ${planName} plan. Great choice! Let's discuss the details.`
-            : "Tell us about your goals and we will respond with a clear plan and timeline."}
+            : "Tell us about your goals for web design, development, branding, or SEO and we will respond with a clear plan and timeline."}
         </p>
       </div>
       <Contact />

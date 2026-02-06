@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavItem } from '../types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
 import gsap from 'gsap';
 
@@ -8,12 +8,24 @@ const navItems: NavItem[] = [
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { pathname } = useLocation();
+  const isBlogDetail = pathname.startsWith('/blog/');
+  const navBgClass = isScrolled
+    ? isBlogDetail
+      ? 'py-4 bg-white/90 backdrop-blur-md border-b border-black/10'
+      : 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10'
+    : isBlogDetail
+      ? 'py-6 md:py-8 bg-white/70 backdrop-blur-md'
+      : 'py-6 md:py-8 bg-black/60 backdrop-blur-md';
+  const navTextClass = isBlogDetail ? 'text-black' : 'text-white';
+  const navMutedClass = isBlogDetail ? 'text-gray-600' : 'text-gray-400';
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -162,16 +174,11 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-            ? 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10'
-            : 'py-6 md:py-8 bg-black/60 backdrop-blur-md'
-          }`}
-      >
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBgClass}`}>
         <div className="page-container flex justify-between items-center">
           <Link
             to="/"
-            className="nav-element flex items-center gap-3 text-white hover:text-primary transition-colors duration-300 relative z-50"
+            className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
             <svg
               viewBox="0 0 64 64"
@@ -184,8 +191,8 @@ const Navbar: React.FC = () => {
               <circle cx="58" cy="28" r="3" fill="currentColor" />
             </svg>
             <span className="leading-none">
-              <span className="block text-sm uppercase tracking-[0.35em] text-gray-400">Web</span>
-              <span className="block text-2xl md:text-3xl font-black tracking-tight text-white">Orbit</span>
+              <span className={`block text-sm uppercase tracking-[0.35em] ${navMutedClass}`}>Web</span>
+              <span className={`block text-2xl md:text-3xl font-black tracking-tight ${navTextClass}`}>Orbit</span>
             </span>
           </Link>
 

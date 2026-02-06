@@ -9,10 +9,16 @@ import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import StartProject from '../components/StartProject';
+import Seo from '../components/Seo';
 
 const Home: React.FC = () => {
   return (
     <>
+      <Seo
+        title="WebOrbitSolution | Web Design & Development Agency in India"
+        description="WebOrbitSolution is a premium web design, development, branding, and SEO agency in India. We craft high-performance websites and digital experiences that convert."
+        path="/"
+      />
       <Hero />
       <Services />
       <Portfolio />

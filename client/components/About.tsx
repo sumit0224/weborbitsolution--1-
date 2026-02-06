@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -61,6 +62,10 @@ const About: React.FC = () => {
           </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-8">
             Founded on the belief that code is art, we push the boundaries of what is possible in the browser, leveraging the latest in WebGL, React, and serverless architecture.
+          </p>
+          <p className="font-body text-lg leading-relaxed text-gray-800 mb-10">
+            Explore our <Link to="/services" className="text-primary font-semibold hover:underline">web design and development services</Link> or
+            browse the <Link to="/work" className="text-primary font-semibold hover:underline">portfolio of digital work</Link> we have shipped.
           </p>
 
           <div className="grid grid-cols-2 gap-8 mt-12">

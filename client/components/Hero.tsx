@@ -83,23 +83,13 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="flex flex-col">
-          <div className="overflow-hidden">
-            <h1 
-              id="hero-heading"
-              className="hero-line-inner text-[12vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
-            >
-              Digital
-            </h1>
-          </div>
-          <div className="overflow-hidden">
-            <h1 
-              className="hero-line-inner text-[12vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion pl-[10vw]"
-              aria-label="Excellence"
-            >
-              Excellence
-            </h1>
-          </div>
-         
+          <h1
+            id="hero-heading"
+            className="text-[12vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
+          >
+            <span className="hero-line-inner block overflow-hidden">Digital</span>
+            <span className="hero-line-inner block overflow-hidden pl-[10vw]">Excellence</span>
+          </h1>
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row justify-between items-end gap-8">
@@ -109,7 +99,7 @@ const Hero: React.FC = () => {
               <span className="text-white font-medium">strategy</span>,{' '}
               <span className="text-white font-medium">design</span>, and{' '}
               <span className="text-white font-medium">technology</span>{' '}
-              to build brands that defy gravity.
+              to build brands that defy gravity. WebOrbitSolution is a web design and development agency in India focused on branding, UI/UX, and SEO-ready websites.
             </p>
           </div>
 
