@@ -10,20 +10,14 @@ dotenv.config();
 const app = express();
 const PORT = Number(process.env.SERVER_PORT || 4000);
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
+const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: allowedOrigins.length > 0 ? allowedOrigins : undefined,
     credentials: true,
   })
 );
