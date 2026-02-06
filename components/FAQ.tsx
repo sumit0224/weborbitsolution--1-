@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface FAQItem {
   question: string;
@@ -37,8 +38,8 @@ const FAQ: React.FC = () => {
   }, []);
 
   return (
-    <section id="faq" className="bg-black text-white py-24 md:py-32 relative overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12">
+    <section id="faq" className="bg-black text-white section-padding relative overflow-hidden">
+      <div className="page-container">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
 
           {/* Left Column - Heading */}
@@ -49,7 +50,7 @@ const FAQ: React.FC = () => {
                 Frequently<br />Asked<br />Questions
               </h2>
               <p className="text-gray-400 text-lg">
-                Have more questions? <a href="#contact" className="text-primary font-bold hover:underline">Contact Us</a>
+                Have more questions? <Link to="/contact" className="text-primary font-bold hover:underline">Contact Us</Link>
               </p>
             </div>
           </div>

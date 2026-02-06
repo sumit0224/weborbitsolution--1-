@@ -1,41 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavItem } from '../types';
+import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
 import gsap from 'gsap';
 
 const navItems: NavItem[] = [
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Services', href: '/services' },
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Refs
   const drawerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const hamburgerTopRef = useRef<HTMLSpanElement>(null);
   const hamburgerBottomRef = useRef<HTMLSpanElement>(null);
   const hamburgerTl = useRef<gsap.core.Timeline | null>(null);
+  const hoverTl = useRef<gsap.core.Timeline | null>(null);
 
-  // Scroll Handler
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Initial animation for Logo and Menu Trigger
     gsap.from('.nav-element', {
-      y: -20,
+      y: -12,
       opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
+      duration: 0.6,
+      stagger: 0.08,
       ease: 'power3.out',
-      delay: 2.2
+      delay: 0.6,
+      clearProps: 'opacity,transform'
     });
 
     return () => {
@@ -46,7 +47,6 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Hamburger Animation Setup
   useEffect(() => {
     const top = hamburgerTopRef.current;
     const bottom = hamburgerBottomRef.current;
@@ -56,17 +56,17 @@ const Navbar: React.FC = () => {
     if (!hamburgerTl.current) {
       hamburgerTl.current = gsap.timeline({ paused: true });
 
-      // 2-line animation to X
-      // Container height approx 14px. Top line at 0, Bottom at ~12px. Center ~6-7px.
       hamburgerTl.current
         .to(top, {
           y: 6,
+          x: -6,
           rotation: 45,
           duration: 0.3,
           ease: 'power2.inOut'
         }, 0)
         .to(bottom, {
           y: -6,
+          x: 6,
           rotation: -45,
           duration: 0.3,
           ease: 'power2.inOut'
@@ -80,10 +80,26 @@ const Navbar: React.FC = () => {
     }
   }, [isDrawerOpen]);
 
-  // Drawer Animation Logic
+  const handleHover = (isEnter: boolean) => {
+    const top = hamburgerTopRef.current;
+    const bottom = hamburgerBottomRef.current;
+    if (!top || !bottom || isDrawerOpen) return;
+
+    if (hoverTl.current) {
+      hoverTl.current.kill();
+    }
+
+    hoverTl.current = gsap.timeline();
+    hoverTl.current
+      .to(top, { x: isEnter ? 6 : 0, duration: 0.2, ease: 'power2.out' }, 0)
+      .to(bottom, { x: isEnter ? -6 : 0, duration: 0.2, ease: 'power2.out' }, 0);
+  };
+
   useEffect(() => {
     const drawer = drawerRef.current;
     const overlay = overlayRef.current;
+
+    if (!drawer || !overlay) return;
 
     if (isDrawerOpen) {
       document.body.style.overflow = 'hidden';
@@ -111,7 +127,6 @@ const Navbar: React.FC = () => {
           ease: 'power3.out'
         }
       );
-
     } else {
       document.body.style.overflow = '';
 
@@ -129,7 +144,6 @@ const Navbar: React.FC = () => {
     }
   }, [isDrawerOpen]);
 
-  // Keyboard accessibility - ESC to close drawer
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isDrawerOpen) {
@@ -150,26 +164,40 @@ const Navbar: React.FC = () => {
     <>
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-            ? 'py-4 bg-black/80 backdrop-blur-md border-b border-white/5'
-            : 'bg-transparent py-6 md:py-8'
+            ? 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10'
+            : 'py-6 md:py-8 bg-black/60 backdrop-blur-md'
           }`}
       >
-        <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-
-          {/* Logo - Refined to match the blocky style */}
-          <a
-            href="#"
-            className="nav-element text-3xl md:text-4xl font-body font-black text-white hover:text-primary transition-colors duration-300 relative z-50 mix-blend-difference tracking-tighter"
+        <div className="page-container flex justify-between items-center">
+          <Link
+            to="/"
+            className="nav-element flex items-center gap-3 text-white hover:text-primary transition-colors duration-300 relative z-50"
           >
-            WebOrbit<span className="text-primary">.</span>
-          </a>
+            <svg
+              viewBox="0 0 64 64"
+              className="w-10 h-10 text-primary"
+              aria-hidden="true"
+            >
+              <circle cx="32" cy="32" r="6" fill="currentColor" />
+              <circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" strokeWidth="2" />
+              <path d="M6 28 C20 14, 44 14, 58 28" fill="none" stroke="currentColor" strokeWidth="2" />
+              <circle cx="58" cy="28" r="3" fill="currentColor" />
+            </svg>
+            <span className="leading-none">
+              <span className="block text-sm uppercase tracking-[0.35em] text-gray-400">Web</span>
+              <span className="block text-2xl md:text-3xl font-black tracking-tight text-white">Orbit</span>
+            </span>
+          </Link>
 
-          {/* Minimalist Hamburger Button (2 Lines) */}
           <button
+            type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="nav-element group flex flex-col justify-between items-end w-12 h-[14px] cursor-pointer mix-blend-difference focus:outline-none"
+            onMouseEnter={() => handleHover(true)}
+            onMouseLeave={() => handleHover(false)}
+            className="nav-element group flex flex-col justify-between items-end w-12 h-[14px] cursor-pointer focus:outline-none"
             aria-label="Toggle menu"
             aria-expanded={isDrawerOpen}
+            aria-controls="nav-drawer"
           >
             <span
               ref={hamburgerTopRef}
@@ -185,7 +213,6 @@ const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* BACKDROP OVERLAY */}
       <div
         ref={overlayRef}
         onClick={() => setIsDrawerOpen(false)}
@@ -193,16 +220,16 @@ const Navbar: React.FC = () => {
         aria-hidden="true"
       />
 
-      {/* RIGHT SIDE DRAWER */}
       <aside
+        id="nav-drawer"
         ref={drawerRef}
         className="fixed top-0 right-0 h-full w-full sm:w-[85%] md:w-[60%] lg:w-[45%] xl:w-[40%] bg-[#0a0a0a] z-[70] transform translate-x-full border-l border-white/10 flex flex-col shadow-2xl"
         role="dialog"
         aria-modal="true"
       >
-        {/* DRAWER HEADER */}
         <div className="flex justify-end items-center p-6 md:p-10">
           <button
+            type="button"
             onClick={() => setIsDrawerOpen(false)}
             className="w-12 h-12 flex items-center justify-center text-white hover:text-primary transition-colors duration-300 group"
             aria-label="Close menu"
@@ -211,20 +238,30 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* NAVIGATION LINKS */}
         <div className="flex-1 flex flex-col justify-center px-8 md:px-16 gap-6 overflow-y-auto">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               onClick={() => setIsDrawerOpen(false)}
               className="drawer-link group block w-full"
             >
               <span className="block text-5xl sm:text-6xl md:text-7xl font-body font-black uppercase tracking-tighter text-white group-hover:text-primary group-hover:translate-x-4 transition-all duration-300 ease-out">
                 {item.label}
               </span>
-            </a>
+            </Link>
           ))}
+        </div>
+
+        <div className="px-8 md:px-16 pb-10">
+          <Link
+            to="/contact"
+            onClick={() => setIsDrawerOpen(false)}
+            className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-primary"
+          >
+            Start a project
+            <span className="h-px w-10 bg-primary" />
+          </Link>
         </div>
       </aside>
     </>

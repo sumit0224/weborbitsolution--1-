@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
 
 const servicesList = [
@@ -14,7 +14,7 @@ const servicesList = [
   },
   {
     id: 3,
-    title: '3D',
+    title: 'Android APPs',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'
   },
   {
@@ -31,48 +31,68 @@ const servicesList = [
 
 const Services: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [imageY, setImageY] = useState(0);
   const revealRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLElement>(null);
+  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const updateActiveFromScroll = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const sectionRect = containerRef.current.getBoundingClientRect();
+    const inView = sectionRect.bottom > 0 && sectionRect.top < window.innerHeight;
+
+    if (!inView) {
+      setActiveIndex(null);
+      return;
+    }
+
+    const viewportCenter = window.innerHeight / 2;
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    let closestCenter = viewportCenter;
+
+    itemRefs.current.forEach((item, index) => {
+      if (!item) return;
+      const rect = item.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const distance = Math.abs(center - viewportCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+        closestCenter = center;
+      }
+    });
+
+    if (closestDistance !== Number.POSITIVE_INFINITY) {
+      setActiveIndex(servicesList[closestIndex].id);
+      setImageY(closestCenter);
+    }
+  }, []);
 
   useEffect(() => {
     let rafId: number | null = null;
-    let lastX = 0;
-    let lastY = 0;
 
-    // Mouse move handler for the reveal image with RAF throttling
-    const handleMouseMove = (e: MouseEvent) => {
-      lastX = e.clientX;
-      lastY = e.clientY;
-
+    const handleScroll = () => {
       if (rafId !== null) return;
-
       rafId = requestAnimationFrame(() => {
-        if (!revealRef.current) {
-          rafId = null;
-          return;
-        }
-
-        // Move image to cursor position with a slight offset to not block text immediately
-        gsap.to(revealRef.current, {
-          x: lastX,
-          y: lastY,
-          duration: 0.2,
-          ease: "power2.out"
-        });
-
+        updateActiveFromScroll();
         rafId = null;
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    updateActiveFromScroll();
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
     };
-  }, []);
+  }, [updateActiveFromScroll]);
 
   useEffect(() => {
     if (!revealRef.current) return;
@@ -94,19 +114,21 @@ const Services: React.FC = () => {
     }
   }, [activeIndex]);
 
-  return (
-    <section ref={containerRef} id="services" className="bg-black text-white py-32 relative overflow-hidden">
+  useEffect(() => {
+    if (!revealRef.current) return;
+    gsap.set(revealRef.current, { xPercent: -50, yPercent: -50, scale: 0, opacity: 0 });
+  }, []);
 
-      {/* Floating Image Reveal Container - Follows Cursor */}
+  return (
+    <section ref={containerRef} id="services" className="bg-black text-white section-padding relative overflow-hidden">
+
+      {/* Floating Image Reveal Container - Left of the centered text */}
       <div
         ref={revealRef}
-        className="fixed top-0 left-0 w-[280px] h-[180px] md:w-[350px] md:h-[240px] pointer-events-none z-30 rounded-lg overflow-hidden hidden lg:block border border-white/20 shadow-2xl"
+        className="fixed w-[200px] h-[200px] pointer-events-none z-30 rounded-lg overflow-hidden hidden lg:block border border-white/20 shadow-2xl"
         style={{
-          transform: 'translate(-50%, -50%) scale(0)',
-          opacity: 0,
-          // Offset slightly so it appears next to cursor
-          marginTop: '-120px',
-          marginLeft: '-180px'
+          left: '14vw',
+          top: imageY
         }}
       >
         {servicesList.map((service) => (
@@ -114,40 +136,43 @@ const Services: React.FC = () => {
             key={service.id}
             src={service.image}
             alt={service.title}
+            loading="lazy"
+            decoding="async"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${activeIndex === service.id ? 'opacity-100' : 'opacity-0'}`}
           />
         ))}
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="page-container relative z-10">
         {/* Header */}
         <div className="flex justify-start md:justify-center mb-16 md:mb-24">
-          <h2 className="font-heading text-primary text-4xl md:text-5xl -rotate-6">Services</h2>
+          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">Services</h2>
         </div>
 
         {/* List */}
-        <div className="flex flex-col items-start md:items-center space-y-4">
-          {servicesList.map((service) => (
+        <div className="flex flex-col items-end space-y-10">
+          {servicesList.map((service, index) => (
             <div
               key={service.id}
-              onMouseEnter={() => setActiveIndex(service.id)}
-              onMouseLeave={() => setActiveIndex(null)}
-              className="group relative flex items-baseline justify-start md:justify-end cursor-pointer transition-colors duration-300 select-none"
+              ref={(el) => { itemRefs.current[index] = el; }}
+              className="group w-full flex justify-end cursor-pointer transition-colors duration-300 select-none"
             >
-              {/* Number */}
-              <span className={`font-mono text-xs md:text-sm mr-4 md:mr-6 transition-colors duration-300 translate-y-[-1vw] ${activeIndex === service.id ? 'text-primary' : 'text-gray-700'}`}>
-                (0{service.id})
-              </span>
+              <div className="relative inline-block text-right">
+                {/* Number */}
+                <span className={`absolute -left-14 top-2 font-mono text-xs md:text-sm tracking-widest transition-colors duration-300 ${activeIndex === service.id ? 'text-primary' : 'text-gray-600'}`}>
+                  (0{service.id})
+                </span>
 
-              {/* Title */}
-              <h3
-                className={`font-body font-black text-6xl md:text-8xl lg:text-9xl uppercase tracking-tighter transition-all duration-300 leading-[0.9]
-                            ${activeIndex !== null && activeIndex !== service.id
-                    ? 'text-gray-800 blur-[2px]'
-                    : 'text-gray-500 hover:text-white hover:blur-0'}`}
-              >
-                {service.title}
-              </h3>
+                {/* Title */}
+                <h3
+                  className={`font-body font-black text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter transition-all duration-300 leading-[0.9]
+                              ${activeIndex !== null && activeIndex !== service.id
+                      ? 'text-gray-800 blur-[2px]'
+                      : 'text-white'}`}
+                >
+                  {service.title}
+                </h3>
+              </div>
             </div>
           ))}
         </div>

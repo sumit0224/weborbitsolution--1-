@@ -77,6 +77,9 @@ const Contact: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (submitStatus !== 'idle') {
+      setSubmitStatus('idle');
+    }
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
@@ -84,8 +87,8 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-black text-white relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="section-padding bg-black text-white relative overflow-hidden">
+      <div className="page-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
 
           {/* Left Column: Text & CTA */}
@@ -114,6 +117,26 @@ const Contact: React.FC = () => {
           {/* Right Column: Form */}
           <div className="bg-[#111] p-8 md:p-12 rounded-sm border border-white/5">
             <form className="space-y-6" onSubmit={handleSubmit}>
+              {submitStatus !== 'idle' && (
+                <div
+                  role={submitStatus === 'error' ? 'alert' : 'status'}
+                  aria-live={submitStatus === 'error' ? 'assertive' : 'polite'}
+                  className={`rounded border px-4 py-3 text-sm ${
+                    submitStatus === 'success'
+                      ? 'bg-primary/20 border-primary text-primary'
+                      : 'bg-red-500/20 border-red-500 text-red-500'
+                  }`}
+                >
+                  <p className="text-xs font-bold uppercase tracking-widest mb-1">
+                    {submitStatus === 'success' ? 'Message Sent' : 'Submission Failed'}
+                  </p>
+                  <p>
+                    {submitStatus === 'success'
+                      ? 'Thanks for reaching out. We will get back to you within 1-2 business days.'
+                      : 'Something went wrong. Please try again.'}
+                  </p>
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="firstName" className="text-sm text-gray-400">First Name</label>
@@ -171,18 +194,6 @@ const Contact: React.FC = () => {
                 {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
               </div>
 
-              {submitStatus === 'success' && (
-                <div className="bg-primary/20 border border-primary text-primary px-4 py-3 rounded">
-                  Thank you! Your message has been sent successfully.
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="bg-red-500/20 border border-red-500 text-red-500 px-4 py-3 rounded">
-                  Something went wrong. Please try again.
-                </div>
-              )}
-
               <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-6">
                 <p className="text-xs text-gray-500 max-w-xs">
                   By submitting you agree to our <span className="text-white font-bold">Terms of Service</span> and <span className="text-white font-bold">Privacy Policy</span>.
@@ -192,7 +203,7 @@ const Contact: React.FC = () => {
                   disabled={isSubmitting}
                   className="w-full md:w-auto px-12 py-4 bg-[#222] text-white font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all duration-300 cursor-hover disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : 'Submit'}
+                  {isSubmitting ? 'Sending...' : submitStatus === 'success' ? 'Sent!' : 'Submit'}
                 </button>
               </div>
             </form>

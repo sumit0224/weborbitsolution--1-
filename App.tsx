@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
-
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Portfolio from './components/Portfolio';
-import About from './components/About';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
-import StartProject from './components/StartProject';
-import Footer from './components/Footer';
+import { Routes, Route } from 'react-router-dom';
+import SiteLayout from './layouts/SiteLayout';
+import Home from './pages/Home';
+import ServicesPage from './pages/ServicesPage';
+import WorkPage from './pages/WorkPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import BlogPage from './pages/BlogPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
+import NotFound from './pages/NotFound';
 
 function App() {
-  
-  // Smooth Scroll Behavior Fix for Anchor Links
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
@@ -21,20 +20,20 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white font-body selection:bg-primary selection:text-black">
-     
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Portfolio />
-        <About />
-        <FAQ />
-        <Contact />
-        <StartProject />
-      </main>
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<SiteLayout />}>
+        <Route index element={<Home />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="work" element={<WorkPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="blog" element={<BlogPage />} />
+        <Route path="terms" element={<TermsPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="404" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 

@@ -41,8 +41,8 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-32 bg-white text-black overflow-hidden">
-      <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+    <section id="about" ref={sectionRef} className="section-padding bg-white text-black overflow-hidden">
+      <div className="page-container flex flex-col md:flex-row items-center gap-16">
 
         <div className="w-full md:w-1/2 relative h-[600px] overflow-hidden rounded-lg">
           <img

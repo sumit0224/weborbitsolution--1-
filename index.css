@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #20B2AA;
+  --color-dark: #000000;
+  --color-light: #FFFFFF;
+  --color-surface: #111111;
+  --font-heading: "Rock Salt", cursive;
+  --font-body: "Inter", Helvetica, sans-serif;
+  --font-rock: "Rock Salt", cursive;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-black text-white overflow-x-hidden;
+    
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .font-rock {
+    font-family: var(--font-rock);
+  }
+
+  .page-container {
+    @apply w-full max-w-none px-15;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-20;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #111;
+}
+::-webkit-scrollbar-thumb {
+  background: #20B2AA;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #17807a;
+}
+
+/* Swiper Customization */
+.swiper-pagination-bullet {
+  background: #fff;
+  opacity: 0.5;
+}
+.swiper-pagination-bullet-active {
+  background: #20B2AA;
+  opacity: 1;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #20B2AA;
+  color: #000;
+}
+
+/* Loader Styles */
+.loader-blind {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  background-color: #20B2AA; /* Cyan Blue */
+  z-index: 9998;
+  transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1);
+  will-change: transform;
+}
+
+.loader-text-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  font-family: 'Rock Salt', cursive;
+  color: #000000; /* Black */
+  font-size: 2.5rem;
+  font-weight: bold;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Custom Ziggle Filter Class */
+.ziggle-effect {
+  filter: url("#liquid-flow");
+}
+
+/* Marquee */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee-scroll 18s linear infinite;
+}
+
+.footer-marquee {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.footer-marquee-track {
+  display: flex;
+  width: 200%;
+  animation: marquee-scroll 22s linear infinite;
+}
+
+.stroke-text {
+  -webkit-text-stroke: 1px #ffffff;
+  text-stroke: 1px #ffffff;
+}

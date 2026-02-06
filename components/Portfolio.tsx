@@ -39,11 +39,38 @@ const projects: Project[] = [
 
 const Portfolio: React.FC = () => {
   return (
-    <section id="work" className="py-32 bg-black relative overflow-hidden">
-      <div className="container mx-auto px-6 mb-12 flex justify-between items-end">
+    <section id="work" className="section-padding  bg-black relative overflow-hidden">
+      <div className="border-y border-white/10 py-6 mb-16 overflow-hidden">
+        <div className="marquee">
+          <div className="flex items-center gap-12 px-6 md:px-12 whitespace-nowrap">
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl -rotate-3">Top Picks</span>
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl -rotate-3">Top Picks</span>
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl -rotate-3">Top Picks</span>
+          </div>
+          <div className="flex items-center gap-12 px-6 md:px-12 whitespace-nowrap" aria-hidden="true">
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl -rotate-3">Top Picks</span>
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl -rotate-3">Top Picks</span>
+            <span className="text-6xl md:text-7xl font-black uppercase tracking-tight text-white">Works</span>
+            <span className="text-sm font-mono text-gray-500 uppercase tracking-[0.3em]">(03)</span>
+            <span className="text-primary [filter:url('#liquid-flow')] text-2xl md:text-3xl -rotate-3">Top Picks</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="page-container mb-12 flex flex-col gap-8 md:flex-row md:justify-between md:items-end">
         <div>
-          <h2 className="font-heading text-4xl md:text-6xl text-white mb-4">Selected Work</h2>
-          <p className="text-primary font-body uppercase tracking-widest text-sm">Showcase 2023-2024</p>
+          <h2 className="font-heading text-2xl md:text-4xl text-white mb-4">Selected Work</h2>
+          <p className="text-primary font-body uppercase tracking-widest text-sm">Showcase 2024-2025</p>
         </div>
         
         {/* Navigation buttons will be injected by Swiper */}
@@ -57,7 +84,7 @@ const Portfolio: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full pl-0 md:pl-6 lg:pl-12">
+      <div className="w-full px-6 md:px-12">
         <Swiper
           modules={[Navigation, Pagination, Parallax]}
           spaceBetween={30}
