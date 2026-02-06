@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       ref={containerRef} 
-      className="relative min-h-screen flex flex-col justify-center bg-dark overflow-hidden pt-28 md:pt-32"
+      className="relative min-h-screen flex flex-col justify-center bg-dark overflow-hidden pt-10 md:pt-10"
       aria-labelledby="hero-heading"
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row justify-between items-end gap-8">
-          <div className="hero-sub max-w-xl">
+          <div className="hero-sub max-w-2xl">
             <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
               We fuse{' '}
               <span className="text-white font-medium">strategy</span>,{' '}

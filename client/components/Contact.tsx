@@ -115,7 +115,7 @@ const Contact: React.FC = () => {
               <h4 className="font-heading text-3xl text-primary mb-2">Prefer a Call?</h4>
               <p className="text-gray-400 text-sm mb-0">Book 30-mins intro call with us.</p>
 
-              <a href="#" className="absolute bottom-8 right-8 flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm group-hover:text-white transition-colors">
+              <a href="tel:9310513770" className="absolute bottom-8 right-8 flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm group-hover:text-white transition-colors">
                 Book a Call <ArrowUpRight size={16} />
               </a>
             </div>
@@ -128,11 +128,10 @@ const Contact: React.FC = () => {
                 <div
                   role={submitStatus === 'error' ? 'alert' : 'status'}
                   aria-live={submitStatus === 'error' ? 'assertive' : 'polite'}
-                  className={`rounded border px-4 py-3 text-sm ${
-                    submitStatus === 'success'
+                  className={`rounded border px-4 py-3 text-sm ${submitStatus === 'success'
                       ? 'bg-primary/20 border-primary text-primary'
                       : 'bg-red-500/20 border-red-500 text-red-500'
-                  }`}
+                    }`}
                 >
                   <p className="text-xs font-bold uppercase tracking-widest mb-1">
                     {submitStatus === 'success' ? 'Message Sent' : 'Submission Failed'}

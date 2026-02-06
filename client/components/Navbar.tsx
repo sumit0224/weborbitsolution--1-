@@ -7,6 +7,7 @@ import gsap from 'gsap';
 const navItems: NavItem[] = [
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
@@ -180,16 +181,7 @@ const Navbar: React.FC = () => {
             to="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
-            <svg
-              viewBox="0 0 64 64"
-              className="w-10 h-10 text-primary"
-              aria-hidden="true"
-            >
-              <circle cx="32" cy="32" r="6" fill="currentColor" />
-              <circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" strokeWidth="2" />
-              <path d="M6 28 C20 14, 44 14, 58 28" fill="none" stroke="currentColor" strokeWidth="2" />
-              <circle cx="58" cy="28" r="3" fill="currentColor" />
-            </svg>
+            <img src="/logo.png" alt="WebOrbit Logo" className="w-10 h-10 object-contain" />
             <span className="leading-none">
               <span className={`block text-sm uppercase tracking-[0.35em] ${navMutedClass}`}>Web</span>
               <span className={`block text-2xl md:text-3xl font-black tracking-tight ${navTextClass}`}>Orbit</span>

@@ -6,8 +6,8 @@ const ServicesPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32">
       <Seo
-        title="Web Design, Development & Branding Services | WebOrbitSolution"
-        description="Explore WebOrbitSolution services: web design, web development, branding, UI/UX, and SEO-ready builds for ambitious brands in India."
+        title="Services | Next.js, React & UI/UX Design"
+        description="Expert services in Next.js Development, 3D WebGL Experiences, AI Integrations, and Strategic Branding. We build high-performance digital products."
         path="/services"
       />
       <div className="px-6 md:px-12 mb-16">

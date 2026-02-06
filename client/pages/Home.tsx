@@ -12,12 +12,38 @@ import StartProject from '../components/StartProject';
 import Seo from '../components/Seo';
 
 const Home: React.FC = () => {
+  const orgJsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'WebOrbitSolution',
+      url: 'https://www.weborbitsolution.in',
+      logo: 'https://www.weborbitsolution.in/favicon.png',
+      sameAs: [],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'WebOrbitSolution',
+      url: 'https://www.weborbitsolution.in',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Noida',
+        addressRegion: 'UP',
+        addressCountry: 'IN',
+      },
+      areaServed: 'IN',
+      priceRange: '$$',
+    },
+  ];
+
   return (
     <>
       <Seo
         title="WebOrbitSolution | Web Design & Development Agency in India"
         description="WebOrbitSolution is a premium web design, development, branding, and SEO agency in India. We craft high-performance websites and digital experiences that convert."
         path="/"
+        jsonLd={orgJsonLd}
       />
       <Hero />
       <Services />

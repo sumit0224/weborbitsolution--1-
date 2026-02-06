@@ -6,27 +6,27 @@ const servicesList = [
   {
     id: 1,
     title: 'Branding',
-    image: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop'
+    image: '/images/services/branding.png'
   },
   {
     id: 2,
     title: 'Social Media',
-    image: 'https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=800&auto=format&fit=crop'
+    image: '/images/services/social_media.png'
   },
   {
     id: 3,
     title: 'Android APPs',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'
+    image: '/images/services/android_apps.png'
   },
   {
     id: 4,
     title: 'Website',
-    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop'
+    image: '/images/services/website.png'
   },
   {
     id: 5,
     title: 'Motion',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'
+    image: '/images/services/motion.png'
   },
 ];
 

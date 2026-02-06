@@ -6,6 +6,7 @@ interface SeoProps {
   path: string;
   image?: string;
   type?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const upsertMetaTag = (selector: string, attrs: Record<string, string>) => {
@@ -33,7 +34,25 @@ const upsertLinkTag = (rel: string, href: string) => {
   element.href = href;
 };
 
-const Seo = ({ title, description, path, image, type = 'website' }: SeoProps) => {
+const upsertJsonLd = (data?: Record<string, unknown> | Array<Record<string, unknown>>) => {
+  const id = 'seo-jsonld';
+  const existing = document.getElementById(id);
+  if (!data) {
+    if (existing) {
+      existing.remove();
+    }
+    return;
+  }
+  const script = existing || document.createElement('script');
+  script.id = id;
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(data);
+  if (!existing) {
+    document.head.appendChild(script);
+  }
+};
+
+const Seo = ({ title, description, path, image, type = 'website', jsonLd }: SeoProps) => {
   useEffect(() => {
     const baseUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
     const canonicalUrl = `${baseUrl}${path === '/' ? '' : path}`;
@@ -59,7 +78,8 @@ const Seo = ({ title, description, path, image, type = 'website' }: SeoProps) =>
     upsertMetaTag('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
     upsertMetaTag('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
     upsertLinkTag('canonical', canonicalUrl);
-  }, [title, description, path, image, type]);
+    upsertJsonLd(jsonLd);
+  }, [title, description, path, image, type, jsonLd]);
 
   return null;
 };

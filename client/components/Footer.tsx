@@ -17,10 +17,10 @@ const Footer: React.FC = () => {
       setNewsletterStatus('error');
       return;
     }
-    if(newsletterStatus){
-      setTimeout(()=>{
+    if (newsletterStatus) {
+      setTimeout(() => {
         setNewsletterStatus('idle')
-      },1000)
+      }, 1000)
     }
 
     setIsSubscribing(true);
@@ -46,10 +46,10 @@ const Footer: React.FC = () => {
   ];
 
   const socials = [
-    { label: 'X/Twitter', href: '#' , icon: <Twitter size={18} /> },
-    { label: 'Instagram', href: '#', icon: <Instagram size={18} /> },
-    { label: 'Linkedin', href: '#', icon: <Linkedin size={18} /> },
-    { label: 'Github', href: '#', icon: <Github size={18} /> },
+
+    { label: 'Instagram', href: 'https://www.instagram.com/weborbitsolution?igsh=M2J4eno5YzZkM2k4', icon: <Instagram size={18} /> },
+    { label: 'Linkedin', href: 'https://www.linkedin.com/company/weborbit-solution', icon: <Linkedin size={18} /> },
+
   ];
 
   return (
@@ -59,16 +59,7 @@ const Footer: React.FC = () => {
         <div className="bg-primary text-black p-10 md:p-12 flex flex-col justify-between min-h-[520px]">
           <div>
             <div className="flex items-center gap-4">
-              <svg
-                viewBox="0 0 64 64"
-                className="w-14 h-14 text-black"
-                aria-hidden="true"
-              >
-                <circle cx="32" cy="32" r="6" fill="currentColor" />
-                <circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M6 28 C20 14, 44 14, 58 28" fill="none" stroke="currentColor" strokeWidth="2" />
-                <circle cx="58" cy="28" r="3" fill="currentColor" />
-              </svg>
+              <img src="/logo.png" alt="WebOrbit Logo" className="w-14 h-14 object-contain" />
               <div className="leading-none">
                 <span className="block text-xs uppercase tracking-[0.35em]">Web</span>
                 <span className="block text-3xl md:text-4xl font-black tracking-tight">Orbit</span>
@@ -89,7 +80,7 @@ const Footer: React.FC = () => {
               <br />
               Digital Space
             </p>
-            <p className="text-xs uppercase tracking-widest">© {new Date().getFullYear()} WebOrbit. All rights reserved.</p>
+            <p className="text-xs uppercase tracking-widest">© {new Date().getFullYear()} WebOrbitsolution. All rights reserved.</p>
           </div>
         </div>
 
@@ -182,8 +173,8 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 px-8 md:px-10 py-10">
             <div>
               <p className="font-heading text-2xl text-primary mb-2">Reach Out</p>
-              <a href="mailto:hello@weborbit.com" className="text-3xl md:text-4xl font-black tracking-tight hover:text-primary transition-colors">
-                hello@weborbitsolution.com
+              <a href="mailto:hello@weborbitsolution.in" className="text-3xl md:text-4xl font-black tracking-tight hover:text-primary transition-colors">
+                hello@weborbitsolution.in
               </a>
             </div>
             <div className="flex items-center gap-10 text-xs uppercase tracking-widest text-gray-500">
