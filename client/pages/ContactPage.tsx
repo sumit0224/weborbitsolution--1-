@@ -1,7 +1,12 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Contact from '../components/Contact';
 
 const ContactPage: React.FC = () => {
+  const location = useLocation();
+  const state = location.state as { plan?: string } | null;
+  const planName = state?.plan;
+
   return (
     <section className="bg-black text-white pt-32">
       <div className="px-6 md:px-12 mb-12">
@@ -12,7 +17,9 @@ const ContactPage: React.FC = () => {
           Next Project
         </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
-          Tell us about your goals and we will respond with a clear plan and timeline.
+          {planName
+            ? `You're interested in the ${planName} plan. Great choice! Let's discuss the details.`
+            : "Tell us about your goals and we will respond with a clear plan and timeline."}
         </p>
       </div>
       <Contact />
