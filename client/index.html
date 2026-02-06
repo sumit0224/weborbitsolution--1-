@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebOrbitSolution | Premium Web Agency</title>
+
+  <meta name="description"
+    content="WebOrbitSolution is a premium web agency crafting bold digital experiences through strategy, design, and engineering." />
+  <meta name="keywords" content="web design, web development, branding, digital agency, UI/UX, creative studio" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="author" content="WebOrbitSolution" />
+
+  <meta property="og:title" content="WebOrbitSolution | Premium Web Agency" />
+  <meta property="og:description"
+    content="Bold digital experiences that defy gravity. Strategy, design, and engineering for modern brands." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image"
+    content="https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WebOrbitSolution | Premium Web Agency" />
+  <meta name="twitter:description"
+    content="Bold digital experiences that defy gravity. Strategy, design, and engineering for modern brands." />
+  <meta name="twitter:image"
+    content="https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="preconnect" href="https://picsum.photos" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <!-- SVG Filter Definition for Liquid/Ziggle Effect -->
+  <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+    <defs>
+      <filter id="liquid-flow">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" result="noise">
+          <animate attributeName="baseFrequency" dur="8s" values="0.015; 0.025; 0.015" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Ladder Loader Structure -->
+  <div id="loader-wrapper">
+    <div id="loader-text" class="loader-text-container">WebOrbit Solution</div>
+
+    <!-- 5 Vertical Blinds (Ladder Effect) -->
+    <div class="loader-blind" style="left: 0%; transition-delay: 0.0s;"></div>
+    <div class="loader-blind" style="left: 20%; transition-delay: 0.1s;"></div>
+    <div class="loader-blind" style="left: 40%; transition-delay: 0.15s;"></div>
+    <div class="loader-blind" style="left: 60%; transition-delay: 0.2s;"></div>
+    <div class="loader-blind" style="left: 80%; transition-delay: 0.25s;"></div>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const text = document.getElementById('loader-text');
+      const blinds = document.querySelectorAll('.loader-blind');
+      const wrapper = document.getElementById('loader-wrapper');
+
+      // Step 1: Fade out text
+      setTimeout(() => {
+        text.style.opacity = '0';
+        text.style.transform = 'translate(-50%, -60%)'; // Slight drift up
+      }, 1200);
+
+      // Step 2: Slide blinds up (Ladder Effect)
+      setTimeout(() => {
+        blinds.forEach(blind => {
+          blind.style.transform = 'translateY(-100%)';
+        });
+
+        // Cleanup
+        setTimeout(() => {
+          wrapper.remove();
+        }, 2000); // Wait for transition + delay
+      }, 1600);
+    });
+  </script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
