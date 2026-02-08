@@ -181,11 +181,8 @@ const Navbar: React.FC = () => {
             to="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
-            <img src="/logo.png" alt="WebOrbit Logo" className="w-10 h-10 object-contain" />
-            <span className="leading-none">
-              <span className={`block text-sm uppercase tracking-[0.35em] ${navMutedClass}`}>Web</span>
-              <span className={`block text-2xl md:text-3xl font-black tracking-tight ${navTextClass}`}>Orbit</span>
-            </span>
+            <img src="/logo.png" alt="WebOrbit Logo" className="w-40 h-20 object-contain" />
+            
           </Link>
 
           <button

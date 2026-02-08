@@ -54,16 +54,13 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-black text-white border-t border-white/10">
-      <div className="grid lg:grid-cols-[320px_1fr]">
+      <div className="grid lg:grid-cols-[360px_1fr]">
         {/* Left Brand Block */}
-        <div className="bg-primary text-black p-10 md:p-12 flex flex-col justify-between min-h-[520px]">
+        <div className="bg-primary text-white p-10 md:p-12 flex flex-col justify-between min-h-[520px]">
           <div>
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="WebOrbit Logo" className="w-14 h-14 object-contain" />
-              <div className="leading-none">
-                <span className="block text-xs uppercase tracking-[0.35em]">Web</span>
-                <span className="block text-3xl md:text-4xl font-black tracking-tight">Orbit</span>
-              </div>
+              <img src="/logo.png" alt="WebOrbit Logo" className="w-50 h-30 object-contain" />
+              
             </div>
             <div className="mt-6 flex items-center gap-6">
               <Sparkles size={24} />
