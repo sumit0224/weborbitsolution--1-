@@ -3,7 +3,7 @@ import app, { connectDb } from './app.js';
 
 dotenv.config();
 
-const PORT = Number(process.env.SERVER_PORT || 4000);
+const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 4000);
 
 const start = async () => {
   try {
