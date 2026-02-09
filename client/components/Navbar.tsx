@@ -23,8 +23,8 @@ const Navbar: React.FC = () => {
       ? 'py-4 bg-white/90 backdrop-blur-md border-b border-black/10'
       : 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10'
     : isBlogDetail
-      ? 'py-6 md:py-8 bg-white/70 backdrop-blur-md'
-      : 'py-6 md:py-8 bg-black/60 backdrop-blur-md';
+      ? 'py-4 md:py-5 bg-white/70 backdrop-blur-md'
+      : 'py-4 md:py-5 bg-black/60 backdrop-blur-md';
   const navTextClass = isBlogDetail ? 'text-black' : 'text-white';
   const navMutedClass = isBlogDetail ? 'text-gray-600' : 'text-gray-400';
 
