@@ -181,7 +181,7 @@ const Navbar: React.FC = () => {
             to="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
-            <img src="/logo.png" alt="WebOrbit Logo" className="w-40 h-20 object-contain" />
+            <img src="/logo-v2.png" alt="WebOrbit Logo" className="w-40 h-20 object-contain" />
             
           </Link>
 

@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
         <div className="bg-primary text-white p-10 md:p-12 flex flex-col justify-between min-h-[520px]">
           <div>
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="WebOrbit Logo" className="w-50 h-30 object-contain" />
+              <img src="/logo-v2.png" alt="WebOrbit Logo" className="w-50 h-30 object-contain" />
               
             </div>
             <div className="mt-6 flex items-center gap-6">
