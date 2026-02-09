@@ -29,11 +29,25 @@ const Navbar: React.FC = () => {
   const navMutedClass = isBlogDetail ? 'text-gray-600' : 'text-gray-400';
 
   const drawerRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const hamburgerTopRef = useRef<HTMLSpanElement>(null);
   const hamburgerBottomRef = useRef<HTMLSpanElement>(null);
   const hamburgerTl = useRef<gsap.core.Timeline | null>(null);
   const hoverTl = useRef<gsap.core.Timeline | null>(null);
+
+  const updateNavVars = () => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const height = Math.round(nav.getBoundingClientRect().height);
+    const baseHeight = 128; // matches pt-32 (8rem) spacing used by page sections
+    const offset = Math.max(0, height - baseHeight);
+
+    const root = document.documentElement;
+    root.style.setProperty('--nav-height', `${height}px`);
+    root.style.setProperty('--nav-offset', `${offset}px`);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,6 +73,26 @@ const Navbar: React.FC = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    updateNavVars();
+
+    const nav = navRef.current;
+    if (!nav) return;
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(updateNavVars);
+      observer.observe(nav);
+      return () => observer.disconnect();
+    }
+
+    window.addEventListener('resize', updateNavVars);
+    return () => window.removeEventListener('resize', updateNavVars);
+  }, []);
+
+  useEffect(() => {
+    updateNavVars();
+  }, [isScrolled, pathname]);
 
   useEffect(() => {
     const top = hamburgerTopRef.current;
@@ -175,7 +209,10 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBgClass}`}>
+      <nav
+        ref={navRef}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBgClass}`}
+      >
         <div className="page-container flex justify-between items-center">
           <Link
             to="/"

@@ -7,7 +7,7 @@ const SiteLayout: React.FC = () => {
   return (
     <div className="bg-black min-h-screen text-white font-body selection:bg-primary selection:text-black overflow-x-hidden">
       <Navbar />
-      <main>
+      <main style={{ paddingTop: 'var(--nav-offset, 0px)' }}>
         <Outlet />
       </main>
       <Footer />
