@@ -8,7 +8,7 @@ const StartProject: React.FC = () => {
         <div className="page-container flex flex-col md:flex-row items-center justify-between py-16 md:py-24 gap-8">
           <div className="relative overflow-hidden">
             <h2 className="font-body font-black 
-    text-[9vw] md:text-[9vw] 
+    text-[8vw] md:text-[8vw] 
     leading-[0.85] tracking-tighter 
     text-white uppercase 
     text-center md:text-left 

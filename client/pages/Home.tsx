@@ -38,24 +38,36 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <>
-      <Seo
-        title="IT Services & Web Development Company in India | WebOrbitSolution"
-        description="WebOrbitSolution provides website development services, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing businesses in India and worldwide."
-        path="/"
-        jsonLd={orgJsonLd}
-      />
-      <Hero />
-      <Services />
-      <Portfolio />
-      <About />
-      <Manifesto />
-      <Testimonials />
-      <Pricing />
-      <FAQ />
-      <Contact />
-      <StartProject />
-    </>
+    
+     <>
+  <Seo
+    title="IT Services & Web Development Company in India | WebOrbitSolution"
+    description="WebOrbitSolution provides website development services, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing businesses in India and worldwide."
+    path="/"
+    jsonLd={orgJsonLd}
+  />
+
+  {/* Above the fold */}
+  <Hero />
+  <Manifesto />
+
+  {/* Core offering */}
+  <Services />
+  <Pricing />
+
+  {/* Trust & proof */}
+  <Portfolio />
+  <Testimonials />
+
+  {/* Brand & clarity */}
+  <About />
+  <FAQ />
+
+  {/* Conversion */}
+  <StartProject />
+  <Contact />
+</>
+
   );
 };
 
