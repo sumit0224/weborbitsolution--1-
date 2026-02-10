@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="flex items-center justify-between px-8 md:px-10 py-6 text-xl font-semibold uppercase tracking-wide border-b border-white/10 last:border-b-0 hover:text-primary transition-colors"
+                  className="flex items-center justify-between px-8 md:px-10 py-6 text-xl font-semibold uppercase tracking-wide border-b border-white/10 last:border-b-0 hover:bg-white/10 transition-colors"
                 >
                   {link.label}
                   <span className="text-gray-500">↗</span>

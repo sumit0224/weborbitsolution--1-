@@ -165,9 +165,7 @@ const Services: React.FC = () => {
             >
               <div className="relative inline-block text-right">
                 {/* Number */}
-                <span className={`absolute -left-14 top-2 font-mono text-xs md:text-sm tracking-widest transition-colors duration-300 ${activeIndex === service.id ? 'text-primary' : 'text-gray-600'}`}>
-                  (0{service.id})
-                </span>
+                
 
                 {/* Title */}
                 <h3
