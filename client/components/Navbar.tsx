@@ -286,7 +286,15 @@ const Navbar: React.FC = () => {
           ))}
         </div>
 
-        <div className="px-8 md:px-16 pb-10">
+        <div className="px-8 md:px-16 pb-10 flex flex-wrap items-center gap-6">
+          <Link
+            to="/pricing"
+            onClick={() => setIsDrawerOpen(false)}
+            className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-primary"
+          >
+            View pricing
+            <span className="h-px w-10 bg-primary" />
+          </Link>
           <Link
             to="/contact"
             onClick={() => setIsDrawerOpen(false)}
