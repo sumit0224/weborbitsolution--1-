@@ -5,10 +5,10 @@ const TermsPage: React.FC = () => {
     <section className="bg-black text-white pt-32 pb-20">
       <div className="px-6 md:px-12 max-w-4xl">
         <h1 className="font-body font-black text-4xl md:text-6xl uppercase tracking-tighter">Terms & Conditions</h1>
-        <p className="text-gray-400 mt-6">Last updated: [Add Date]</p>
+        <p className="text-gray-400 mt-6">Last updated: February 10, 2026</p>
 
         <div className="mt-8 text-gray-300 space-y-4">
-          <p>Welcome to [Your Business Name].</p>
+          <p>Welcome to WebOrbitSolution.</p>
           <p>
             By accessing or using our website and services, you agree to comply with and be bound by the following Terms
             & Conditions. Please read them carefully before using our services.
@@ -19,7 +19,7 @@ const TermsPage: React.FC = () => {
           <div>
             <h2 className="text-xl font-bold text-white">1. Definitions</h2>
             <ul className="mt-3 space-y-2 list-disc list-inside">
-              <li>“Company”, “We”, “Us”, “Our” refers to [Your Business Name].</li>
+              <li>“Company”, “We”, “Us”, “Our” refers to WebOrbitSolution.</li>
               <li>“Client”, “You”, “User” refers to any person or business using our services.</li>
               <li>“Services” refers to all IT, digital, development, consulting, and related services provided by us.</li>
             </ul>
@@ -150,10 +150,10 @@ const TermsPage: React.FC = () => {
             <h2 className="text-xl font-bold text-white">14. Contact Information</h2>
             <p className="mt-3">For any questions regarding these Terms & Conditions, contact us at:</p>
             <div className="mt-4 space-y-2">
-              <p>Business Name: [Your Business Name]</p>
-              <p>Email: [Your Email Address]</p>
-              <p>Phone: [Your Contact Number]</p>
-              <p>Address: [Your Business Address]</p>
+              <p>Business Name: WebOrbitSolution</p>
+              <p>Email: hello@weborbitsolution.in</p>
+              <p>Phone: +91 9310513770</p>
+              <p>Address: Sector-128, Noida</p>
             </div>
           </div>
         </div>
