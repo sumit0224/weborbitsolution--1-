@@ -7,19 +7,19 @@ const AboutPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32">
       <Seo
-        title="About WebOrbitSolution | Creative Web & Branding Studio"
-        description="Meet the WebOrbitSolution team — a multidisciplinary web design, development, and branding studio in India delivering premium digital experiences."
+        title="About WebOrbitSolution | IT Services & Digital Agency in India"
+        description="Meet WebOrbitSolution, an India-based IT services and digital solutions agency delivering web development, UI/UX design, SEO services, and IT consulting for startups and growing companies."
         path="/about"
       />
       <div className="px-6 md:px-12 mb-12">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Who We Are</p>
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
-          The Studio
+          The IT Services Team
           <br />
           Behind WebOrbit
         </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
-          We are a multidisciplinary crew of designers, strategists, and engineers delivering web design, development, branding, and SEO-ready experiences for brands across India.
+          We are a multidisciplinary team of designers, developers, and strategists delivering website development, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing companies in India and worldwide.
         </p>
       </div>
       <About />

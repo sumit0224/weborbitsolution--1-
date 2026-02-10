@@ -5,28 +5,33 @@ import { Link } from 'react-router-dom';
 const servicesList = [
   {
     id: 1,
-    title: 'Branding',
-    image: '/images/services/branding.png'
+    title: 'Website Development',
+    image: '/images/services/website.png',
+    alt: 'Website development services in India for startups and businesses'
   },
   {
     id: 2,
-    title: 'Social Media',
-    image: '/images/services/social_media.png'
+    title: ' App Development',
+    image: '/images/services/android_apps.png',
+    alt: 'Web and app development company for scalable digital products'
   },
   {
     id: 3,
-    title: 'Android APPs',
-    image: '/images/services/android_apps.png'
+    title: 'UI/UX Design',
+    image: '/images/services/branding.png',
+    alt: 'UI UX design services for modern web and mobile apps'
   },
   {
     id: 4,
-    title: 'Website',
-    image: '/images/services/website.png'
+    title: 'Digital Marketing & SEO',
+    image: '/images/services/social_media.png',
+    alt: 'Digital marketing and SEO services for business growth'
   },
   {
     id: 5,
-    title: 'Motion',
-    image: '/images/services/motion.png'
+    title: 'IT Consulting & Support',
+    image: '/images/services/motion.png',
+    alt: 'IT consulting and support services for growing companies'
   },
 ];
 
@@ -136,7 +141,7 @@ const Services: React.FC = () => {
           <img
             key={service.id}
             src={service.image}
-            alt={service.title}
+            alt={service.alt}
             loading="lazy"
             decoding="async"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${activeIndex === service.id ? 'opacity-100' : 'opacity-0'}`}
@@ -147,7 +152,7 @@ const Services: React.FC = () => {
       <div className="page-container relative z-10">
         {/* Header */}
         <div className="flex justify-start md:justify-center mb-16 md:mb-24">
-          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">Solution</h2>
+          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">IT Services</h2>
         </div>
 
         {/* List */}
@@ -166,7 +171,7 @@ const Services: React.FC = () => {
 
                 {/* Title */}
                 <h3
-                  className={`font-body font-black text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter transition-all duration-300 leading-[0.9]
+                  className={`font-body font-black text-4xl md:text-6xl lg:text-7xl uppercase tracking-tighter transition-all duration-300 leading-[0.9]
                               ${activeIndex !== null && activeIndex !== service.id
                       ? 'text-gray-800 blur-[2px]'
                       : 'text-white'}`}
@@ -179,13 +184,13 @@ const Services: React.FC = () => {
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row md:items-center md:justify-end gap-4 text-gray-400 text-sm">
-          <span>Need the full breakdown?</span>
+          <span>Need the full IT services breakdown?</span>
           <Link to="/services" className="text-primary font-semibold hover:underline">
-            Explore all services
+            Explore IT services in India
           </Link>
           <span className="hidden md:inline">·</span>
           <Link to="/contact" className="text-primary font-semibold hover:underline">
-            Start a project
+            Get a free quote
           </Link>
         </div>
       </div>

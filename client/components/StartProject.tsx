@@ -16,7 +16,7 @@ const StartProject: React.FC = () => {
     transition-all duration-700 
  
     group-hover:text-primary">
-              Start A Project
+              Start a Web Project
             </h2>
           </div>
 

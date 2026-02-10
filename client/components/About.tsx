@@ -49,23 +49,27 @@ const About: React.FC = () => {
           <img
             ref={imageRef}
             src="/images/about/studio.png"
-            alt="WebOrbit Modern Design Studio"
+            alt="WebOrbitSolution IT services team in Noida, India"
             loading="lazy"
             className="absolute top-0 left-0 w-full h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 will-change-transform"
           />
         </div>
 
         <div ref={textRef} className="w-full md:w-1/2">
-          <h2 className="font-heading text-5xl md:text-7xl mb-8">We Define <span className="text-primary">Digital</span></h2>
+          <h2 className="font-heading text-5xl md:text-7xl mb-8">We Build <span className="text-primary">Digital</span></h2>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-6">
-            At WebOrbitSolution, we don't just build websites; we craft digital ecosystems. Our approach combines rigorous engineering with fluid, organic design principles.
+            WebOrbitSolution is an IT services and digital solutions agency in India helping startups and growing
+            companies with website development, web & app development, UI/UX design, SEO services, and IT consulting.
           </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-8">
-            Founded on the belief that code is art, we push the boundaries of what is possible in the browser, leveraging the latest in WebGL, React, and serverless architecture.
+            Our team blends strategy, design, and engineering to deliver fast, secure, and SEO-friendly websites plus
+            scalable web applications that drive measurable business results.
           </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-10">
-            Explore our <Link to="/services" className="text-primary font-semibold hover:underline">web design and development services</Link> or
-            browse the <Link to="/work" className="text-primary font-semibold hover:underline">portfolio of digital work</Link> we have shipped.
+            Explore our{' '}
+            <Link to="/services" className="text-primary font-semibold hover:underline">IT services in India</Link>, review{' '}
+            <Link to="/pricing" className="text-primary font-semibold hover:underline">website development pricing</Link>, or browse the{' '}
+            <Link to="/work" className="text-primary font-semibold hover:underline">portfolio of digital work</Link> we have shipped.
           </p>
 
           <div className="grid grid-cols-2 gap-8 mt-12">

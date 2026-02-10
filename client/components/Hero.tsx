@@ -78,28 +78,30 @@ const Hero: React.FC = () => {
         <div className="hero-sub flex items-center gap-4 mb-8">
           <div className="h-[1px] w-12 bg-primary" aria-hidden="true" />
           <span className="text-primary font-mono text-sm tracking-[0.2em] uppercase">
-            Est. 2026
+            IT Services in India
           </span>
         </div>
 
         <div className="flex flex-col">
           <h1
             id="hero-heading"
-            className="text-[12vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
+            className="text-[11vw] sm:text-[10.5vw] md:text-[9.5vw] lg:text-[8.5vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
           >
-            <span className="hero-line-inner block overflow-hidden">Digital</span>
-            <span className="hero-line-inner block overflow-hidden pl-[10vw]">Excellence</span>
+            <span className="hero-line-inner block overflow-hidden">IT Services</span>
+            <span className="hero-line-inner block overflow-hidden pl-[10vw]">Web Development</span>
           </h1>
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row justify-between items-end gap-8">
-          <div className="hero-sub max-w-2xl">
+          <div className="hero-sub max-w-3xl">
             <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
               We fuse{' '}
               <span className="text-white font-medium">strategy</span>,{' '}
               <span className="text-white font-medium">design</span>, and{' '}
               <span className="text-white font-medium">technology</span>{' '}
-              to build brands that defy gravity. WebOrbitSolution is a web design and development agency in India focused on branding, UI/UX, and SEO-ready websites.
+              to build digital products that grow. WebOrbitSolution is a web development company in India delivering
+              website development services, web & app development, UI/UX design, SEO services, and IT consulting for
+              startups, small businesses, and growing companies worldwide.
             </p>
           </div>
 
@@ -110,7 +112,7 @@ const Hero: React.FC = () => {
               aria-label="Navigate to contact page"
             >
               <span className="text-sm font-bold tracking-widest uppercase border-b border-transparent group-hover:border-primary pb-1 transition-all duration-300">
-                Start The Journey
+                Get a Free Quote
               </span>
               <div 
                 className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-all duration-300"

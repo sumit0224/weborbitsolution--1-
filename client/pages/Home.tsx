@@ -40,8 +40,8 @@ const Home: React.FC = () => {
   return (
     <>
       <Seo
-        title="WebOrbitSolution | Web Design & Development Agency in India"
-        description="WebOrbitSolution is a premium web design, development, branding, and SEO agency in India. We craft high-performance websites and digital experiences that convert."
+        title="IT Services & Web Development Company in India | WebOrbitSolution"
+        description="WebOrbitSolution provides website development services, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing businesses in India and worldwide."
         path="/"
         jsonLd={orgJsonLd}
       />

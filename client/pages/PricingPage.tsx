@@ -4,9 +4,9 @@ import Pricing from '../components/Pricing';
 
 const faqItems = [
   {
-    question: 'How much does web design cost in India?',
+    question: 'How much does website development cost in India?',
     answer:
-      'Professional web design in India typically ranges from INR 40,000 to INR 4,00,000+ depending on scope, UX depth, and performance requirements.'
+      'Professional website development in India typically ranges from INR 40,000 to INR 4,00,000+ depending on scope, UX depth, and performance requirements.'
   },
   {
     question: 'What is included in a WebOrbitSolution pricing package?',
@@ -197,8 +197,8 @@ const PricingPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32 pb-24">
       <Seo
-        title="Web Design Cost in India | Pricing & Packages"
-        description="Transparent pricing for web design, development, branding, and SEO-ready websites in India. Compare packages and choose the right scope."
+        title="IT Services Pricing in India | Web & App Development"
+        description="Transparent pricing for website development, web & app development, UI/UX design, SEO services, and IT support in India. Compare packages and choose the right scope."
         path="/pricing"
         jsonLd={faqJsonLd}
       />
@@ -206,12 +206,12 @@ const PricingPage: React.FC = () => {
         <div className="max-w-3xl">
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing</p>
           <h1 className="font-heading text-4xl md:text-6xl tracking-tight mt-4">
-            Web Design
+            IT Services Pricing
             <br />
-            Packages in India
+            in India
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
-            Choose a package built for speed, conversion, and long-term growth. Every plan includes strategy, UX/UI design, and high-performance development.
+            Choose a package built for speed, conversion, and long-term growth. Every plan includes strategy, UI/UX design, and high-performance development.
           </p>
         </div>
       </div>
@@ -236,7 +236,7 @@ const PricingPage: React.FC = () => {
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-3 mt-8 border border-white/20 text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
           >
-            Get a Free Quote
+            Get a Free Quote for IT Services
           </a>
         </div>
       </div>
@@ -357,7 +357,7 @@ const PricingPage: React.FC = () => {
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-3 bg-primary text-black text-xs uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors"
           >
-            Start a Project
+            Start a Web Development Project
           </a>
         </div>
       </div>

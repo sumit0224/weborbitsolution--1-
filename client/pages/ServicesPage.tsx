@@ -29,7 +29,7 @@ const ServicesPage: React.FC = () => {
     {
       title: 'Website Development',
       description:
-        'High-converting business websites that load fast, look premium, and build trust from the first click.',
+        'High-converting website development services that load fast, look premium, and build trust from the first click.',
       problems: [
         'Outdated websites that don’t convert',
         'Slow load times and poor SEO',
@@ -46,7 +46,7 @@ const ServicesPage: React.FC = () => {
     {
       title: 'Web & App Development',
       description:
-        'Custom web and mobile applications built for performance, scalability, and real business outcomes.',
+        'Custom web and mobile app development built for performance, scalability, and real business outcomes.',
       problems: [
         'Manual workflows and inefficiencies',
         'Off-the-shelf tools that don’t fit',
@@ -63,7 +63,7 @@ const ServicesPage: React.FC = () => {
     {
       title: 'UI/UX Design',
       description:
-        'User-first design that makes your product intuitive, engaging, and easy to use across devices.',
+        'UI/UX design services that make your product intuitive, engaging, and easy to use across devices.',
       problems: [
         'User drop-offs and low engagement',
         'Confusing navigation and flows',
@@ -80,7 +80,7 @@ const ServicesPage: React.FC = () => {
     {
       title: 'Digital Marketing & SEO',
       description:
-        'Growth-focused marketing that improves visibility, traffic, and qualified leads.',
+        'Digital marketing and SEO services that improve visibility, traffic, and qualified leads.',
       problems: [
         'Low organic search visibility',
         'Inconsistent lead flow',
@@ -97,7 +97,7 @@ const ServicesPage: React.FC = () => {
     {
       title: 'IT Consulting & Support',
       description:
-        'Expert guidance and ongoing support to keep your systems secure, reliable, and scalable.',
+        'IT consulting services and ongoing support to keep your systems secure, reliable, and scalable.',
       problems: [
         'Unclear tech decisions',
         'Downtime and reliability issues',
@@ -149,7 +149,7 @@ const ServicesPage: React.FC = () => {
     { name: 'Python', logo: 'https://cdn.simpleicons.org/python/3776AB' },
     { name: 'Flutter', logo: 'https://cdn.simpleicons.org/flutter/02569B' },
     { name: 'React Native', logo: 'https://cdn.simpleicons.org/react/61DAFB' },
-   
+    { name: 'AWS', logo: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
     { name: 'Firebase', logo: 'https://cdn.simpleicons.org/firebase/FFCA28' },
     { name: 'Vercel', logo: 'https://cdn.simpleicons.org/vercel/FFFFFF' },
     { name: 'Figma', logo: 'https://cdn.simpleicons.org/figma/F24E1E' },
@@ -191,8 +191,8 @@ const ServicesPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32 pb-20">
       <Seo
-        title="IT Services & Digital Solutions | WebOrbitSolution"
-        description="WebOrbitSolution delivers website development, app development, UI/UX design, digital marketing, SEO, and IT consulting for startups and growing businesses in India and worldwide."
+        title="IT Services in India | Web Development, UI/UX & SEO"
+        description="WebOrbitSolution is an IT services company in India delivering website development services, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing businesses."
         path="/services"
       />
       <div className="px-6 md:px-12 mb-16 scroll-reveal">
@@ -200,18 +200,19 @@ const ServicesPage: React.FC = () => {
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
           IT Services & Digital Solutions
           <br />
-          That Help You Grow
+          In India That Scale
         </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-3xl mt-6">
-          WebOrbitSolution helps startups, small businesses, and growing companies build high-performing websites, apps,
-          and digital systems. Based in India, serving clients worldwide.
+          WebOrbitSolution is a web development company in India helping startups, small businesses, and growing
+          companies build high-performing websites, web apps, and digital systems. Based in India, serving clients
+          worldwide.
         </p>
         <div className="mt-8">
           <Link
             to="/contact"
             className="inline-flex items-center gap-2 border border-white/20 px-6 py-3 uppercase tracking-[0.3em] text-xs hover:border-primary hover:text-primary transition-colors"
           >
-            Get a Quote
+            Get a Free Quote
           </Link>
         </div>
       </div>
@@ -221,8 +222,8 @@ const ServicesPage: React.FC = () => {
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Overview</p>
           <h2 className="text-3xl md:text-4xl font-semibold mt-4">Our Services Overview</h2>
           <p className="text-gray-400 mt-4">
-            Clear, reliable delivery across web, app, design, marketing, and IT support — everything you need to launch
-            and scale with confidence.
+            Clear, reliable delivery across website development, web & app development, UI/UX design, SEO services, and
+            IT consulting — everything you need to launch and scale with confidence.
           </p>
         </div>
       </div>
@@ -403,7 +404,7 @@ const ServicesPage: React.FC = () => {
               to="/contact"
               className="inline-flex items-center gap-2 border border-white/20 px-6 py-3 uppercase tracking-[0.3em] text-xs hover:border-primary hover:text-primary transition-colors"
             >
-              Contact Us
+              Contact an IT Expert
             </Link>
           </div>
         </div>

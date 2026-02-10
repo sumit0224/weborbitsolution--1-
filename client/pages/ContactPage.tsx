@@ -11,8 +11,8 @@ const ContactPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32">
       <Seo
-        title="Contact WebOrbitSolution | Start Your Web Project"
-        description="Contact WebOrbitSolution to discuss web design, development, branding, and SEO services. Get a clear project plan and timeline."
+        title="Contact WebOrbitSolution | IT Services in India"
+        description="Contact WebOrbitSolution for website development, web & app development, UI/UX design, SEO services, and IT consulting. Get a clear plan and quote within 24 hours."
         path="/contact"
       />
       <div className="px-6 md:px-12 mb-12">
@@ -20,19 +20,19 @@ const ContactPage: React.FC = () => {
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
           Start Your
           <br />
-          Next Project
+          IT Project
         </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
           {planName
             ? `You're interested in the ${planName} plan. Great choice! Let's discuss the details.`
-            : "Tell us about your goals for web design, development, branding, or SEO and we will respond with a clear plan and timeline."}
+            : "Tell us about your goals for website development, web & app development, UI/UX design, SEO services, or IT consulting. We'll respond with a clear plan, timeline, and quote."}
         </p>
       </div>
       <Contact />
       <div className="border-t border-white/10 px-6 md:px-12 py-16">
         <div className="grid md:grid-cols-3 gap-10">
           {[
-            { title: 'Email', value: 'hello@weborbitsolution.com' },
+            { title: 'Email', value: 'hello@weborbitsolution.in' },
             { title: 'Phone', value: '+91 9310513770' },
             { title: 'Studio', value: ' Sector-128, Noida ' },
           ].map((item) => (

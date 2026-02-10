@@ -196,7 +196,12 @@ const getAdminEmailTemplate = (data) => `
 </html>
 `;
 
-const getUserAutoReplyTemplate = (data) => `
+const BUSINESS_NAME = 'WebOrbitSolution';
+const BUSINESS_EMAIL = 'hello@weborbitsolution.in';
+const BUSINESS_PHONE = '+91 9310513770';
+const BUSINESS_ADDRESS = 'Sector-128, Noida';
+
+const getWelcomeEmailTemplate = (data) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -205,12 +210,46 @@ const getUserAutoReplyTemplate = (data) => `
 <body>
   <div class="container">
     <div class="header">
-      <h1>WebOrbit Solution</h1>
+      <h1>${BUSINESS_NAME}</h1>
+    </div>
+    <div class="content">
+      <h2 style="margin:0 0 12px;font-size:22px;color:#ffffff;">Hi ${data.firstName},</h2>
+      <p>Welcome to ${BUSINESS_NAME} — we’re glad you’re here.</p>
+      <p>
+        We help startups and growing businesses with website development, web & app solutions, UI/UX design, digital
+        marketing, SEO, and IT support.
+      </p>
+      <p>If you have a project in mind or need help choosing the right service, just reply to this email.</p>
+
+      <div style="text-align: center;">
+        <a href="${process.env.CLIENT_ORIGIN?.split(',')[0]}" class="button">Visit Our Website</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p style="margin:0 0 6px;">${BUSINESS_NAME}</p>
+      <p style="margin:0;">${BUSINESS_EMAIL} | ${BUSINESS_PHONE}</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+const getInquiryReplyTemplate = (data) => `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>${getBaseStyles()}</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>${BUSINESS_NAME}</h1>
     </div>
     <div class="content">
       <h2 style="margin:0 0 12px;font-size:22px;color:#ffffff;">Hello ${data.firstName},</h2>
-      <p>Thank you for reaching out to us. We have received your inquiry and will review it shortly.</p>
-      <p>A member of our team will get back to you within 24 hours.</p>
+      <p>Thank you for contacting ${BUSINESS_NAME}. We’ve received your inquiry and our team is reviewing the details.</p>
+      <p>A specialist will reach out within 24 hours.</p>
+      <p>If needed, we’ll schedule a quick call to understand your goals.</p>
       
       <hr style="border: 0; border-top: 1px solid #1f2937; margin: 30px 0;">
       
@@ -226,8 +265,8 @@ const getUserAutoReplyTemplate = (data) => `
       </div>
     </div>
     <div class="footer">
-      <p style="margin:0 0 6px;">WebOrbit Solution | Premium Web Agency</p>
-      <p style="margin:0;">Sector-128, Noida</p>
+      <p style="margin:0 0 6px;">${BUSINESS_NAME}</p>
+      <p style="margin:0;">${BUSINESS_ADDRESS}</p>
     </div>
   </div>
 </body>
@@ -261,13 +300,21 @@ app.post('/api/inquiry', async (req, res) => {
       html: getAdminEmailTemplate({ firstName, lastName, email, message }),
     }).catch((err) => console.error('Failed to send admin email:', err));
 
-    // 2. Send User Auto-Reply (Non-blocking)
+    // 2. Send Welcome Email (Non-blocking)
     sendMail({
       to: email,
       replyTo: process.env.SMTP_TO,
-      subject: `We received your message - WebOrbit Solution`,
-      html: getUserAutoReplyTemplate({ firstName, lastName, message }),
+      subject: `Welcome to ${BUSINESS_NAME}, ${firstName}!`,
+      html: getWelcomeEmailTemplate({ firstName, lastName }),
     }).catch((err) => console.error('Failed to send user auto-reply:', err));
+
+    // 3. Send Inquiry Acknowledgement (Non-blocking)
+    sendMail({
+      to: email,
+      replyTo: process.env.SMTP_TO,
+      subject: `We received your request — ${BUSINESS_NAME}`,
+      html: getInquiryReplyTemplate({ firstName, lastName, message }),
+    }).catch((err) => console.error('Failed to send inquiry reply:', err));
 
     res.json({ ok: true, id: inquiry._id });
   } catch (error) {

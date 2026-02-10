@@ -103,17 +103,18 @@ const Contact: React.FC = () => {
             <div>
               <h3 className="font-heading text-4xl text-primary mb-4 rotate-[-2deg]">Contact Us</h3>
               <h2 className="font-body font-black text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter uppercase mb-8">
-                Let's Chat
+                Get a Free Quote
               </h2>
               <p className="text-xl md:text-2xl text-gray-400 font-light max-w-md leading-relaxed">
-                Have a project in mind? We'd love to hear about it. Let's create something great together!
+                Tell us about your goals for website development, web & app development, UI/UX design, SEO services, or IT consulting.
+                We respond within 24 hours with a clear plan and next steps.
               </p>
             </div>
 
             {/* Prefer a Call Box */}
             <div className="mt-16 lg:mt-0 p-8 border border-white/10 bg-white/5 rounded-sm relative group cursor-pointer hover:border-primary/50 transition-colors">
               <h4 className="font-heading text-3xl text-primary mb-2">Prefer a Call?</h4>
-              <p className="text-gray-400 text-sm mb-0">Book 30-mins intro call with us.</p>
+              <p className="text-gray-400 text-sm mb-0">Book a quick IT consultation call with our team.</p>
 
               <a href="tel:9310513770" className="absolute bottom-8 right-8 flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm group-hover:text-white transition-colors">
                 Book a Call <ArrowUpRight size={16} />
@@ -138,7 +139,7 @@ const Contact: React.FC = () => {
                   </p>
                   <p>
                     {submitStatus === 'success'
-                      ? 'Thanks for reaching out. We will get back to you within 1-2 business days.'
+                      ? 'Thanks for reaching out. We will get back to you within 24 hours.'
                       : 'Something went wrong. Please try again.'}
                   </p>
                 </div>
@@ -202,14 +203,15 @@ const Contact: React.FC = () => {
 
               <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-6">
                 <p className="text-xs text-gray-500 max-w-xs">
-                  By submitting you agree to our <span className="text-white font-bold">Terms of Service</span> and <span className="text-white font-bold">Privacy Policy</span>.
+                  By submitting you agree to our <span className="text-white font-bold">Terms of Service</span> and{' '}
+                  <span className="text-white font-bold">Privacy Policy</span>.
                 </p>
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="w-full md:w-auto px-12 py-4 bg-[#222] text-white font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all duration-300 cursor-hover disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : submitStatus === 'success' ? 'Sent!' : 'Submit'}
+                  {isSubmitting ? 'Sending...' : submitStatus === 'success' ? 'Sent!' : 'Get Free Quote'}
                 </button>
               </div>
             </form>
