@@ -178,6 +178,7 @@ const Footer: React.FC = () => {
               <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-white">Terms of Service</Link>
               <Link to="/refund" className="hover:text-white">Refund Policy</Link>
+              <Link to="/cookies" className="hover:text-white">Cookie Policy</Link>
               <span>Made by WebOrbit Studio</span>
             </div>
           </div>
