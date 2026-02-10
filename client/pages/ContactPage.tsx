@@ -12,7 +12,7 @@ const ContactPage: React.FC = () => {
     <section className="bg-black text-white pt-32">
       <Seo
         title="Contact WebOrbitSolution | IT Services in India"
-        description="Contact WebOrbitSolution for website development, web & app development, UI/UX design, SEO services, and IT consulting. Get a clear plan and quote within 24 hours."
+        description="Contact WebOrbitSolution for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting. Get a clear plan and quote within 24 hours."
         path="/contact"
       />
       <div className="px-6 md:px-12 mb-12">
@@ -25,7 +25,7 @@ const ContactPage: React.FC = () => {
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
           {planName
             ? `You're interested in the ${planName} plan. Great choice! Let's discuss the details.`
-            : "Tell us about your goals for website development, web & app development, UI/UX design, SEO services, or IT consulting. We'll respond with a clear plan, timeline, and quote."}
+            : "Tell us about your goals for website development, web & app development, UI/UX design, SEO services, digital marketing, or IT consulting. We'll respond with a clear plan, timeline, and quote."}
         </p>
       </div>
       <Contact />

@@ -59,7 +59,8 @@ const About: React.FC = () => {
           <h2 className="font-heading text-5xl md:text-7xl mb-8">We Build <span className="text-primary">Digital</span></h2>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-6">
             WebOrbitSolution is an IT services and digital solutions agency in India helping startups and growing
-            companies with website development, web & app development, UI/UX design, SEO services, and IT consulting.
+            companies with website development, web & app development, UI/UX design, SEO services, digital marketing,
+            and IT consulting.
           </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-8">
             Our team blends strategy, design, and engineering to deliver fast, secure, and SEO-friendly websites plus

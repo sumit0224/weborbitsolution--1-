@@ -11,7 +11,7 @@ const servicesList = [
   },
   {
     id: 2,
-    title: ' App Development',
+    title: 'Web & App Development',
     image: '/images/services/android_apps.png',
     alt: 'Web and app development company for scalable digital products'
   },
@@ -23,14 +23,20 @@ const servicesList = [
   },
   {
     id: 4,
-    title: 'Digital Marketing & SEO',
-    image: '/images/services/social_media.png',
-    alt: 'Digital marketing and SEO services for business growth'
+    title: 'SEO Services',
+    image: '/images/services/motion.png',
+    alt: 'SEO services in India for better search visibility'
   },
   {
     id: 5,
+    title: 'Digital Marketing',
+    image: '/images/services/social_media.png',
+    alt: 'Digital marketing services for business growth'
+  },
+  {
+    id: 6,
     title: 'IT Consulting & Support',
-    image: '/images/services/motion.png',
+    image: '/images/services/website.png',
     alt: 'IT consulting and support services for growing companies'
   },
 ];

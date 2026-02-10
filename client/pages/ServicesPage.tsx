@@ -78,21 +78,38 @@ const ServicesPage: React.FC = () => {
       idealFor: 'SaaS products, apps, and businesses improving digital experience.',
     },
     {
-      title: 'Digital Marketing & SEO',
+      title: 'SEO Services',
       description:
-        'Digital marketing and SEO services that improve visibility, traffic, and qualified leads.',
+        'SEO services that improve search visibility, organic traffic, and high-intent leads.',
       problems: [
         'Low organic search visibility',
-        'Inconsistent lead flow',
-        'Weak content and keyword targeting',
+        'Poor technical SEO and slow pages',
+        'Weak keyword targeting and content gaps',
       ],
       benefits: [
         'Technical and on-page SEO',
         'Keyword and content strategy',
-        'Local and global search visibility',
-        'Performance tracking and reporting',
+        'Local + global search visibility',
+        'Performance tracking with clear reporting',
       ],
-      idealFor: 'Businesses that want consistent inbound leads and long-term growth.',
+      idealFor: 'Businesses that want sustainable inbound leads from Google.',
+    },
+    {
+      title: 'Digital Marketing',
+      description:
+        'Digital marketing services that build awareness, generate demand, and accelerate sales.',
+      problems: [
+        'Inconsistent lead flow',
+        'Low campaign ROI and weak targeting',
+        'Limited brand reach in competitive markets',
+      ],
+      benefits: [
+        'Campaign strategy and positioning',
+        'Paid ads and performance marketing',
+        'Social and content distribution',
+        'Conversion tracking and optimization',
+      ],
+      idealFor: 'Teams that want predictable growth and measurable performance.',
     },
     {
       title: 'IT Consulting & Support',
@@ -191,8 +208,8 @@ const ServicesPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32 pb-20">
       <Seo
-        title="IT Services in India | Web Development, UI/UX & SEO"
-        description="WebOrbitSolution is an IT services company in India delivering website development services, web & app development, UI/UX design, SEO services, and IT consulting for startups and growing businesses."
+        title="IT Services in India | Web Development, SEO & Digital Marketing"
+        description="WebOrbitSolution is an IT services company in India delivering website development services, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses."
         path="/services"
       />
       <div className="px-6 md:px-12 mb-16 scroll-reveal">
@@ -222,8 +239,8 @@ const ServicesPage: React.FC = () => {
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Overview</p>
           <h2 className="text-3xl md:text-4xl font-semibold mt-4">Our Services Overview</h2>
           <p className="text-gray-400 mt-4">
-            Clear, reliable delivery across website development, web & app development, UI/UX design, SEO services, and
-            IT consulting — everything you need to launch and scale with confidence.
+            Clear, reliable delivery across website development, web & app development, UI/UX design, SEO services,
+            digital marketing, and IT consulting — everything you need to launch and scale with confidence.
           </p>
         </div>
       </div>

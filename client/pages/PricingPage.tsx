@@ -133,8 +133,8 @@ const PricingPage: React.FC = () => {
       ],
     },
     {
-      id: 'digital-marketing',
-      title: 'Digital Marketing & SEO (Monthly INR)',
+      id: 'seo-services',
+      title: 'SEO Services (Monthly INR)',
       plans: [
         {
           name: 'SEO Starter',
@@ -158,6 +158,36 @@ const PricingPage: React.FC = () => {
           bestFor: 'Competitive industries and high-growth targets.',
           timeline: '3–6 months for scalable results',
           features: ['Full SEO + content pipeline', 'Technical optimization', 'Authority building', 'CRO insights'],
+          cta: 'Get a Free Quote',
+        },
+      ],
+    },
+    {
+      id: 'digital-marketing',
+      title: 'Digital Marketing (Monthly INR)',
+      plans: [
+        {
+          name: 'Marketing Starter',
+          price: 'Starting from ₹12,000/month',
+          bestFor: 'Brands starting paid and social campaigns.',
+          timeline: '1–2 months to see traction',
+          features: ['Campaign strategy', 'Paid ads setup', 'Audience targeting', 'Monthly reporting'],
+          cta: 'Get a Free Quote',
+        },
+        {
+          name: 'Marketing Growth',
+          price: 'Starting from ₹30,000/month',
+          bestFor: 'Growing brands needing consistent demand.',
+          timeline: '2–3 months for steady lead flow',
+          features: ['Multi-channel campaigns', 'Creative testing', 'Landing page optimization', 'Conversion tracking'],
+          cta: 'Contact Us',
+        },
+        {
+          name: 'Marketing Performance',
+          price: 'Starting from ₹60,000/month',
+          bestFor: 'High-growth teams scaling paid performance.',
+          timeline: '3–6 months for scalable results',
+          features: ['Full-funnel strategy', 'Budget scaling', 'Performance optimization', 'Weekly insights'],
           cta: 'Get a Free Quote',
         },
       ],
@@ -198,7 +228,7 @@ const PricingPage: React.FC = () => {
     <section className="bg-black text-white pt-32 pb-24">
       <Seo
         title="IT Services Pricing in India | Web & App Development"
-        description="Transparent pricing for website development, web & app development, UI/UX design, SEO services, and IT support in India. Compare packages and choose the right scope."
+        description="Transparent pricing for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT support in India. Compare packages and choose the right scope."
         path="/pricing"
         jsonLd={faqJsonLd}
       />
