@@ -177,6 +177,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center gap-10 text-xs uppercase tracking-widest text-gray-500">
               <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-white">Terms of Service</Link>
+              <Link to="/refund" className="hover:text-white">Refund Policy</Link>
               <span>Made by WebOrbit Studio</span>
             </div>
           </div>
