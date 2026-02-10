@@ -170,11 +170,14 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 px-8 md:px-10 py-10">
             <div>
               <p className="font-heading text-2xl text-primary mb-2">Reach Out</p>
-              <a href="mailto:hello@weborbitsolution.in" className="text-3xl md:text-4xl font-black tracking-tight hover:text-primary transition-colors">
+              <a
+                href="mailto:hello@weborbitsolution.in"
+                className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:text-primary transition-colors break-words"
+              >
                 hello@weborbitsolution.in
               </a>
             </div>
-            <div className="flex items-center gap-10 text-xs uppercase tracking-widest text-gray-500">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-widest text-gray-500">
               <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-white">Terms of Service</Link>
               <Link to="/refund" className="hover:text-white">Refund Policy</Link>

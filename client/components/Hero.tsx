@@ -85,10 +85,10 @@ const Hero: React.FC = () => {
         <div className="flex flex-col">
           <h1
             id="hero-heading"
-            className="text-[11vw] sm:text-[10.5vw] md:text-[9.5vw] lg:text-[8.5vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
+            className="text-[10vw] sm:text-[9.5vw] md:text-[8.5vw] lg:text-[7.5vw] leading-[0.85] font-bold text-white tracking-tighter uppercase mix-blend-exclusion"
           >
             <span className="hero-line-inner block overflow-hidden">IT Services</span>
-            <span className="hero-line-inner block overflow-hidden pl-[10vw]">Web Development</span>
+            <span className="hero-line-inner block overflow-hidden pl-0 sm:pl-[6vw] md:pl-[10vw]">Web Development</span>
           </h1>
         </div>
 

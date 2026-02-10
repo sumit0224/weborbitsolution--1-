@@ -12,7 +12,7 @@ const StartProject: React.FC = () => {
     leading-[0.85] tracking-tighter 
     text-white uppercase 
     text-center md:text-left 
-    whitespace-nowrap 
+    whitespace-normal break-words 
     transition-all duration-700 
  
     group-hover:text-primary">

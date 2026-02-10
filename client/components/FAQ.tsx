@@ -46,10 +46,12 @@ const FAQ: React.FC = () => {
           <div className="w-full lg:w-5/12">
             <div className="sticky top-32">
               <span className="font-heading text-primary text-4xl mb-4 block -rotate-3">FAQ</span>
-              <h2 className="font-body font-black text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter uppercase mb-8">
-                Frequently<br />Asked<br />Questions
+              <h2 className="font-body font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight uppercase mb-8 break-words">
+                <span className="block">Frequently</span>
+                <span className="block">Asked</span>
+                <span className="block">Questions</span>
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-base sm:text-lg">
                 Have more questions? <Link to="/contact" className="text-primary font-bold hover:underline">Contact Us</Link>
               </p>
             </div>
@@ -65,7 +67,7 @@ const FAQ: React.FC = () => {
                     className="w-full py-8 flex justify-between items-start text-left group focus:outline-none"
                     aria-expanded={openIndex === index}
                   >
-                    <span className="text-xl md:text-2xl font-medium pr-8 group-hover:text-primary transition-colors duration-300">
+                    <span className="text-lg sm:text-xl md:text-2xl font-medium pr-6 sm:pr-8 group-hover:text-primary transition-colors duration-300 break-words leading-snug">
                       {item.question}
                     </span>
                     <span className={`shrink-0 text-primary transition-transform duration-300 ${openIndex === index ? 'rotate-45' : 'rotate-0'}`}>
@@ -76,7 +78,7 @@ const FAQ: React.FC = () => {
                   <div
                     className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100 pb-8' : 'max-h-0 opacity-0'}`}
                   >
-                    <p className="text-gray-400 text-lg leading-relaxed max-w-[90%]">
+                    <p className="text-gray-400 text-base sm:text-lg leading-relaxed max-w-full">
                       {item.answer}
                     </p>
                   </div>
