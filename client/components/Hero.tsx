@@ -67,9 +67,10 @@ const Hero: React.FC = () => {
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div
-          className="absolute inset-0 bg-[url('/images/hero/hero-bg.jpg')] bg-cover bg-center"
+          className="hero-bg-image absolute inset-0 bg-[url('/images/hero/hero-bg.jpg')] bg-cover bg-center"
           role="presentation"
         />
+        <div className="hero-bg-overlay absolute inset-0" />
       </div>
 
       <div className="page-container relative z-10 pb-16 md:pb-20">
