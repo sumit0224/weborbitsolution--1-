@@ -1,5 +1,6 @@
-import { TransactionalEmailsApi, SendSmtpEmail } from '@getbrevo/brevo';
+import brevo from '@getbrevo/brevo';
 
+const { TransactionalEmailsApi, SendSmtpEmail } = brevo;
 const emailApi = new TransactionalEmailsApi();
 emailApi.authentications.apiKey.apiKey = process.env.BREVO_API_KEY || '';
 
