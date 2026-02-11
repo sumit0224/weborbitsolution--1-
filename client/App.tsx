@@ -14,6 +14,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import RefundPolicyPage from './pages/RefundPolicyPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import NotFound from './pages/NotFound';
+import PaymentStatusPage from './pages/PaymentStatusPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="refund" element={<RefundPolicyPage />} />
         <Route path="cookies" element={<CookiePolicyPage />} />
+        <Route path="payment-status" element={<PaymentStatusPage />} />
         <Route path="admin/login" element={<AdminLoginPage />} />
         <Route path="admin" element={<AdminDashboardPage />} />
         <Route path="404" element={<NotFound />} />

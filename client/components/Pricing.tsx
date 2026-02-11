@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const tiers = [
   {
@@ -14,7 +14,7 @@ const tiers = [
       'Performance and SEO essentials',
       '2-3 week delivery timeline'
     ],
-    cta: 'Get Started',
+    cta: 'Pay Now',
     featured: false
   },
   {
@@ -29,7 +29,7 @@ const tiers = [
       'Copy polish + conversion-focused UX',
       'Priority build slots'
     ],
-    cta: 'Get Started',
+    cta: 'Pay Now',
     featured: true
   },
   {
@@ -51,9 +51,121 @@ const tiers = [
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
+  const [checkoutTier, setCheckoutTier] = useState<(typeof tiers)[number] | null>(null);
+  const [checkoutData, setCheckoutData] = useState({ name: '', email: '', phone: '' });
+  const [checkoutErrors, setCheckoutErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
+  const [checkoutStatus, setCheckoutStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
+  const [checkoutMessage, setCheckoutMessage] = useState('');
+
+  const payableTierIds = new Set(['launch', 'orbit']);
 
   const handlePlanSelect = (tierName: string) => {
     navigate('/contact', { state: { plan: tierName } });
+  };
+
+  const openCheckout = (tier: (typeof tiers)[number]) => {
+    if (!payableTierIds.has(tier.id)) {
+      handlePlanSelect(tier.name);
+      return;
+    }
+    setCheckoutTier(tier);
+    setCheckoutData({ name: '', email: '', phone: '' });
+    setCheckoutErrors({});
+    setCheckoutStatus('idle');
+    setCheckoutMessage('');
+  };
+
+  const closeCheckout = () => {
+    if (checkoutStatus === 'submitting') return;
+    setCheckoutTier(null);
+    setCheckoutErrors({});
+    setCheckoutStatus('idle');
+    setCheckoutMessage('');
+  };
+
+  const validateCheckout = () => {
+    const nextErrors: { name?: string; email?: string; phone?: string } = {};
+
+    if (!checkoutData.name.trim()) {
+      nextErrors.name = 'Full name is required';
+    }
+    if (!checkoutData.email.trim()) {
+      nextErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(checkoutData.email)) {
+      nextErrors.email = 'Enter a valid email';
+    }
+    if (!checkoutData.phone.trim()) {
+      nextErrors.phone = 'Phone number is required';
+    } else if (!/^[0-9+()\s-]{8,}$/.test(checkoutData.phone)) {
+      nextErrors.phone = 'Enter a valid phone number';
+    }
+
+    setCheckoutErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleCheckoutChange =
+    (field: 'name' | 'email' | 'phone') => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setCheckoutData((prev) => ({ ...prev, [field]: value }));
+      if (checkoutErrors[field]) {
+        setCheckoutErrors((prev) => ({ ...prev, [field]: undefined }));
+      }
+      if (checkoutStatus !== 'idle') {
+        setCheckoutStatus('idle');
+        setCheckoutMessage('');
+      }
+    };
+
+  const postToPayu = (url: string, params: Record<string, string>) => {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    form.style.display = 'none';
+
+    Object.entries(params).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  };
+
+  const handleCheckoutSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!checkoutTier) return;
+    if (!validateCheckout()) return;
+
+    try {
+      setCheckoutStatus('submitting');
+      setCheckoutMessage('');
+
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+      const response = await fetch(`${baseUrl}/api/payments/payu/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planId: checkoutTier.id,
+          customer: checkoutData,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || 'Unable to start payment.');
+      }
+
+      postToPayu(data.paymentUrl, data.params);
+    } catch (error) {
+      console.error('PayU checkout error:', error);
+      setCheckoutStatus('error');
+      setCheckoutMessage(error instanceof Error ? error.message : 'Payment setup failed.');
+    }
   };
 
   return (
@@ -114,7 +226,7 @@ const Pricing: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => handlePlanSelect(tier.name)}
+                onClick={() => openCheckout(tier)}
                 className={`mt-10 inline-flex items-center justify-center w-full px-6 py-3 text-xs uppercase tracking-[0.3em] font-bold transition-colors duration-300 cursor-hover ${tier.featured
                   ? 'bg-primary text-black hover:bg-white'
                   : 'border border-white/15 text-white hover:border-primary hover:text-primary'
@@ -141,6 +253,83 @@ const Pricing: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {checkoutTier && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center px-4 py-10">
+          <div className="absolute inset-0 bg-black/70" onClick={closeCheckout} aria-hidden="true" />
+          <div className="relative w-full max-w-lg border border-white/10 bg-[#0b0b0b] p-8 md:p-10">
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-primary">Pay Now</p>
+                <h3 className="text-2xl font-semibold mt-2">{checkoutTier.name} Plan</h3>
+                <p className="text-gray-400 mt-2 text-sm">Secure checkout powered by PayU India.</p>
+              </div>
+              <button
+                type="button"
+                onClick={closeCheckout}
+                className="text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-white"
+              >
+                Close
+              </button>
+            </div>
+
+            <form className="mt-6 space-y-4" onSubmit={handleCheckoutSubmit}>
+              {checkoutStatus === 'error' && (
+                <div className="rounded border border-red-500/60 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  {checkoutMessage || 'Payment setup failed. Please try again.'}
+                </div>
+              )}
+
+              <div>
+                <label className="text-xs uppercase tracking-[0.3em] text-gray-400">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={checkoutData.name}
+                  onChange={handleCheckoutChange('name')}
+                  className={`mt-2 w-full bg-black border ${checkoutErrors.name ? 'border-red-500' : 'border-white/10'} p-3 text-white focus:outline-none focus:border-primary`}
+                  placeholder="Your full name"
+                />
+                {checkoutErrors.name && <p className="text-xs text-red-400 mt-2">{checkoutErrors.name}</p>}
+              </div>
+
+              <div>
+                <label className="text-xs uppercase tracking-[0.3em] text-gray-400">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={checkoutData.email}
+                  onChange={handleCheckoutChange('email')}
+                  className={`mt-2 w-full bg-black border ${checkoutErrors.email ? 'border-red-500' : 'border-white/10'} p-3 text-white focus:outline-none focus:border-primary`}
+                  placeholder="you@company.com"
+                />
+                {checkoutErrors.email && <p className="text-xs text-red-400 mt-2">{checkoutErrors.email}</p>}
+              </div>
+
+              <div>
+                <label className="text-xs uppercase tracking-[0.3em] text-gray-400">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={checkoutData.phone}
+                  onChange={handleCheckoutChange('phone')}
+                  className={`mt-2 w-full bg-black border ${checkoutErrors.phone ? 'border-red-500' : 'border-white/10'} p-3 text-white focus:outline-none focus:border-primary`}
+                  placeholder="+91 9XXXX XXXXX"
+                />
+                {checkoutErrors.phone && <p className="text-xs text-red-400 mt-2">{checkoutErrors.phone}</p>}
+              </div>
+
+              <button
+                type="submit"
+                disabled={checkoutStatus === 'submitting'}
+                className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 bg-primary text-black text-xs uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {checkoutStatus === 'submitting' ? 'Redirecting...' : 'Proceed to PayU'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

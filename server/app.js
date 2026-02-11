@@ -7,15 +7,18 @@ import nodemailer from 'nodemailer';
 import cookieParser from 'cookie-parser';
 import { Inquiry } from './models/Inquiry.js';
 import { BlogPost } from './models/BlogPost.js';
+import { Order } from './models/Order.js';
 
 dotenv.config();
 
 const app = express();
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
+const baseOrigins = (process.env.CLIENT_ORIGIN || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+const devOrigins = process.env.NODE_ENV === 'production' ? [] : ['http://localhost:3000', 'http://localhost:5173'];
+const allowedOrigins = [...new Set([...baseOrigins, ...devOrigins])];
 
 app.use(
   cors({
@@ -25,6 +28,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const mailEnabled = Boolean(
@@ -140,6 +144,84 @@ const slugify = (value) =>
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+
+// --- PayU Config ---
+
+const PAYU_KEY = process.env.PAYU_MERCHANT_KEY || '';
+const PAYU_SALT = process.env.PAYU_MERCHANT_SALT || '';
+const PAYU_BASE_URL = process.env.PAYU_BASE_URL || 'https://test.payu.in/_payment';
+const PAYU_CURRENCY = process.env.PAYU_CURRENCY || 'INR';
+const SERVER_PUBLIC_URL = process.env.SERVER_PUBLIC_URL || '';
+const PRIMARY_CLIENT_ORIGIN = allowedOrigins[0] || '';
+const PAYU_SURL =
+  process.env.PAYU_SURL || (SERVER_PUBLIC_URL ? `${SERVER_PUBLIC_URL}/api/payments/payu/success` : '');
+const PAYU_FURL =
+  process.env.PAYU_FURL || (SERVER_PUBLIC_URL ? `${SERVER_PUBLIC_URL}/api/payments/payu/failure` : '');
+
+const PAYU_PLAN_AMOUNTS = {
+  launch: Number(process.env.PAYU_PLAN_LAUNCH_AMOUNT || 0),
+  orbit: Number(process.env.PAYU_PLAN_ORBIT_AMOUNT || 0),
+};
+
+const PAYU_PLANS = {
+  launch: { id: 'launch', name: 'Launch', amount: PAYU_PLAN_AMOUNTS.launch },
+  orbit: { id: 'orbit', name: 'Orbit', amount: PAYU_PLAN_AMOUNTS.orbit },
+};
+
+const formatAmount = (value) => {
+  const amount = Number(value);
+  if (!Number.isFinite(amount) || amount <= 0) return null;
+  return amount.toFixed(2);
+};
+
+const sha512 = (value) => crypto.createHash('sha512').update(value).digest('hex');
+
+const createPayuRequestHash = ({ key, txnid, amount, productinfo, firstname, email, udf1 = '', udf2 = '', udf3 = '', udf4 = '', udf5 = '' }) => {
+  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${PAYU_SALT}`;
+  return sha512(hashString);
+};
+
+const verifyPayuResponseHash = (payload) => {
+  const {
+    status = '',
+    email = '',
+    firstname = '',
+    productinfo = '',
+    amount = '',
+    txnid = '',
+    key = '',
+    udf1 = '',
+    udf2 = '',
+    udf3 = '',
+    udf4 = '',
+    udf5 = '',
+    additionalCharges = '',
+    hash = '',
+  } = payload;
+
+  const reverseBase = `${PAYU_SALT}|${status}||||||${udf5}|${udf4}|${udf3}|${udf2}|${udf1}|${email}|${firstname}|${productinfo}|${amount}|${txnid}|${key}`;
+  const reverseString = additionalCharges ? `${additionalCharges}|${reverseBase}` : reverseBase;
+  return sha512(reverseString) === String(hash);
+};
+
+const ensurePayuConfigured = () => {
+  if (!PAYU_KEY || !PAYU_SALT) {
+    return { ok: false, error: 'PayU credentials are not configured.' };
+  }
+  if (!PAYU_SURL || !PAYU_FURL) {
+    return { ok: false, error: 'PayU redirect URLs are not configured.' };
+  }
+  if (!formatAmount(PAYU_PLAN_AMOUNTS.launch) || !formatAmount(PAYU_PLAN_AMOUNTS.orbit)) {
+    return { ok: false, error: 'PayU plan amounts are not configured.' };
+  }
+  return { ok: true };
+};
+
+const buildClientRedirect = (status, txnid) => {
+  if (!PRIMARY_CLIENT_ORIGIN) return '';
+  const params = new URLSearchParams({ status, txnid: txnid || '' });
+  return `${PRIMARY_CLIENT_ORIGIN}/payment-status?${params.toString()}`;
+};
 
 // --- Email Templates ---
 
@@ -276,6 +358,142 @@ const getInquiryReplyTemplate = (data) => `
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// --- PayU Payments ---
+
+app.post('/api/payments/payu/create', async (req, res) => {
+  try {
+    const configCheck = ensurePayuConfigured();
+    if (!configCheck.ok) {
+      return res.status(500).json({ error: configCheck.error });
+    }
+
+    const { planId, customer } = req.body || {};
+    const plan = PAYU_PLANS[planId];
+
+    if (!plan) {
+      return res.status(400).json({ error: 'Invalid plan selected.' });
+    }
+
+    const amount = formatAmount(plan.amount);
+    if (!amount) {
+      return res.status(500).json({ error: 'Plan amount is not configured.' });
+    }
+
+    const name = String(customer?.name || '').trim();
+    const email = String(customer?.email || '').trim().toLowerCase();
+    const phone = String(customer?.phone || '').trim();
+
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: 'Customer name, email, and phone are required.' });
+    }
+
+    const txnid = `WO${Date.now()}${crypto.randomBytes(4).toString('hex')}`;
+    const firstname = name.split(' ')[0] || name;
+    const productinfo = `${plan.name} Plan`;
+
+    const order = await Order.create({
+      planId: plan.id,
+      planName: plan.name,
+      amount: Number(amount),
+      currency: PAYU_CURRENCY,
+      status: 'created',
+      orderId: txnid,
+      customer: {
+        name,
+        email,
+        phone,
+      },
+    });
+
+    const udf1 = plan.id;
+    const udf2 = order._id.toString();
+    const udf3 = '';
+    const udf4 = '';
+    const udf5 = '';
+
+    const hash = createPayuRequestHash({
+      key: PAYU_KEY,
+      txnid,
+      amount,
+      productinfo,
+      firstname,
+      email,
+      udf1,
+      udf2,
+      udf3,
+      udf4,
+      udf5,
+    });
+
+    res.json({
+      ok: true,
+      paymentUrl: PAYU_BASE_URL,
+      params: {
+        key: PAYU_KEY,
+        txnid,
+        amount,
+        productinfo,
+        firstname,
+        email,
+        phone,
+        surl: PAYU_SURL,
+        furl: PAYU_FURL,
+        service_provider: 'payu_paisa',
+        udf1,
+        udf2,
+        udf3,
+        udf4,
+        udf5,
+        hash,
+      },
+    });
+  } catch (error) {
+    console.error('PayU create error:', error);
+    res.status(500).json({ error: 'Unable to start payment.' });
+  }
+});
+
+const handlePayuCallback = async (req, res, fallbackStatus) => {
+  try {
+    const payload = req.body || {};
+    const txnid = payload.txnid;
+    const status = payload.status || fallbackStatus || 'failed';
+    const normalizedStatus = String(status).toLowerCase();
+    const isHashValid = verifyPayuResponseHash(payload);
+
+    const order = txnid ? await Order.findOne({ orderId: txnid }) : null;
+    const amountMatches = order && Number(payload.amount || 0).toFixed(2) === order.amount.toFixed(2);
+    const payuSaysSuccess = normalizedStatus === 'success';
+    const isPaymentSuccessful = isHashValid && payuSaysSuccess && amountMatches;
+
+    if (order) {
+      await Order.updateOne(
+        { orderId: txnid },
+        {
+          status: isPaymentSuccessful ? 'paid' : 'failed',
+          paymentId: payload.mihpayid || payload.paymentId || null,
+          signature: payload.hash || null,
+          paidAt: isPaymentSuccessful ? new Date() : null,
+        }
+      );
+    }
+
+    const redirectStatus = isPaymentSuccessful ? 'success' : payuSaysSuccess ? 'verification_failed' : 'failure';
+    const redirectUrl = buildClientRedirect(redirectStatus, txnid);
+    if (redirectUrl) {
+      return res.redirect(302, redirectUrl);
+    }
+
+    return res.json({ ok: isPaymentSuccessful, orderId: txnid, status });
+  } catch (error) {
+    console.error('PayU callback error:', error);
+    return res.status(500).json({ error: 'Payment verification failed.' });
+  }
+};
+
+app.post('/api/payments/payu/success', (req, res) => handlePayuCallback(req, res, 'success'));
+app.post('/api/payments/payu/failure', (req, res) => handlePayuCallback(req, res, 'failure'));
 
 app.post('/api/inquiry', async (req, res) => {
   try {

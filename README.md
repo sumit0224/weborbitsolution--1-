@@ -3,7 +3,7 @@
 This repo is split into two apps:
 
 - `client/` - Vite + React frontend
-- `server/` - Express + MongoDB + Nodemailer + Razorpay backend
+- `server/` - Express + MongoDB + Nodemailer + PayU backend
 
 ## Development
 
