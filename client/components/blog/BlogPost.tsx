@@ -44,7 +44,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
   }, []);
 
   return (
-    <article className="bg-white text-black font-body-alt" data-blog-article>
+    <article className="bg-white  text-black font-body-alt" data-blog-article>
       <div className="fixed top-0 left-0 h-[3px] bg-primary z-[70] transition-all" style={{ width: `${progress}%` }} />
 
       <header className="border-b border-black/10">
