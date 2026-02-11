@@ -12,28 +12,28 @@ const projects: Project[] = [
     id: 1,
     title: 'Neon Horizon',
     category: 'E-commerce',
-    image: 'https://picsum.photos/id/12/1200/800',
+    image: '/works/ecommerce.jpg',
     year: '2023'
   },
   {
     id: 2,
     title: 'Abstract Arch',
     category: 'Portfolio',
-    image: 'https://picsum.photos/id/28/1200/800',
+    image: '/works/portfolio.avif',
     year: '2024'
   },
   {
     id: 3,
     title: 'Quantum Finance',
     category: 'Fintech',
-    image: 'https://picsum.photos/id/48/1200/800',
+    image: '/works/fintech.jpg',
     year: '2023'
   },
   {
     id: 4,
     title: 'Eco Sphere',
     category: 'Non-Profit',
-    image: 'https://picsum.photos/id/54/1200/800',
+    image: '/works/nonprofit.avif',
     year: '2024'
   }
 ];

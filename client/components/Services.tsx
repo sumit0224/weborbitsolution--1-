@@ -11,9 +11,9 @@ const servicesList = [
   },
   {
     id: 2,
-    title: 'Web & App Development',
+    title: ' App Development',
     image: '/images/services/app.jpg',
-    alt: 'Web and app development company for scalable digital products'
+    alt: ' app development company for scalable digital products'
   },
   {
     id: 3,

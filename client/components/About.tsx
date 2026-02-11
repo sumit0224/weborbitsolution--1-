@@ -48,7 +48,7 @@ const About: React.FC = () => {
         <div className="w-full md:w-1/2 relative h-[600px] overflow-hidden rounded-lg">
           <img
             ref={imageRef}
-            src="/images/about/studio.png"
+            src="/images/about/studio.jpg"
             alt="WebOrbitSolution IT services team in Noida, India"
             loading="lazy"
             className="absolute top-0 left-0 w-full h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 will-change-transform"
