@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
       ? 'py-4 md:py-5 bg-white/70 backdrop-blur-md'
       : 'py-4 md:py-5 bg-black/60 backdrop-blur-md';
   const navTextClass = isBlogDetail ? 'text-black' : 'text-white';
-  const navMutedClass = isBlogDetail ? 'text-gray-600' : 'text-gray-400';
+  const logoSrc = isBlogDetail ? '/logo-dark.svg' : '/logo-v2.png';
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -218,7 +218,7 @@ const Navbar: React.FC = () => {
             to="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
-            <img src="/logo-v2.png" alt="WebOrbit Logo" className="w-40 h-20 object-contain" />
+            <img src={logoSrc} alt="WebOrbit Logo" className="w-40 h-20 object-contain" />
             
           </Link>
 

@@ -33,7 +33,13 @@ const BlogPostPage: React.FC = () => {
 
         throw new Error(data?.error || 'Post not found.');
       } catch (error) {
-        setStatus('error');
+        const fallback = blogPosts.find((item) => item.slug === slug);
+        if (fallback) {
+          setPost(fallback);
+          setStatus('ready');
+        } else {
+          setStatus('error');
+        }
       }
     };
 
