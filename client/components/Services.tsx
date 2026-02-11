@@ -6,37 +6,37 @@ const servicesList = [
   {
     id: 1,
     title: 'Website Development',
-    image: '/images/services/website.png',
+    image: '/images/services/website.jpg',
     alt: 'Website development services in India for startups and businesses'
   },
   {
     id: 2,
     title: 'Web & App Development',
-    image: '/images/services/android_apps.png',
+    image: '/images/services/app.jpg',
     alt: 'Web and app development company for scalable digital products'
   },
   {
     id: 3,
     title: 'UI/UX Design',
-    image: '/images/services/branding.png',
+    image: '/images/services/ux.jpg',
     alt: 'UI UX design services for modern web and mobile apps'
   },
   {
     id: 4,
     title: 'SEO Services',
-    image: '/images/services/motion.png',
+    image: '/images/services/seo.jpg',
     alt: 'SEO services in India for better search visibility'
   },
   {
     id: 5,
     title: 'Digital Marketing',
-    image: '/images/services/social_media.png',
+    image: '/images/services/marketing.jpg',
     alt: 'Digital marketing services for business growth'
   },
   {
     id: 6,
     title: 'IT Consulting & Support',
-    image: '/images/services/website.png',
+    image: '/images/services/ITsupport.jpg',
     alt: 'IT consulting and support services for growing companies'
   },
 ];

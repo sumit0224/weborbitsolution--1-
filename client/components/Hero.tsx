@@ -67,22 +67,13 @@ const Hero: React.FC = () => {
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(32,178,170,0.25),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.08),transparent_60%)]"
-          role="presentation"
-        />
-        <div
-          className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"
-          role="presentation"
-        />
-        <div className="absolute inset-0 bg-black/70" />
-        <div
-          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:120px_120px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]"
+          className="absolute inset-0 bg-[url('/images/hero/hero-bg.jpg')] bg-cover bg-center"
           role="presentation"
         />
       </div>
 
       <div className="page-container relative z-10 pb-16 md:pb-20">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+        <div className="grid gap-12 items-center">
           <div>
             <div className="hero-sub flex items-center gap-4 mb-6">
               <div className="h-[1px] w-12 bg-primary" aria-hidden="true" />
@@ -129,31 +120,6 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="hero-visual relative">
-            <div className="absolute -inset-6 bg-primary/20 blur-3xl rounded-full" aria-hidden="true" />
-            <div className="relative border border-white/10 bg-black/60 backdrop-blur-md p-6 sm:p-8">
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-gray-400">
-                <span>Project Snapshot</span>
-                <span className="text-primary">Premium</span>
-              </div>
-              <div className="mt-6 space-y-4">
-                {[
-                  { label: 'Web Development', value: 'High-performance websites' },
-                  { label: 'UI/UX Design', value: 'Conversion-first experiences' },
-                  { label: 'SEO Services', value: 'Growth-ready visibility' },
-                ].map((item) => (
-                  <div key={item.label} className="border border-white/10 p-4 bg-white/5">
-                    <p className="text-xs uppercase tracking-[0.3em] text-gray-500">{item.label}</p>
-                    <p className="text-white font-semibold mt-2">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 flex items-center justify-between text-xs text-gray-400">
-                <span>India-based team</span>
-                <span>Global delivery</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
