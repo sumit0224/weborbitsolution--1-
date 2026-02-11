@@ -12,7 +12,7 @@
     content="IT Services in India, Web Development Company, Website Development Services, Web & App Development, UI UX Design Services, SEO Services in India, Digital Marketing Agency, IT Consulting Services, Web Development Company for Startups" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#000000" />
-  <meta name="color-scheme" content="dark" />
+  <meta name="color-scheme" content="light dark" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,6 +49,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;700;900&display=swap"
     rel="stylesheet">
+
+  <script>
+    (function () {
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      const applyTheme = () => {
+        document.documentElement.dataset.theme = media.matches ? 'dark' : 'light';
+      };
+      applyTheme();
+      if (media.addEventListener) {
+        media.addEventListener('change', applyTheme);
+      } else if (media.addListener) {
+        media.addListener(applyTheme);
+      }
+    })();
+  </script>
 
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />

@@ -16,17 +16,19 @@ const navItems: NavItem[] = [
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(false);
   const { pathname } = useLocation();
   const isBlogDetail = pathname.startsWith('/blog/');
+  const useLightNav = isBlogDetail || isLightTheme;
   const navBgClass = isScrolled
-    ? isBlogDetail
+    ? useLightNav
       ? 'py-4 bg-white/90 backdrop-blur-md border-b border-black/10'
       : 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10'
-    : isBlogDetail
+    : useLightNav
       ? 'py-4 md:py-5 bg-white/70 backdrop-blur-md'
       : 'py-4 md:py-5 bg-black/60 backdrop-blur-md';
-  const navTextClass = isBlogDetail ? 'text-black' : 'text-white';
-  const logoSrc = isBlogDetail ? '/logo-dark.svg' : '/logo-v2.png';
+  const navTextClass = useLightNav ? 'text-black' : 'text-white';
+  const logoSrc = useLightNav ? '/logo-dark.svg' : '/logo-v2.png';
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -70,6 +72,26 @@ const Navbar: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
       if (hamburgerTl.current) {
         hamburgerTl.current.kill();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const updateTheme = () => {
+      setIsLightTheme(!media.matches);
+    };
+    updateTheme();
+    if (media.addEventListener) {
+      media.addEventListener('change', updateTheme);
+    } else if (media.addListener) {
+      media.addListener(updateTheme);
+    }
+    return () => {
+      if (media.removeEventListener) {
+        media.removeEventListener('change', updateTheme);
+      } else if (media.removeListener) {
+        media.removeListener(updateTheme);
       }
     };
   }, []);
