@@ -3,11 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-import nodemailer from 'nodemailer';
 import cookieParser from 'cookie-parser';
 import { Inquiry } from './models/Inquiry.js';
 import { BlogPost } from './models/BlogPost.js';
 import { Order } from './models/Order.js';
+import { sendEmail } from './utils/brevoEmail.js';
 
 dotenv.config();
 
@@ -31,39 +31,24 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const mailEnabled = Boolean(
-  process.env.SMTP_HOST &&
-  process.env.SMTP_PORT &&
-  process.env.SMTP_USER &&
-  process.env.SMTP_PASS &&
-  process.env.SMTP_FROM &&
-  process.env.SMTP_TO
-);
-
-const transporter = mailEnabled
-  ? nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
-  : null;
+const mailEnabled = Boolean(process.env.BREVO_API_KEY && process.env.BREVO_SENDER_EMAIL);
+const adminNotifyEmail = process.env.BREVO_ADMIN_EMAIL || process.env.SMTP_TO || '';
 
 const sendMail = async ({ to, subject, html, replyTo }) => {
-  if (!mailEnabled || !transporter) {
+  if (!mailEnabled || !to) {
     return;
   }
 
-  await transporter.sendMail({
-    from: process.env.SMTP_FROM,
-    to,
+  const result = await sendEmail({
+    to: { email: to },
     subject,
     html,
-    replyTo,
+    replyTo: replyTo ? { email: replyTo } : undefined,
   });
+
+  if (!result.ok) {
+    throw new Error(result.error || 'Brevo send failed.');
+  }
 };
 
 // --- Admin Session Helpers ---
@@ -512,7 +497,7 @@ app.post('/api/inquiry', async (req, res) => {
 
     // 1. Send Admin Notification (Non-blocking)
     sendMail({
-      to: process.env.SMTP_TO,
+      to: adminNotifyEmail,
       replyTo: email,
       subject: `New Inquiry: ${firstName} ${lastName}`,
       html: getAdminEmailTemplate({ firstName, lastName, email, message }),
@@ -521,7 +506,7 @@ app.post('/api/inquiry', async (req, res) => {
     // 2. Send Welcome Email (Non-blocking)
     sendMail({
       to: email,
-      replyTo: process.env.SMTP_TO,
+      replyTo: adminNotifyEmail,
       subject: `Welcome to ${BUSINESS_NAME}, ${firstName}!`,
       html: getWelcomeEmailTemplate({ firstName, lastName }),
     }).catch((err) => console.error('Failed to send user auto-reply:', err));
@@ -529,7 +514,7 @@ app.post('/api/inquiry', async (req, res) => {
     // 3. Send Inquiry Acknowledgement (Non-blocking)
     sendMail({
       to: email,
-      replyTo: process.env.SMTP_TO,
+      replyTo: adminNotifyEmail,
       subject: `We received your request — ${BUSINESS_NAME}`,
       html: getInquiryReplyTemplate({ firstName, lastName, message }),
     }).catch((err) => console.error('Failed to send inquiry reply:', err));
