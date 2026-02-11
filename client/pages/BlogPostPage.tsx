@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Seo from '../components/Seo';
 import BlogPost from '../components/blog/BlogPost';
-import { BlogPost as BlogPostType } from '../data/blogPosts';
+import { BlogPost as BlogPostType, blogPosts } from '../data/blogPosts';
 import NotFound from './NotFound';
 
 const BlogPostPage: React.FC = () => {
@@ -18,11 +18,20 @@ const BlogPostPage: React.FC = () => {
         const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
         const response = await fetch(`${baseUrl}/api/blog/posts/${slug}`);
         const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data?.error || 'Post not found.');
+        if (response.ok && data?.post) {
+          setPost(data.post);
+          setStatus('ready');
+          return;
         }
-        setPost(data.post);
-        setStatus('ready');
+
+        const fallback = blogPosts.find((item) => item.slug === slug);
+        if (fallback) {
+          setPost(fallback);
+          setStatus('ready');
+          return;
+        }
+
+        throw new Error(data?.error || 'Post not found.');
       } catch (error) {
         setStatus('error');
       }

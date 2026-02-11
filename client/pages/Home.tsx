@@ -5,6 +5,7 @@ import Portfolio from '../components/Portfolio';
 import About from '../components/About';
 import Manifesto from '../components/Manifesto';
 import Testimonials from '../components/Testimonials';
+import BlogSection from '../components/BlogSection';
 import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
@@ -58,6 +59,9 @@ const Home: React.FC = () => {
   {/* Trust & proof */}
   <Portfolio />
   <Testimonials />
+
+  {/* Content */}
+  <BlogSection />
 
   {/* Brand & clarity */}
   <About />
