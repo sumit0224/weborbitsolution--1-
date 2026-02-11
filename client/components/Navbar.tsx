@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
       ? 'py-4 md:py-5 bg-white/70 backdrop-blur-md'
       : 'py-4 md:py-5 bg-black/60 backdrop-blur-md';
   const navTextClass = useLightNav ? 'text-black' : 'text-white';
-  const logoSrc = useLightNav ? '/logo-dark.svg' : '/logo-v2.png';
+  const logoSrc = useLightNav ? '/BLACK.png' : '/logo-v2.png';
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
