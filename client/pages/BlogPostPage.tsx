@@ -61,6 +61,33 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
+  const baseUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+  const blogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.metaDescription || post.excerpt,
+    image: [post.featuredImage.src],
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Organization',
+      name: post.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'WebOrbitSolution',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/favicon.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/blog/${post.slug}`,
+    },
+  };
+
   return (
     <>
       <Seo
@@ -69,6 +96,7 @@ const BlogPostPage: React.FC = () => {
         path={`/blog/${post.slug}`}
         image={post.featuredImage.src}
         type="article"
+        jsonLd={blogJsonLd}
       />
       <BlogPost post={post} />
     </>

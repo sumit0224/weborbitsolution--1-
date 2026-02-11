@@ -205,24 +205,49 @@ const ServicesPage: React.FC = () => {
     },
   ];
 
+  const servicesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Web Development and SEO Services',
+    serviceType: [
+      'Website Development',
+      'Web & App Development',
+      'UI/UX Design',
+      'SEO Services',
+      'Digital Marketing',
+      'IT Consulting & Support',
+    ],
+    areaServed: ['India', 'Noida', 'Delhi NCR'],
+    provider: {
+      '@type': 'Organization',
+      name: 'WebOrbitSolution',
+      url: 'https://www.weborbitsolution.in',
+    },
+  };
+
   return (
     <section className="bg-black text-white pt-32 pb-20">
       <Seo
-        title="IT Services in India | Web Development, SEO & Digital Marketing"
-        description="WebOrbitSolution is an IT services company in India delivering website development services, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses."
+        title="Web Development Company in India | SEO Services in Noida"
+        description="WebOrbitSolution is a web development company in India offering website development, SEO services in Noida, digital marketing, and IT consulting for startups and growing businesses."
         path="/services"
+        jsonLd={servicesJsonLd}
       />
       <div className="px-6 md:px-12 mb-16 scroll-reveal">
-        <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Services</p>
-        <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
-          IT Services & Digital Solutions
+          <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Services</p>
+          <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
+          Web Development Company
           <br />
-          In India That Scale
-        </h1>
+          In India That Scales
+          </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-3xl mt-6">
           WebOrbitSolution is a web development company in India helping startups, small businesses, and growing
-          companies build high-performing websites, web apps, and digital systems. Based in India, serving clients
-          worldwide.
+          companies build high-performing websites, web apps, and digital systems. Based in Noida, serving India and
+          global clients.
+        </p>
+        <p className="text-gray-400 text-base md:text-lg max-w-3xl mt-4">
+          If you are searching for a web development company near me or an SEO agency near me in Noida or Delhi NCR,
+          our team delivers fast, measurable results.
         </p>
         <div className="mt-8">
           <Link

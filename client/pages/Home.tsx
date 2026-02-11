@@ -33,7 +33,7 @@ const Home: React.FC = () => {
         addressRegion: 'UP',
         addressCountry: 'IN',
       },
-      areaServed: 'IN',
+      areaServed: ['IN', 'Noida', 'Delhi NCR'],
       priceRange: '$$',
     },
   ];
@@ -42,8 +42,8 @@ const Home: React.FC = () => {
     
      <>
       <Seo
-        title="IT Services & Web Development Company in India | WebOrbitSolution"
-        description="WebOrbitSolution provides website development services, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses in India and worldwide."
+        title="Web Development Company in India | WebOrbitSolution"
+        description="WebOrbitSolution is a web development company in India, based in Noida, delivering website development, SEO services, digital marketing, and IT consulting for startups and growing businesses."
         path="/"
         jsonLd={orgJsonLd}
       />
