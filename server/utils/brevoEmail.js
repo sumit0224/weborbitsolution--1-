@@ -1,8 +1,14 @@
 import brevo from '@getbrevo/brevo';
 
-const { TransactionalEmailsApi, SendSmtpEmail } = brevo;
+const { TransactionalEmailsApi, SendSmtpEmail, ApiClient } = brevo;
+
+const defaultClient = ApiClient?.instance;
+const apiKeyAuth = defaultClient?.authentications?.['api-key'];
+if (apiKeyAuth) {
+  apiKeyAuth.apiKey = process.env.BREVO_API_KEY || '';
+}
+
 const emailApi = new TransactionalEmailsApi();
-emailApi.authentications.apiKey.apiKey = process.env.BREVO_API_KEY || '';
 
 const defaultSender = {
   email: process.env.BREVO_SENDER_EMAIL || '',
@@ -19,6 +25,10 @@ export const sendEmail = async ({
 }) => {
   if (!process.env.BREVO_API_KEY) {
     return { ok: false, error: 'BREVO_API_KEY is missing.' };
+  }
+
+  if (!apiKeyAuth) {
+    return { ok: false, error: 'Brevo API client is not initialized.' };
   }
 
   if (!from?.email) {
