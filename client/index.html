@@ -52,16 +52,9 @@
 
   <script>
     (function () {
-      const media = window.matchMedia('(prefers-color-scheme: dark)');
-      const applyTheme = () => {
-        document.documentElement.dataset.theme = media.matches ? 'dark' : 'light';
-      };
-      applyTheme();
-      if (media.addEventListener) {
-        media.addEventListener('change', applyTheme);
-      } else if (media.addListener) {
-        media.addListener(applyTheme);
-      }
+      const stored = localStorage.getItem('theme');
+      const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
+      document.documentElement.dataset.theme = theme;
     })();
   </script>
 

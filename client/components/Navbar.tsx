@@ -77,22 +77,22 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const updateTheme = () => {
-      setIsLightTheme(!media.matches);
-    };
-    updateTheme();
-    if (media.addEventListener) {
-      media.addEventListener('change', updateTheme);
-    } else if (media.addListener) {
-      media.addListener(updateTheme);
-    }
-    return () => {
-      if (media.removeEventListener) {
-        media.removeEventListener('change', updateTheme);
-      } else if (media.removeListener) {
-        media.removeListener(updateTheme);
+    const getTheme = () => document.documentElement.dataset.theme === 'light';
+    const syncTheme = () => setIsLightTheme(getTheme());
+    syncTheme();
+
+    const handleThemeChange = () => syncTheme();
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === 'theme') {
+        syncTheme();
       }
+    };
+
+    window.addEventListener('theme-change', handleThemeChange as EventListener);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('theme-change', handleThemeChange as EventListener);
+      window.removeEventListener('storage', handleStorage);
     };
   }, []);
 

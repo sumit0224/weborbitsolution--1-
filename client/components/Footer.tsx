@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useEffect, useState, FormEvent } from 'react';
 import { Instagram, Twitter, Linkedin, Github, ArrowUpRight, Globe, Code, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -6,6 +6,15 @@ const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
+  );
+
+  const applyTheme = (next: 'light' | 'dark') => {
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: next }));
+  };
 
   const handleNewsletterSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +44,20 @@ const Footer: React.FC = () => {
     } finally {
       setIsSubscribing(false);
     }
+  };
+
+  useEffect(() => {
+    const handleThemeChange = () => {
+      setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+    };
+    window.addEventListener('theme-change', handleThemeChange as EventListener);
+    return () => window.removeEventListener('theme-change', handleThemeChange as EventListener);
+  }, []);
+
+  const handleThemeToggle = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    applyTheme(next);
   };
 
   const links = [
@@ -178,6 +201,13 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-widest text-gray-500">
+              <button
+                type="button"
+                onClick={handleThemeToggle}
+                className="border border-white/20 px-4 py-2 text-[10px] sm:text-xs uppercase tracking-[0.3em] hover:border-primary hover:text-primary transition-colors"
+              >
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
               <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-white">Terms of Service</Link>
               <Link to="/refund" className="hover:text-white">Refund Policy</Link>
