@@ -1,4 +1,18 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "weborbitsolution.in" }],
+      "destination": "https://www.weborbitsolution.in/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "protocol", "value": "http" }],
+      "destination": "https://www.weborbitsolution.in/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)\\.(css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico)",
