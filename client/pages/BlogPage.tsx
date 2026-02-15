@@ -10,12 +10,13 @@ const BlogPage: React.FC = () => {
         <div className="max-w-3xl">
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Insights</p>
           <h1 className="font-heading text-4xl md:text-6xl tracking-tight mt-4">
-            The Orbit
+            Web Development
             <br />
-            Journal
+            & SEO Insights in India
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
-            Strategy, design, and product thinking from our studio — crafted for founders, marketers, and product teams.
+            Practical guidance on web development, SEO, ecommerce, and product growth for startups, agencies, and local
+            businesses across India.
           </p>
         </div>
 

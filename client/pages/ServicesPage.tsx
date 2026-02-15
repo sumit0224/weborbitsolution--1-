@@ -224,6 +224,25 @@ const ServicesPage: React.FC = () => {
           If you are searching for a web development company near me or an SEO agency near me in Noida or Delhi NCR,
           our team delivers fast, measurable results.
         </p>
+        <p className="text-gray-400 text-base md:text-lg max-w-3xl mt-4">
+          Explore dedicated pages for{' '}
+          <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
+            SEO services in India
+          </Link>
+          ,{' '}
+          <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">
+            React JS development
+          </Link>
+          ,{' '}
+          <Link href="/mobile-app-development-company" className="text-primary font-semibold hover:underline">
+            mobile app development
+          </Link>
+          , and{' '}
+          <Link href="/custom-software-development-india" className="text-primary font-semibold hover:underline">
+            custom software development
+          </Link>
+          .
+        </p>
         <div className="mt-8">
           <Link
             href="/contact"

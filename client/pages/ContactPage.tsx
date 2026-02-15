@@ -1,12 +1,11 @@
-'use client';
-
 import React from 'react';
-import { useSearchParams } from 'next/navigation';
 import Contact from '../components/Contact';
 
-const ContactPage: React.FC = () => {
-  const searchParams = useSearchParams();
-  const planName = searchParams?.get('plan') || undefined;
+interface ContactPageProps {
+  planName?: string;
+}
+
+const ContactPage: React.FC<ContactPageProps> = ({ planName }) => {
 
   return (
     <section className="bg-black text-white pt-32">

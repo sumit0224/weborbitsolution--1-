@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import ContactPage from '../../pages/ContactPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
@@ -11,7 +10,14 @@ export const metadata = createPageMetadata({
   path: '/contact',
 });
 
-export default function Page() {
+type ContactPageProps = {
+  searchParams: Promise<{ plan?: string | string[] } | undefined>;
+};
+
+export default async function Page({ searchParams }: ContactPageProps) {
+  const resolvedParams = await searchParams;
+  const planParam = resolvedParams?.plan;
+  const planName = Array.isArray(planParam) ? planParam[0] : planParam;
   const jsonLd = breadcrumbJsonLd([
     { name: 'Home', path: '/' },
     { name: 'Contact', path: '/contact' },
@@ -20,9 +26,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <Suspense fallback={null}>
-        <ContactPage />
-      </Suspense>
+      <ContactPage planName={planName} />
     </>
   );
 }

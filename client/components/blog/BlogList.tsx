@@ -9,9 +9,6 @@ interface BlogListProps {
 }
 
 const BlogList: React.FC<BlogListProps> = ({ limit }) => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
-
   const fallbackPosts = useMemo(
     () =>
       [...blogPosts]
@@ -19,11 +16,16 @@ const BlogList: React.FC<BlogListProps> = ({ limit }) => {
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
     []
   );
+  const hasFallback = fallbackPosts.length > 0;
+  const [posts, setPosts] = useState<BlogPost[]>(hasFallback ? fallbackPosts : []);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>(hasFallback ? 'idle' : 'loading');
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        setStatus('loading');
+        if (!hasFallback) {
+          setStatus('loading');
+        }
         const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
         const response = await fetch(`${baseUrl}/api/blog/posts`);
         const data = await response.json();
@@ -47,7 +49,7 @@ const BlogList: React.FC<BlogListProps> = ({ limit }) => {
     };
 
     fetchPosts();
-  }, [fallbackPosts]);
+  }, [fallbackPosts, hasFallback]);
 
   const visiblePosts = limit ? posts.slice(0, limit) : posts;
 

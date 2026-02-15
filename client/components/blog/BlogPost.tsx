@@ -106,6 +106,12 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
               <Link href="/services" className="text-primary font-semibold hover:underline">
                 Web Design & Development Services
               </Link>
+              <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
+                SEO Services in India
+              </Link>
+              <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">
+                React JS Development
+              </Link>
               <Link href="/work" className="text-primary font-semibold hover:underline">
                 Explore Our Portfolio
               </Link>

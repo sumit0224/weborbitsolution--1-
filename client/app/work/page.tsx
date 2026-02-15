@@ -4,7 +4,7 @@ import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
 
 export const metadata = createPageMetadata({
-  title: 'Portfolio | WebOrbitSolution Web Design & Development Work',
+  title: 'Web Design & Development Portfolio in India',
   description:
     'View selected WebOrbitSolution projects in web design, development, and branding. See how we build premium digital experiences for modern teams.',
   path: '/work',

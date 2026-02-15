@@ -6,6 +6,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { path: '', priority: 1, changeFrequency: 'weekly' as const },
     { path: '/services', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/seo-services-in-india', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/react-js-development-company', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/mobile-app-development-company', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/custom-software-development-india', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/work', priority: 0.8, changeFrequency: 'monthly' as const },
     { path: '/pricing', priority: 0.8, changeFrequency: 'monthly' as const },
     { path: '/blog', priority: 0.7, changeFrequency: 'weekly' as const },
