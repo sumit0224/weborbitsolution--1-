@@ -128,10 +128,22 @@
       "namedRegex": "^/cookies(?:/)?$"
     },
     {
+      "page": "/custom-software-development-india",
+      "regex": "^/custom\\-software\\-development\\-india(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/custom\\-software\\-development\\-india(?:/)?$"
+    },
+    {
       "page": "/Home",
       "regex": "^/Home(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/Home(?:/)?$"
+    },
+    {
+      "page": "/mobile-app-development-company",
+      "regex": "^/mobile\\-app\\-development\\-company(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mobile\\-app\\-development\\-company(?:/)?$"
     },
     {
       "page": "/NotFound",
@@ -176,6 +188,12 @@
       "namedRegex": "^/PrivacyPage(?:/)?$"
     },
     {
+      "page": "/react-js-development-company",
+      "regex": "^/react\\-js\\-development\\-company(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/react\\-js\\-development\\-company(?:/)?$"
+    },
+    {
       "page": "/refund",
       "regex": "^/refund(?:/)?$",
       "routeKeys": {},
@@ -192,6 +210,12 @@
       "regex": "^/robots\\.txt(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/seo-services-in-india",
+      "regex": "^/seo\\-services\\-in\\-india(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/seo\\-services\\-in\\-india(?:/)?$"
     },
     {
       "page": "/services",

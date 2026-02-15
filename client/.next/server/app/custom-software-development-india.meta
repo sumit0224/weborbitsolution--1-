@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/custom-software-development-india/layout,_N_T_/custom-software-development-india/page,_N_T_/custom-software-development-india"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/custom-software-development-india/__PAGE__",
+    "/custom-software-development-india",
+    "/_index",
+    "/_head"
+  ]
+}

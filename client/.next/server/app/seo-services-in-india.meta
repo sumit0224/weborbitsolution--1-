@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/seo-services-in-india/layout,_N_T_/seo-services-in-india/page,_N_T_/seo-services-in-india"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/seo-services-in-india/__PAGE__",
+    "/seo-services-in-india",
+    "/_index",
+    "/_head"
+  ]
+}
