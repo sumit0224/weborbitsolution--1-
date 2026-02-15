@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost as BlogPostType } from '../../data/blogPosts';
 
 interface BlogPostProps {
@@ -66,13 +67,14 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
       </header>
 
       <section className="page-container py-10">
-        <img
+        <Image
           src={post.featuredImage.src}
           alt={post.featuredImage.alt}
-          loading="eager"
-          decoding="async"
           width={1600}
           height={900}
+          sizes="(min-width: 1024px) 75vw, 100vw"
+          priority
+          quality={80}
           className="w-full h-[320px] md:h-[480px] object-cover"
         />
       </section>

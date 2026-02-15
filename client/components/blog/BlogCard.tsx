@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost } from '../../data/blogPosts';
 
 interface BlogCardProps {
@@ -20,13 +21,13 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
     <article className="group border border-black/10 bg-white text-black rounded-none overflow-hidden transition-all duration-300 hover:border-primary/60 hover:-translate-y-1">
       <Link href={`/blog/${post.slug}`} className="block focus:outline-none">
         <div className="relative overflow-hidden">
-          <img
+          <Image
             src={post.featuredImage.src}
             alt={post.featuredImage.alt}
-            loading="lazy"
-            decoding="async"
             width={1200}
             height={700}
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+            quality={80}
             className="w-full h-56 md:h-60 object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>

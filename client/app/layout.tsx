@@ -53,15 +53,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           })();`}
         </Script>
 
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TBPMWFC2RV" strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TBPMWFC2RV" strategy="lazyOnload" />
+        <Script id="gtag-init" strategy="lazyOnload">
           {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);} 
             gtag('js', new Date());
             gtag('config', 'G-TBPMWFC2RV');`}
         </Script>
 
-        <Script id="clarity-init" strategy="afterInteractive">
+        <Script id="clarity-init" strategy="lazyOnload">
           {`(function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;

@@ -6,6 +6,7 @@ import { Navigation, Pagination, Parallax } from 'swiper/modules';
 import { Project } from '../types';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Swiper styles are imported in index.html
 
@@ -117,14 +118,13 @@ const Portfolio: React.FC = () => {
         >
           {projects.map((project) => (
             <SwiperSlide key={project.id} className="group cursor-hover relative overflow-hidden rounded-lg">
-              <img
+              <Image
                 src={project.image}
                 alt={`${project.title} ${project.category} website project`}
-                loading="lazy"
-                decoding="async"
-                width={1200}
-                height={800}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
+                quality={80}
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
                 data-swiper-parallax="-20%"
               />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>

@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,10 +88,17 @@ const Hero: React.FC = () => {
       aria-labelledby="hero-heading"
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div
-          className="hero-bg-image absolute inset-0 bg-[url('/images/hero/hero-bg.jpg')] bg-cover bg-center"
-          role="presentation"
-        />
+        <div className="hero-bg-image absolute inset-0" role="presentation">
+          <Image
+            src="/images/hero/hero-bg.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            quality={80}
+            className="object-cover object-center"
+          />
+        </div>
         <div className="hero-bg-overlay absolute inset-0" />
       </div>
 

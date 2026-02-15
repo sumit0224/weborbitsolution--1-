@@ -53,6 +53,8 @@ const About: React.FC = () => {
             src="/images/about/studio.jpg"
             alt="WebOrbitSolution IT services team in Noida, India"
             loading="lazy"
+            width={1200}
+            height={1440}
             className="absolute top-0 left-0 w-full h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 will-change-transform"
           />
         </div>
@@ -68,6 +70,10 @@ const About: React.FC = () => {
             Our team blends strategy, design, and engineering to deliver fast, secure, and SEO-friendly websites plus
             scalable web applications that drive measurable business results.
           </p>
+          <p className="font-body text-lg leading-relaxed text-gray-800 mb-8">
+            As a web development company in India, we prioritize Core Web Vitals, clean architecture, and conversion
+            clarity so your site ranks, loads fast, and generates qualified leads.
+          </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-10">
             Explore our{' '}
             <Link href="/services" className="text-primary font-semibold hover:underline">
@@ -81,7 +87,15 @@ const About: React.FC = () => {
             <Link href="/work" className="text-primary font-semibold hover:underline">
               portfolio of digital work
             </Link>{' '}
-            we have shipped.
+            we have shipped. You can also explore our{' '}
+            <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
+              SEO services in India
+            </Link>{' '}
+            or{' '}
+            <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">
+              React JS development
+            </Link>
+            .
           </p>
 
           <div className="grid grid-cols-2 gap-8 mt-12">
