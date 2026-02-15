@@ -9,16 +9,18 @@ const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isSubscribing, setIsSubscribing] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof document === 'undefined') return 'dark';
-    return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
-  });
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   const applyTheme = (next: 'light' | 'dark') => {
     document.documentElement.dataset.theme = next;
     localStorage.setItem('theme', next);
     window.dispatchEvent(new CustomEvent('theme-change', { detail: next }));
   };
+
+  useEffect(() => {
+    const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    setTheme(current);
+  }, []);
 
   const handleNewsletterSubmit = async (e: FormEvent) => {
     e.preventDefault();
