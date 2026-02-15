@@ -3,11 +3,16 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize';
+import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { z } from 'zod';
 import { Inquiry } from './models/Inquiry.js';
 import { BlogPost } from './models/BlogPost.js';
 import { Order } from './models/Order.js';
@@ -16,6 +21,8 @@ import { sendEmail } from './utils/brevoEmail.js';
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadDir = path.join(__dirname, 'uploads');
@@ -32,6 +39,15 @@ const devOrigins = process.env.NODE_ENV === 'production' ? [] : ['http://localho
 const allowedOrigins = [...new Set([...baseOrigins, ...devOrigins])];
 
 app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
+app.use(mongoSanitize());
+app.use(hpp());
+
+app.use(
   cors({
     origin: allowedOrigins.length > 0 ? allowedOrigins : undefined,
     credentials: true,
@@ -42,6 +58,32 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/uploads', express.static(uploadDir, { maxAge: '365d' }));
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many login attempts. Please try again later.' },
+});
+
+const formLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many form submissions. Please try again later.' },
+});
+
+app.use('/api/', apiLimiter);
 
 const mailEnabled = Boolean(process.env.BREVO_API_KEY && process.env.BREVO_SENDER_EMAIL);
 const adminNotifyEmail = process.env.BREVO_ADMIN_EMAIL || process.env.SMTP_TO || '';
@@ -166,6 +208,81 @@ const slugify = (value) =>
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+
+const stripTags = (value) => String(value || '').replace(/<[^>]*>/g, '').trim();
+
+const cleanText = (max) =>
+  z
+    .string()
+    .transform((val) => stripTags(val))
+    .refine((val) => val.length >= 1 && val.length <= max, {
+      message: `Must be between 1 and ${max} characters.`,
+    });
+
+const optionalText = (max) =>
+  z
+    .string()
+    .optional()
+    .transform((val) => (val ? stripTags(val) : undefined))
+    .refine((val) => !val || val.length <= max, {
+      message: `Must be ${max} characters or less.`,
+    });
+
+const validateBody = (schema) => (req, res, next) => {
+  const result = schema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ error: 'Invalid request payload.', issues: result.error.flatten() });
+  }
+  req.body = result.data;
+  return next();
+};
+
+const inquirySchema = z.object({
+  firstName: cleanText(60),
+  lastName: cleanText(60),
+  email: z.string().email().transform((val) => val.toLowerCase()),
+  message: cleanText(2000),
+});
+
+const adminLoginSchema = z.object({
+  email: z.string().email().transform((val) => val.toLowerCase()),
+  password: z.string().min(8).max(128),
+});
+
+const payuCreateSchema = z.object({
+  planId: z.enum(['launch', 'orbit']),
+  customer: z.object({
+    name: cleanText(120),
+    email: z.string().email().transform((val) => val.toLowerCase()),
+    phone: z.string().min(6).max(20),
+  }),
+});
+
+const postSectionSchema = z.object({
+  heading: cleanText(140),
+  paragraphs: z.array(cleanText(2000)).default([]),
+  bullets: z.array(cleanText(200)).optional(),
+});
+
+const blogPostSchema = z.object({
+  title: cleanText(140),
+  slug: optionalText(140),
+  excerpt: cleanText(300),
+  date: optionalText(32),
+  readTime: optionalText(40),
+  author: cleanText(120),
+  category: cleanText(120),
+  featuredImage: z.object({
+    src: z.string().url(),
+    alt: cleanText(160),
+  }),
+  sections: z.array(postSectionSchema).optional(),
+  metaTitle: optionalText(160),
+  metaDescription: optionalText(200),
+  published: z.boolean().optional(),
+});
+
+const blogPostUpdateSchema = blogPostSchema.partial();
 
 // --- PayU Config ---
 
@@ -383,7 +500,7 @@ app.get('/api/health', (req, res) => {
 
 // --- PayU Payments ---
 
-app.post('/api/payments/payu/create', async (req, res) => {
+app.post('/api/payments/payu/create', validateBody(payuCreateSchema), async (req, res) => {
   try {
     const configCheck = ensurePayuConfigured();
     if (!configCheck.ok) {
@@ -517,13 +634,9 @@ const handlePayuCallback = async (req, res, fallbackStatus) => {
 app.post('/api/payments/payu/success', (req, res) => handlePayuCallback(req, res, 'success'));
 app.post('/api/payments/payu/failure', (req, res) => handlePayuCallback(req, res, 'failure'));
 
-app.post('/api/inquiry', async (req, res) => {
+app.post('/api/inquiry', formLimiter, validateBody(inquirySchema), async (req, res) => {
   try {
     const { firstName, lastName, email, message } = req.body;
-
-    if (!firstName || !lastName || !email || !message) {
-      return res.status(400).json({ error: 'Missing required fields.' });
-    }
 
     const inquiry = await Inquiry.create({
       firstName,
@@ -565,7 +678,7 @@ app.post('/api/inquiry', async (req, res) => {
 
 // --- Admin Auth ---
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', authLimiter, validateBody(adminLoginSchema), (req, res) => {
   const { email, password } = req.body || {};
 
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
@@ -634,7 +747,7 @@ app.get('/api/admin/posts', requireAdmin, async (req, res) => {
   }
 });
 
-app.post('/api/admin/uploads', requireAdmin, (req, res) => {
+app.post('/api/admin/uploads', requireAdmin, formLimiter, (req, res) => {
   upload.single('image')(req, res, (error) => {
     if (error) {
       return res.status(400).json({ error: error.message || 'Upload failed.' });
@@ -648,7 +761,7 @@ app.post('/api/admin/uploads', requireAdmin, (req, res) => {
   });
 });
 
-app.post('/api/admin/posts', requireAdmin, async (req, res) => {
+app.post('/api/admin/posts', requireAdmin, formLimiter, validateBody(blogPostSchema), async (req, res) => {
   try {
     const {
       title,
@@ -664,10 +777,6 @@ app.post('/api/admin/posts', requireAdmin, async (req, res) => {
       metaDescription,
       published = true,
     } = req.body || {};
-
-    if (!title || !excerpt || !author || !category || !featuredImage?.src || !featuredImage?.alt) {
-      return res.status(400).json({ error: 'Missing required fields.' });
-    }
 
     const finalSlug = slug ? slugify(slug) : slugify(title);
     const finalDate = date || new Date().toISOString().split('T')[0];
@@ -694,7 +803,7 @@ app.post('/api/admin/posts', requireAdmin, async (req, res) => {
   }
 });
 
-app.put('/api/admin/posts/:id', requireAdmin, async (req, res) => {
+app.put('/api/admin/posts/:id', requireAdmin, formLimiter, validateBody(blogPostUpdateSchema), async (req, res) => {
   try {
     const updates = { ...req.body };
     if (updates.slug) {

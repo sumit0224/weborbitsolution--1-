@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Viewport } from 'next';
 import Script from 'next/script';
+import { headers } from 'next/headers';
 import SiteLayout from '../layouts/SiteLayout';
 import LoaderCleanup from './LoaderCleanup';
 import './globals.css';
@@ -19,6 +20,8 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const nonce = headers().get('x-nonce') || undefined;
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body>
@@ -45,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SiteLayout>{children}</SiteLayout>
         <LoaderCleanup />
 
-        <Script id="theme-init" strategy="beforeInteractive">
+        <Script id="theme-init" strategy="beforeInteractive" nonce={nonce}>
           {`(function () {
             const stored = localStorage.getItem('theme');
             const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
@@ -53,15 +56,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           })();`}
         </Script>
 
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TBPMWFC2RV" strategy="lazyOnload" />
-        <Script id="gtag-init" strategy="lazyOnload">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TBPMWFC2RV" strategy="lazyOnload" nonce={nonce} />
+        <Script id="gtag-init" strategy="lazyOnload" nonce={nonce}>
           {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);} 
             gtag('js', new Date());
             gtag('config', 'G-TBPMWFC2RV');`}
         </Script>
 
-        <Script id="clarity-init" strategy="lazyOnload">
+        <Script id="clarity-init" strategy="lazyOnload" nonce={nonce}>
           {`(function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
