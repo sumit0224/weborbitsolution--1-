@@ -108,8 +108,9 @@ const Contact: React.FC = () => {
                 Get a Free Quote
               </h2>
               <p className="text-xl md:text-2xl text-gray-400 font-light max-w-md leading-relaxed">
-                Tell us about your goals for website development, web & app development, UI/UX design, SEO services,
-                digital marketing, or IT consulting. We respond within 24 hours with a clear plan and next steps.
+                Tell us about your goals for website development, web & app development, UI/UX design, or SEO services.
+                We reply within 24 hours with a clear scope, timeline, and a conversion-focused plan tailored to your
+                business.
               </p>
             </div>
 

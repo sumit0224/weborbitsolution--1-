@@ -72,7 +72,7 @@ const Portfolio: React.FC = () => {
 
       <div className="page-container mb-12 flex flex-col gap-8 md:flex-row md:justify-between md:items-end">
         <div>
-          <h2 className="font-heading text-2xl md:text-4xl text-white mb-4">Selected Work</h2>
+          <h2 className="font-heading text-2xl md:text-4xl text-white mb-4">Web Design & Development Portfolio in India</h2>
           <p className="text-primary font-body uppercase tracking-widest text-sm">Showcase 2024-2025</p>
           <p className="text-gray-400 text-sm mt-4">
             See more on the{' '}
@@ -80,6 +80,10 @@ const Portfolio: React.FC = () => {
               web design portfolio
             </Link>
             .
+          </p>
+          <p className="text-gray-400 text-sm mt-3 max-w-md">
+            These projects highlight conversion-focused UI/UX, SEO-ready architecture, and performance-first builds
+            for startups and growing brands across India.
           </p>
         </div>
         

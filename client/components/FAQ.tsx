@@ -11,24 +11,24 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: "What’s your typical process for a new project?",
-    answer: "We believe in a collaborative approach. It starts with Discovery to understand your goals, followed by Strategy & Design where we shape the visual direction. Once approved, we move to Development using modern frameworks, and finally, Launch & Support to ensure everything runs smoothly."
+    question: "How much does website development cost in India?",
+    answer: "Website development pricing depends on scope, content, and features. We offer fixed-scope packages for startups and custom quotes for complex builds, with clear line items for design, development, SEO setup, and support."
   },
   {
-    question: "How long does a project usually take?",
-    answer: "Timelines vary depending on scope and complexity. A standard corporate website typically takes 4-6 weeks, while comprehensive e-commerce or web applications can take 3-6 months. We provide a detailed timeline during our proposal phase."
+    question: "How long does it take to build a website?",
+    answer: "Most marketing websites take a few weeks once content is ready, while ecommerce or web applications take longer. After discovery, we provide a delivery timeline with key milestones and review points."
   },
   {
-    question: "Do you offer packages or custom quotes?",
-    answer: "Both. We have streamlined packages for startups and small businesses, but for larger or unique projects, we provide custom quotes tailored to your specific requirements and goals to ensure you're not paying for things you don't need."
+    question: "Do you include SEO with website development?",
+    answer: "Yes. Every build includes SEO-ready structure, optimized metadata, clean code, and performance best practices. We can also add ongoing SEO services for content and rankings."
   },
   {
-    question: "What’s included in a branding package?",
-    answer: "Our branding packages are comprehensive. They typically include Logo Design, Color Palette, Typography System, Brand Guidelines, and Social Media Assets. We can also include stationery and marketing collateral design upon request."
+    question: "What tech stack do you use for web and app development?",
+    answer: "We use modern stacks like React and Next.js for frontend, plus Node.js and scalable APIs where needed. The stack is selected based on performance, SEO, and long-term maintainability."
   },
   {
-    question: "Can you work with our existing dev or marketing team?",
-    answer: "Absolutely. We act as an extension of your team. Whether you need us to handle just the UI/UX while your team handles backend, or if you need us to build a site that your marketing team populates, we adapt to your workflow."
+    question: "Can you redesign an existing website and improve Core Web Vitals?",
+    answer: "Yes. We audit your current site, fix performance bottlenecks, optimize assets, and improve LCP, CLS, and INP so your site loads faster and ranks better."
   }
 ];
 

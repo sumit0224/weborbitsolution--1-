@@ -12,15 +12,19 @@ const BlogSection: React.FC = () => {
           <div>
             <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Blog</p>
             <h2 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
-              Latest
+              Web Development
               <br />
-              Insights
+              SEO Insights
             </h2>
           </div>
           <div className="max-w-xl">
             <p className="text-gray-400 text-lg md:text-xl">
-              Actionable guidance on website development, SEO, ecommerce, and growth for teams building modern digital
-              experiences.
+              Actionable guidance on website development, SEO services, ecommerce, and growth for teams building modern
+              digital experiences in India.
+            </p>
+            <p className="text-gray-400 text-sm mt-4">
+              We publish practical playbooks on website development cost in India, technical SEO, and performance
+              optimization to help startups and local businesses rank faster.
             </p>
             <Link
               href="/blog"

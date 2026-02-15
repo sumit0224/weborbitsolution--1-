@@ -35,7 +35,9 @@ const Testimonials: React.FC = () => {
               </h2>
             </div>
             <p className="text-gray-400 text-lg md:text-xl max-w-xl">
-              We partner with ambitious founders and teams who want digital experiences that feel intentional, fast, and unforgettable.
+              We partner with ambitious founders and teams who need websites that load fast, rank on Google, and
+              convert. As a web development company in India, we measure success by search visibility, qualified leads,
+              and consistent growth.
             </p>
           </div>
 

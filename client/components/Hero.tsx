@@ -113,9 +113,10 @@ const Hero: React.FC = () => {
             </h1>
 
             <p className="hero-sub mt-6 text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl">
-              WebOrbitSolution is a web development company in India delivering website development, web & app
-              development, UI/UX design, SEO services, digital marketing, and IT consulting for startups, small
-              businesses, and growing companies. Get a clear plan, fast delivery, and measurable results.
+              WebOrbitSolution is a web development company in India, based in Noida, delivering custom website
+              development, ecommerce builds, and SEO-ready web applications for startups, agencies, and local
+              businesses. We align strategy, UI/UX design, and engineering to ship fast Core Web Vitals, clean
+              architecture, and conversion-focused experiences that scale with your growth.
             </p>
 
             <div className="hero-cta mt-8 flex flex-wrap items-center gap-4">

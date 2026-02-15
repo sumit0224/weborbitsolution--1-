@@ -160,7 +160,16 @@ const Services: React.FC = () => {
       <div className="page-container relative z-10">
         {/* Header */}
         <div className="flex justify-start md:justify-center mb-16 md:mb-24">
-          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">IT Services</h2>
+          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">
+            Web Development & SEO Services in India
+          </h2>
+        </div>
+
+        <div className="max-w-3xl ml-auto mb-10 text-right text-gray-400 text-sm md:text-base">
+          We deliver web development services in India, including custom website development, app development, UI/UX
+          design, SEO services, and digital marketing. Every engagement is built for performance, ranking, and
+          measurable outcomes so your website loads fast, communicates value clearly, and converts visitors into
+          qualified leads.
         </div>
 
         {/* List */}
@@ -190,9 +199,17 @@ const Services: React.FC = () => {
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row md:items-center md:justify-end gap-4 text-gray-400 text-sm">
-          <span>Need the full IT services breakdown?</span>
+          <span>Need the full services breakdown?</span>
           <Link href="/services" className="text-primary font-semibold hover:underline">
-            Explore IT services in India
+            Explore web development services in India
+          </Link>
+          <span className="hidden md:inline">·</span>
+          <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
+            SEO services in India
+          </Link>
+          <span className="hidden md:inline">·</span>
+          <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">
+            React JS development
           </Link>
           <span className="hidden md:inline">·</span>
           <Link href="/contact" className="text-primary font-semibold hover:underline">
