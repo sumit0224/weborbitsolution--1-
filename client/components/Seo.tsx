@@ -38,14 +38,14 @@ const upsertLinkTag = (rel: string, href: string) => {
 
 const upsertJsonLd = (data?: Record<string, unknown> | Array<Record<string, unknown>>) => {
   const id = 'seo-jsonld';
-  const existing = document.getElementById(id);
+  const existing = document.getElementById(id) as HTMLScriptElement | null;
   if (!data) {
     if (existing) {
       existing.remove();
     }
     return;
   }
-  const script = existing || document.createElement('script');
+  const script: HTMLScriptElement = existing || document.createElement('script');
   script.id = id;
   script.type = 'application/ld+json';
   script.textContent = JSON.stringify(data);

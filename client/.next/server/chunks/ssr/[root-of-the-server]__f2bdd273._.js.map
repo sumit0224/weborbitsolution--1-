@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../app/404/page.tsx"],"sourcesContent":["import NotFound from '../../pages/NotFound';\n\nexport default function Page() {\n  return <NotFound />;\n}\n"],"names":[],"mappings":"oVAAA,EAAA,EAAA,CAAA,CAAA,OAEe,SAAS,IACtB,MAAO,CAAA,EAAA,EAAA,GAAA,EAAC,EAAA,OAAQ,CAAA,CAAA,EAClB"}

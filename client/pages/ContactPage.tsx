@@ -7,7 +7,7 @@ import Seo from '../components/Seo';
 
 const ContactPage: React.FC = () => {
   const searchParams = useSearchParams();
-  const planName = searchParams.get('plan') || undefined;
+  const planName = searchParams?.get('plan') || undefined;
 
   return (
     <section className="bg-black text-white pt-32">

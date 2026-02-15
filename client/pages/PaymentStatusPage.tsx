@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 const PaymentStatusPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const status = (searchParams.get('status') || '').toLowerCase();
-  const txnid = searchParams.get('txnid');
+  const searchParams = useSearchParams();
+  const status = (searchParams?.get('status') || '').toLowerCase();
+  const txnid = searchParams?.get('txnid');
   const isSuccess = status === 'success';
   const isVerificationFailed = status === 'verification_failed';
 
