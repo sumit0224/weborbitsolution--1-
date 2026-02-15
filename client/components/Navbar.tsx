@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { NavItem } from '../types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -243,7 +244,14 @@ const Navbar: React.FC = () => {
             href="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
-            <img src={logoSrc} alt="WebOrbit Logo" className="w-40 h-20  object-contain" />
+            <Image
+              src={logoSrc}
+              alt="WebOrbit Logo"
+              width={160}
+              height={80}
+              priority
+              className="w-40 h-20 object-contain"
+            />
 
           </Link>
 

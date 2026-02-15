@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import Seo from '../components/Seo';
 
 const ServicesPage: React.FC = () => {
   useEffect(() => {
@@ -207,34 +206,8 @@ const ServicesPage: React.FC = () => {
     },
   ];
 
-  const servicesJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Web Development and SEO Services',
-    serviceType: [
-      'Website Development',
-      'Web & App Development',
-      'UI/UX Design',
-      'SEO Services',
-      'Digital Marketing',
-      'IT Consulting & Support',
-    ],
-    areaServed: ['India', 'Noida', 'Delhi NCR'],
-    provider: {
-      '@type': 'Organization',
-      name: 'WebOrbitSolution',
-      url: 'https://www.weborbitsolution.in',
-    },
-  };
-
   return (
     <section className="bg-black text-white pt-32 pb-20">
-      <Seo
-        title="Web Development Company in India | SEO Services in Noida"
-        description="WebOrbitSolution is a web development company in India offering website development, SEO services in Noida, digital marketing, and IT consulting for startups and growing businesses."
-        path="/services"
-        jsonLd={servicesJsonLd}
-      />
       <div className="px-6 md:px-12 mb-16 scroll-reveal">
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Services</p>
           <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">

@@ -3,16 +3,10 @@
 import React from 'react';
 import About from '../components/About';
 import Manifesto from '../components/Manifesto';
-import Seo from '../components/Seo';
 
 const AboutPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32">
-      <Seo
-        title="About WebOrbitSolution | IT Services & Digital Agency in India"
-        description="Meet WebOrbitSolution, an India-based IT services and digital solutions agency delivering web development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing companies."
-        path="/about"
-      />
       <div className="px-6 md:px-12 mb-12">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Who We Are</p>
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">

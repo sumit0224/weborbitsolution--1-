@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Seo from '../../components/Seo';
 
 const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -40,11 +39,6 @@ const AdminLoginPage: React.FC = () => {
 
   return (
     <section className="bg-black text-white min-h-screen pt-32 pb-20 font-body-alt">
-      <Seo
-        title="Admin Login | WebOrbitSolution"
-        description="Admin access for WebOrbitSolution blog management."
-        path="/admin/login"
-      />
       <div className="page-container max-w-2xl">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Admin</p>
         <h1 className="mt-4 text-3xl md:text-5xl font-heading">Sign In</h1>

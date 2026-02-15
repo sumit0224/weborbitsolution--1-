@@ -1,17 +1,11 @@
 'use client';
 
 import React from 'react';
-import Seo from '../components/Seo';
 import BlogList from '../components/blog/BlogList';
 
 const BlogPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32 pb-24 font-body-alt">
-      <Seo
-        title="WebOrbit Journal | Web Design, Development & SEO Insights"
-        description="Read WebOrbitSolution insights on web design, web development, branding, and SEO. Practical guides for modern teams building fast, high-converting websites."
-        path="/blog"
-      />
       <div className="page-container">
         <div className="max-w-3xl">
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Insights</p>

@@ -3,16 +3,10 @@
 import React from 'react';
 import Portfolio from '../components/Portfolio';
 import StartProject from '../components/StartProject';
-import Seo from '../components/Seo';
 
 const WorkPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32">
-      <Seo
-        title="Portfolio | WebOrbitSolution Web Design & Development Work"
-        description="View selected WebOrbitSolution projects in web design, development, and branding. See how we build premium digital experiences for modern teams."
-        path="/work"
-      />
       <div className="px-6 md:px-12 mb-12">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Selected Work</p>
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { Viewport } from 'next';
 import Script from 'next/script';
 import SiteLayout from '../layouts/SiteLayout';
 import LoaderCleanup from './LoaderCleanup';
@@ -6,6 +7,16 @@ import './globals.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { baseMetadata } from '../lib/seo';
+
+export const metadata = baseMetadata;
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#000000',
+  colorScheme: 'light dark',
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

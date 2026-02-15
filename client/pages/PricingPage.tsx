@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Seo from '../components/Seo';
 import Pricing from '../components/Pricing';
 
 const faqItems = [
@@ -28,19 +27,6 @@ const faqItems = [
 ];
 
 const PricingPage: React.FC = () => {
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  };
-
   const pricingSections = [
     {
       id: 'website-development',
@@ -228,12 +214,6 @@ const PricingPage: React.FC = () => {
 
   return (
     <section className="bg-black text-white pt-32 pb-24">
-      <Seo
-        title="IT Services Pricing in India | Web & App Development"
-        description="Transparent pricing for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT support in India. Compare packages and choose the right scope."
-        path="/pricing"
-        jsonLd={faqJsonLd}
-      />
       <div className="page-container">
         <div className="max-w-3xl">
           <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing</p>

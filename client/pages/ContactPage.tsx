@@ -3,7 +3,6 @@
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import Contact from '../components/Contact';
-import Seo from '../components/Seo';
 
 const ContactPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -11,11 +10,6 @@ const ContactPage: React.FC = () => {
 
   return (
     <section className="bg-black text-white pt-32">
-      <Seo
-        title="Contact WebOrbitSolution | IT Services in India"
-        description="Contact WebOrbitSolution for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting. Get a clear plan and quote within 24 hours."
-        path="/contact"
-      />
       <div className="px-6 md:px-12 mb-12">
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Let’s Talk</p>
         <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">

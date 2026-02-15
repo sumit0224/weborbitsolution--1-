@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Seo from '../components/Seo';
 import BlogPost from '../components/blog/BlogPost';
 import { BlogPost as BlogPostType, blogPosts } from '../data/blogPosts';
 import NotFound from './NotFound';
@@ -65,45 +64,8 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (typeof window === 'undefined' ? '' : window.location.origin);
-  const blogJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.metaDescription || post.excerpt,
-    image: [post.featuredImage.src],
-    datePublished: post.date,
-    dateModified: post.date,
-    author: {
-      '@type': 'Organization',
-      name: post.author,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'WebOrbitSolution',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${baseUrl}/favicon.png`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${baseUrl}/blog/${post.slug}`,
-    },
-  };
-
   return (
     <>
-      <Seo
-        title={post.metaTitle ? `${post.metaTitle} | WebOrbitSolution` : `${post.title} | WebOrbitSolution`}
-        description={post.metaDescription || post.excerpt}
-        path={`/blog/${post.slug}`}
-        image={post.featuredImage.src}
-        type="article"
-        jsonLd={blogJsonLd}
-      />
       <BlogPost post={post} />
     </>
   );

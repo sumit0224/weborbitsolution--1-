@@ -12,44 +12,11 @@ import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import StartProject from '../components/StartProject';
-import Seo from '../components/Seo';
 
 const Home: React.FC = () => {
-  const orgJsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'WebOrbitSolution',
-      url: 'https://www.weborbitsolution.in',
-      logo: 'https://www.weborbitsolution.in/favicon.png',
-      sameAs: [],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'WebOrbitSolution',
-      url: 'https://www.weborbitsolution.in',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Noida',
-        addressRegion: 'UP',
-        addressCountry: 'IN',
-      },
-      areaServed: ['IN', 'Noida', 'Delhi NCR'],
-      priceRange: '$$',
-    },
-  ];
-
   return (
     
      <>
-      <Seo
-        title="Web Development Company in India | WebOrbitSolution"
-        description="WebOrbitSolution is a web development company in India, based in Noida, delivering website development, SEO services, digital marketing, and IT consulting for startups and growing businesses."
-        path="/"
-        jsonLd={orgJsonLd}
-      />
-
   {/* Above the fold */}
   <Hero />
   <Manifesto />

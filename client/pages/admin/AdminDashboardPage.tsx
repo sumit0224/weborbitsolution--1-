@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Seo from '../../components/Seo';
 import { BlogPost as BlogPostType } from '../../data/blogPosts';
 
 interface SectionDraft {
@@ -151,11 +150,6 @@ const AdminDashboardPage: React.FC = () => {
 
   return (
     <section className="bg-black text-white min-h-screen pt-28 pb-20 font-body-alt">
-      <Seo
-        title="Blog Admin | WebOrbitSolution"
-        description="Manage WebOrbitSolution blog posts."
-        path="/admin"
-      />
       <div className="page-container">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
