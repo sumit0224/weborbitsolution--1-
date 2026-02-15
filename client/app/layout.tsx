@@ -3,6 +3,9 @@ import Script from 'next/script';
 import SiteLayout from '../layouts/SiteLayout';
 import LoaderCleanup from './LoaderCleanup';
 import './globals.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
