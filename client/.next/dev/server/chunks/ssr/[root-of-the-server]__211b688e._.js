@@ -74,7 +74,7 @@ const Navbar = ()=>{
     const [isDrawerOpen, setIsDrawerOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isLightTheme, setIsLightTheme] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
-    const isBlogDetail = pathname.startsWith('/blog/');
+    const isBlogDetail = pathname?.startsWith('/blog/') ?? false;
     const useLightNav = isBlogDetail || isLightTheme;
     const navBgClass = isScrolled ? useLightNav ? 'py-4 bg-white/90 backdrop-blur-md border-b border-black/10' : 'py-4 bg-black/85 backdrop-blur-md border-b border-white/10' : useLightNav ? 'py-4 md:py-5 bg-white/70 backdrop-blur-md' : 'py-4 md:py-5 bg-black/60 backdrop-blur-md';
     const navTextClass = useLightNav ? 'text-black' : 'text-white';

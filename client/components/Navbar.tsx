@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLightTheme, setIsLightTheme] = useState(false);
   const pathname = usePathname();
-  const isBlogDetail = pathname.startsWith('/blog/');
+  const isBlogDetail = pathname?.startsWith('/blog/') ?? false;
   const useLightNav = isBlogDetail || isLightTheme;
   const navBgClass = isScrolled
     ? useLightNav

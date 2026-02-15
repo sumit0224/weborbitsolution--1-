@@ -70,3 +70,8 @@ If you are not trying to use TypeScript, please remove the tsconfig.json file fr
 [00:18:50.051] Browser WARN    GSAP target .hero-visual not found. https://gsap.com
 [00:18:50.051] Browser WARN    GSAP target  not found. https://gsap.com
 [00:18:50.051] Browser WARN    GSAP target .bg-gradient-blob not found. https://gsap.com
+[00:33:31.697] Server  LOG     ✓ Compiled in 227ms
+[00:34:03.934] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:04.107] Browser WARN    GSAP target .hero-visual not found. https://gsap.com
+[00:34:04.107] Browser WARN    GSAP target  not found. https://gsap.com
+[00:34:04.107] Browser WARN    GSAP target .bg-gradient-blob not found. https://gsap.com
