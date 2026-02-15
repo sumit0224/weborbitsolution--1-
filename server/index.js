@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import app, { connectDb } from './app.js';
+import { seedBlogPosts } from './utils/seedBlogPosts.js';
 
 dotenv.config();
 
@@ -9,6 +10,12 @@ const start = async () => {
   try {
     await connectDb();
     console.log('MongoDB connected');
+
+    try {
+      await seedBlogPosts();
+    } catch (error) {
+      console.error('Blog seed failed:', error);
+    }
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
