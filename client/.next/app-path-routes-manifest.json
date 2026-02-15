@@ -1,0 +1,21 @@
+{
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/_not-found/page": "/_not-found",
+  "/404/page": "/404",
+  "/about/page": "/about",
+  "/contact/page": "/contact",
+  "/payment-status/page": "/payment-status",
+  "/page": "/",
+  "/blog/page": "/blog",
+  "/cookies/page": "/cookies",
+  "/admin/login/page": "/admin/login",
+  "/refund/page": "/refund",
+  "/admin/page": "/admin",
+  "/terms/page": "/terms",
+  "/services/page": "/services",
+  "/work/page": "/work",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/privacy/page": "/privacy",
+  "/pricing/page": "/pricing"
+}

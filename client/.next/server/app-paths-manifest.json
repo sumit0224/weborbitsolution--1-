@@ -1,0 +1,21 @@
+{
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/404/page": "app/404/page.js",
+  "/about/page": "app/about/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/payment-status/page": "app/payment-status/page.js",
+  "/page": "app/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/cookies/page": "app/cookies/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/refund/page": "app/refund/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/terms/page": "app/terms/page.js",
+  "/services/page": "app/services/page.js",
+  "/work/page": "app/work/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/pricing/page": "app/pricing/page.js"
+}
