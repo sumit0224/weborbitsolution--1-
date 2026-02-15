@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://weborbitsolution.in';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.weborbitsolution.in';
 const ogImage =
   process.env.NEXT_PUBLIC_OG_IMAGE ||
   'https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80';

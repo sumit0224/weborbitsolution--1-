@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const CANONICAL_HOST = 'weborbitsolution.in';
+const CANONICAL_HOST = 'www.weborbitsolution.in';
 const DEV_HOSTS = new Set(['localhost', '127.0.0.1']);
 
 export function middleware(req: NextRequest) {
