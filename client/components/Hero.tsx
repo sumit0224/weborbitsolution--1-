@@ -38,17 +38,36 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.2 });
+      const root = containerRef.current;
+      const lineEls = root ? Array.from(root.querySelectorAll('.hero-line-inner')) : [];
+      const subEls = root ? Array.from(root.querySelectorAll('.hero-sub')) : [];
+      const ctaEls = root ? Array.from(root.querySelectorAll('.hero-cta')) : [];
+      const visualEls = root ? Array.from(root.querySelectorAll('.hero-visual')) : [];
+      const scrollEls = root ? Array.from(root.querySelectorAll('.hero-scroll')) : [];
 
-      tl.from('.hero-line-inner', animationConfig.lineReveal)
-        .from('.hero-sub', animationConfig.fadeUp, '-=0.5')
-        .from('.hero-cta', animationConfig.fadeUp, '-=0.7')
-        .from('.hero-visual', animationConfig.fadeUp, '-=0.6')
-        .from('.hero-scroll', animationConfig.fadeDown, '-=0.8');
+      if (lineEls.length) {
+        tl.from(lineEls, animationConfig.lineReveal);
+      }
+      if (subEls.length) {
+        tl.from(subEls, animationConfig.fadeUp, '-=0.5');
+      }
+      if (ctaEls.length) {
+        tl.from(ctaEls, animationConfig.fadeUp, '-=0.7');
+      }
+      if (visualEls.length) {
+        tl.from(visualEls, animationConfig.fadeUp, '-=0.6');
+      }
+      if (scrollEls.length) {
+        tl.from(scrollEls, animationConfig.fadeDown, '-=0.8');
+      }
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!prefersReducedMotion) {
-        gsap.to('.bg-gradient-blob', animationConfig.blobRotation);
+        const blobs = root ? Array.from(root.querySelectorAll('.bg-gradient-blob')) : [];
+        if (blobs.length) {
+          gsap.to(blobs, animationConfig.blobRotation);
+        }
       }
     }, containerRef.current || undefined);
 
