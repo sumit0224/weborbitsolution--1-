@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /admin/login
 Disallow: /payment-status
 
-Sitemap: https://www.weborbitsolution.in/sitemap.xml
+Sitemap: https://weborbitsolution.in/sitemap.xml

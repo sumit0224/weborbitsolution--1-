@@ -160,7 +160,7 @@ const Services: React.FC = () => {
       <div className="page-container relative z-10">
         {/* Header */}
         <div className="flex justify-start md:justify-center mb-16 md:mb-24">
-          <h2 className="font-heading [filter:url('#liquid-flow')]  text-primary text-2xl md:text-3xl -rotate-6">
+          <h2 className="font-heading [filter:url('#liquid-flow')] text-primary text-2xl md:text-3xl">
             Web Development & SEO Services in India
           </h2>
         </div>
