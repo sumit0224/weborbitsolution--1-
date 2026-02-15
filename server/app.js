@@ -4,6 +4,10 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 import cookieParser from 'cookie-parser';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { Inquiry } from './models/Inquiry.js';
 import { BlogPost } from './models/BlogPost.js';
 import { Order } from './models/Order.js';
@@ -12,6 +16,13 @@ import { sendEmail } from './utils/brevoEmail.js';
 dotenv.config();
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const baseOrigins = (process.env.CLIENT_ORIGIN || '')
   .split(',')
@@ -30,6 +41,7 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/uploads', express.static(uploadDir, { maxAge: '365d' }));
 
 const mailEnabled = Boolean(process.env.BREVO_API_KEY && process.env.BREVO_SENDER_EMAIL);
 const adminNotifyEmail = process.env.BREVO_ADMIN_EMAIL || process.env.SMTP_TO || '';
@@ -50,6 +62,31 @@ const sendMail = async ({ to, subject, html, replyTo }) => {
     throw new Error(result.error || 'Brevo send failed.');
   }
 };
+
+const uploadStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    const suffix = crypto.randomBytes(8).toString('hex');
+    cb(null, `${Date.now()}-${suffix}${ext}`);
+  },
+});
+
+const upload = multer({
+  storage: uploadStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed.'));
+    }
+    return cb(null, true);
+  },
+});
+
+const getPublicBaseUrl = (req) =>
+  process.env.SERVER_PUBLIC_URL || `${req.protocol}://${req.get('host')}`;
 
 // --- Admin Session Helpers ---
 
@@ -595,6 +632,20 @@ app.get('/api/admin/posts', requireAdmin, async (req, res) => {
     console.error('Admin posts error:', error);
     res.status(500).json({ error: 'Failed to load posts.' });
   }
+});
+
+app.post('/api/admin/uploads', requireAdmin, (req, res) => {
+  upload.single('image')(req, res, (error) => {
+    if (error) {
+      return res.status(400).json({ error: error.message || 'Upload failed.' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'Image file is required.' });
+    }
+    const baseUrl = getPublicBaseUrl(req);
+    const url = `${baseUrl}/uploads/${req.file.filename}`;
+    res.json({ url, filename: req.file.filename });
+  });
 });
 
 app.post('/api/admin/posts', requireAdmin, async (req, res) => {

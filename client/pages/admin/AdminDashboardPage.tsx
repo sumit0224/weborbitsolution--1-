@@ -29,6 +29,7 @@ const AdminDashboardPage: React.FC = () => {
   const [posts, setPosts] = useState<BlogPostType[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [form, setForm] = useState(emptyForm);
+  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
   const [sections, setSections] = useState<SectionDraft[]>([
     { heading: '', paragraphs: '', bullets: '' },
   ]);
@@ -79,6 +80,22 @@ const AdminDashboardPage: React.FC = () => {
       setActionStatus('saving');
       setActionMessage('');
 
+      if (!featuredImageFile) {
+        throw new Error('Featured image file is required.');
+      }
+
+      const imageFormData = new FormData();
+      imageFormData.append('image', featuredImageFile);
+      const uploadResponse = await fetch(`${baseUrl}/api/admin/uploads`, {
+        method: 'POST',
+        body: imageFormData,
+        credentials: 'include',
+      });
+      const uploadData = await uploadResponse.json();
+      if (!uploadResponse.ok) {
+        throw new Error(uploadData?.error || 'Failed to upload image.');
+      }
+
       const parsedSections = sections
         .filter((section) => section.heading.trim())
         .map((section) => ({
@@ -102,7 +119,7 @@ const AdminDashboardPage: React.FC = () => {
         author: form.author,
         category: form.category,
         featuredImage: {
-          src: form.featuredImageSrc,
+          src: uploadData.url,
           alt: form.featuredImageAlt,
         },
         sections: parsedSections,
@@ -126,6 +143,7 @@ const AdminDashboardPage: React.FC = () => {
       setActionStatus('success');
       setActionMessage('Post created successfully.');
       setForm(emptyForm);
+      setFeaturedImageFile(null);
       setSections([{ heading: '', paragraphs: '', bullets: '' }]);
       loadPosts();
     } catch (error) {
@@ -255,10 +273,11 @@ const AdminDashboardPage: React.FC = () => {
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-xs uppercase tracking-[0.3em] text-gray-500">Featured Image URL (WebP)</label>
+                <label className="text-xs uppercase tracking-[0.3em] text-gray-500">Featured Image (Upload)</label>
                 <input
-                  value={form.featuredImageSrc}
-                  onChange={(event) => setForm({ ...form, featuredImageSrc: event.target.value })}
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => setFeaturedImageFile(event.target.files?.[0] || null)}
                   className="w-full bg-black border border-white/10 p-3 text-white focus:outline-none focus:border-primary"
                   required
                 />
