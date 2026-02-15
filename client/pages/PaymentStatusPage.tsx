@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 const PaymentStatusPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -33,13 +36,13 @@ const PaymentStatusPage: React.FC = () => {
           )}
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
-              to="/pricing"
+              href="/pricing"
               className="inline-flex items-center justify-center px-6 py-3 bg-primary text-black text-xs uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors"
             >
               View Pricing
             </Link>
             <Link
-              to="/contact"
+              href="/contact"
               className="inline-flex items-center justify-center px-6 py-3 border border-white/30 text-white text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
             >
               Contact Support

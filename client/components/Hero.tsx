@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useEffect, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,13 +101,13 @@ const Hero: React.FC = () => {
 
             <div className="hero-cta mt-8 flex flex-wrap items-center gap-4">
               <Link
-                to="/contact"
+                href="/contact"
                 className="inline-flex items-center justify-center px-6 py-3 bg-primary text-black text-xs sm:text-sm uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors"
               >
                 Start Your Project
               </Link>
               <Link
-                to="/services"
+                href="/services"
                 className="inline-flex items-center justify-center px-6 py-3 border border-white/30 text-white text-xs sm:text-sm uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
               >
                 View Services

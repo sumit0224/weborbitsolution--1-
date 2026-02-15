@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import Seo from '../../components/Seo';
 
 const AdminLoginPage: React.FC = () => {
@@ -7,14 +9,14 @@ const AdminLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       setStatus('loading');
       setErrorMessage('');
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
       const response = await fetch(`${baseUrl}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -27,7 +29,7 @@ const AdminLoginPage: React.FC = () => {
         throw new Error(data?.error || 'Login failed.');
       }
 
-      navigate('/admin');
+      router.push('/admin');
     } catch (error) {
       setStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Login failed.');

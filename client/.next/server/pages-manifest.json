@@ -1,0 +1,21 @@
+{
+  "/AboutPage": "pages/AboutPage.js",
+  "/BlogPage": "pages/BlogPage.js",
+  "/BlogPostPage": "pages/BlogPostPage.js",
+  "/ContactPage": "pages/ContactPage.js",
+  "/CookiePolicyPage": "pages/CookiePolicyPage.js",
+  "/Home": "pages/Home.js",
+  "/NotFound": "pages/NotFound.js",
+  "/PaymentStatusPage": "pages/PaymentStatusPage.js",
+  "/PricingPage": "pages/PricingPage.js",
+  "/PrivacyPage": "pages/PrivacyPage.js",
+  "/RefundPolicyPage": "pages/RefundPolicyPage.js",
+  "/ServicesPage": "pages/ServicesPage.js",
+  "/TermsPage": "pages/TermsPage.js",
+  "/WorkPage": "pages/WorkPage.js",
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/admin/AdminDashboardPage": "pages/admin/AdminDashboardPage.js",
+  "/admin/AdminLoginPage": "pages/admin/AdminLoginPage.js"
+}

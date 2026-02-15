@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { BlogPost as BlogPostType } from '../../data/blogPosts';
 
 interface BlogPostProps {
@@ -101,13 +103,13 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
           <div className="border-t border-black/10 pt-8 mt-12">
             <p className="text-sm uppercase tracking-[0.3em] text-gray-500">Related Links</p>
             <div className="mt-4 flex flex-wrap gap-4">
-              <Link to="/services" className="text-primary font-semibold hover:underline">
+              <Link href="/services" className="text-primary font-semibold hover:underline">
                 Web Design & Development Services
               </Link>
-              <Link to="/work" className="text-primary font-semibold hover:underline">
+              <Link href="/work" className="text-primary font-semibold hover:underline">
                 Explore Our Portfolio
               </Link>
-              <Link to="/contact" className="text-primary font-semibold hover:underline">
+              <Link href="/contact" className="text-primary font-semibold hover:underline">
                 Start a Project
               </Link>
             </div>

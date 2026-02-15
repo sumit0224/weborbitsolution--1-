@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useMemo, useState } from 'react';
 import BlogCard from './BlogCard';
 import { BlogPost, blogPosts } from '../../data/blogPosts';
@@ -22,7 +24,7 @@ const BlogList: React.FC<BlogListProps> = ({ limit }) => {
     const fetchPosts = async () => {
       try {
         setStatus('loading');
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
         const response = await fetch(`${baseUrl}/api/blog/posts`);
         const data = await response.json();
         if (!response.ok) {

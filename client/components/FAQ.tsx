@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState, useCallback } from 'react';
 import { Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 interface FAQItem {
   question: string;
@@ -52,7 +54,10 @@ const FAQ: React.FC = () => {
                 <span className="block">Questions</span>
               </h2>
               <p className="text-gray-400 text-base sm:text-lg">
-                Have more questions? <Link to="/contact" className="text-primary font-bold hover:underline">Contact Us</Link>
+                Have more questions?{' '}
+                <Link href="/contact" className="text-primary font-bold hover:underline">
+                  Contact Us
+                </Link>
               </p>
             </div>
           </div>

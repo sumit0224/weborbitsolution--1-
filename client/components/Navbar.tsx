@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { NavItem } from '../types';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
 import gsap from 'gsap';
 
@@ -17,7 +20,7 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLightTheme, setIsLightTheme] = useState(false);
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const isBlogDetail = pathname.startsWith('/blog/');
   const useLightNav = isBlogDetail || isLightTheme;
   const navBgClass = isScrolled
@@ -237,11 +240,11 @@ const Navbar: React.FC = () => {
       >
         <div className="page-container flex justify-between items-center">
           <Link
-            to="/"
+            href="/"
             className={`nav-element flex items-center gap-3 ${navTextClass} hover:text-primary transition-colors duration-300 relative z-50`}
           >
             <img src={logoSrc} alt="WebOrbit Logo" className="w-40 h-20  object-contain" />
-            
+
           </Link>
 
           <button
@@ -297,7 +300,7 @@ const Navbar: React.FC = () => {
           {navItems.map((item) => (
             <Link
               key={item.label}
-              to={item.href}
+              href={item.href}
               onClick={() => setIsDrawerOpen(false)}
               className="drawer-link group block w-full"
             >
@@ -310,7 +313,7 @@ const Navbar: React.FC = () => {
 
         <div className="px-8 md:px-16 pb-10 flex flex-wrap items-center gap-6">
           <Link
-            to="/pricing"
+            href="/pricing"
             onClick={() => setIsDrawerOpen(false)}
             className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-primary"
           >
@@ -318,7 +321,7 @@ const Navbar: React.FC = () => {
             <span className="h-px w-10 bg-primary" />
           </Link>
           <Link
-            to="/contact"
+            href="/contact"
             onClick={() => setIsDrawerOpen(false)}
             className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-primary"
           >

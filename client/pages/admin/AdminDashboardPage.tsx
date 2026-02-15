@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import Seo from '../../components/Seo';
 import { BlogPost as BlogPostType } from '../../data/blogPosts';
 
@@ -33,16 +35,16 @@ const AdminDashboardPage: React.FC = () => {
   ]);
   const [actionStatus, setActionStatus] = useState<'idle' | 'saving' | 'error' | 'success'>('idle');
   const [actionMessage, setActionMessage] = useState('');
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
   const loadPosts = async () => {
     try {
       setStatus('loading');
       const response = await fetch(`${baseUrl}/api/admin/posts`, { credentials: 'include' });
       if (response.status === 401) {
-        navigate('/admin/login');
+        router.push('/admin/login');
         return;
       }
       const data = await response.json();
@@ -144,7 +146,7 @@ const AdminDashboardPage: React.FC = () => {
 
   const handleLogout = async () => {
     await fetch(`${baseUrl}/api/admin/logout`, { method: 'POST', credentials: 'include' });
-    navigate('/admin/login');
+    router.push('/admin/login');
   };
 
   return (

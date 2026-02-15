@@ -1,12 +1,16 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import Seo from '../components/Seo';
 import BlogPost from '../components/blog/BlogPost';
 import { BlogPost as BlogPostType, blogPosts } from '../data/blogPosts';
 import NotFound from './NotFound';
 
 const BlogPostPage: React.FC = () => {
-  const { slug } = useParams();
+  const params = useParams<{ slug?: string | string[] }>();
+  const slugParam = params?.slug;
+  const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam;
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -15,7 +19,7 @@ const BlogPostPage: React.FC = () => {
       if (!slug) return;
       try {
         setStatus('loading');
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
         const response = await fetch(`${baseUrl}/api/blog/posts/${slug}`);
         const data = await response.json();
         if (response.ok && data?.post) {
@@ -61,7 +65,9 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
-  const baseUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (typeof window === 'undefined' ? '' : window.location.origin);
   const blogJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',

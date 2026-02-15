@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, FormEvent } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -59,7 +61,7 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
       const response = await fetch(`${baseUrl}/api/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

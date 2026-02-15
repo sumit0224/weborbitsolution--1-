@@ -1,14 +1,17 @@
+'use client';
+
 import React, { useEffect, useState, FormEvent } from 'react';
 import { Instagram, Twitter, Linkedin, Github, ArrowUpRight, Globe, Code, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isSubscribing, setIsSubscribing] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
-  );
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof document === 'undefined') return 'dark';
+    return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+  });
 
   const applyTheme = (next: 'light' | 'dark') => {
     document.documentElement.dataset.theme = next;
@@ -112,7 +115,7 @@ const Footer: React.FC = () => {
               {links.map((link) => (
                 <Link
                   key={link.label}
-                  to={link.href}
+                  href={link.href}
                   className="flex items-center justify-between px-8 md:px-10 py-6 text-xl font-semibold uppercase tracking-wide border-b border-white/10 last:border-b-0 hover:bg-white/10 transition-colors"
                 >
                   {link.label}
@@ -208,10 +211,10 @@ const Footer: React.FC = () => {
               >
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </button>
-              <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-white">Terms of Service</Link>
-              <Link to="/refund" className="hover:text-white">Refund Policy</Link>
-              <Link to="/cookies" className="hover:text-white">Cookie Policy</Link>
+              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+              <Link href="/refund" className="hover:text-white">Refund Policy</Link>
+              <Link href="/cookies" className="hover:text-white">Cookie Policy</Link>
               <span>Made by WebOrbit Studio</span>
             </div>
           </div>

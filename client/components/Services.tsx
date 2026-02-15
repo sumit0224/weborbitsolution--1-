@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const servicesList = [
   {
@@ -189,11 +191,11 @@ const Services: React.FC = () => {
 
         <div className="mt-16 flex flex-col md:flex-row md:items-center md:justify-end gap-4 text-gray-400 text-sm">
           <span>Need the full IT services breakdown?</span>
-          <Link to="/services" className="text-primary font-semibold hover:underline">
+          <Link href="/services" className="text-primary font-semibold hover:underline">
             Explore IT services in India
           </Link>
           <span className="hidden md:inline">·</span>
-          <Link to="/contact" className="text-primary font-semibold hover:underline">
+          <Link href="/contact" className="text-primary font-semibold hover:underline">
             Get a free quote
           </Link>
         </div>

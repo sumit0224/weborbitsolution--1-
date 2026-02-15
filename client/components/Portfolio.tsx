@@ -1,9 +1,11 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Parallax } from 'swiper/modules';
 import { Project } from '../types';
 import { ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 // Swiper styles are imported in index.html
 
@@ -39,6 +41,12 @@ const projects: Project[] = [
 ];
 
 const Portfolio: React.FC = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <section id="work" className="section-padding  bg-black relative overflow-hidden">
       <div className="border-y border-white/10 py-6 mb-16 overflow-hidden">
@@ -73,7 +81,11 @@ const Portfolio: React.FC = () => {
           <h2 className="font-heading text-2xl md:text-4xl text-white mb-4">Selected Work</h2>
           <p className="text-primary font-body uppercase tracking-widest text-sm">Showcase 2024-2025</p>
           <p className="text-gray-400 text-sm mt-4">
-            See more on the <Link to="/work" className="text-primary font-semibold hover:underline">web design portfolio</Link>.
+            See more on the{' '}
+            <Link href="/work" className="text-primary font-semibold hover:underline">
+              web design portfolio
+            </Link>
+            .
           </p>
         </div>
         
@@ -89,48 +101,50 @@ const Portfolio: React.FC = () => {
       </div>
 
       <div className="w-full px-6 md:px-12">
-        <Swiper
-          modules={[Navigation, Pagination, Parallax]}
-          spaceBetween={30}
-          slidesPerView={1.2}
-          navigation={{
-            prevEl: '.swiper-button-prev-custom',
-            nextEl: '.swiper-button-next-custom',
-          }}
-          pagination={{ clickable: true }}
-          parallax={true}
-          breakpoints={{
-            640: { slidesPerView: 2.2 },
-            1024: { slidesPerView: 2.8 },
-          }}
-          className="w-full h-[500px] md:h-[600px] !overflow-visible"
-        >
-          {projects.map((project) => (
-            <SwiperSlide key={project.id} className="group cursor-hover relative overflow-hidden rounded-lg">
-              <img
-                src={project.image}
-                alt={`${project.title} ${project.category} website project`}
-                loading="lazy"
-                decoding="async"
-                width={1200}
-                height={800}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                data-swiper-parallax="-20%"
-              />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
-              
-              <div className="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">{project.category} — {project.year}</span>
-                <div className="flex justify-between items-center">
-                  <h3 className="text-3xl font-heading text-white">{project.title}</h3>
-                  <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ExternalLink size={18} />
+        {isMounted && (
+          <Swiper
+            modules={[Navigation, Pagination, Parallax]}
+            spaceBetween={30}
+            slidesPerView={1.2}
+            navigation={{
+              prevEl: '.swiper-button-prev-custom',
+              nextEl: '.swiper-button-next-custom',
+            }}
+            pagination={{ clickable: true }}
+            parallax={true}
+            breakpoints={{
+              640: { slidesPerView: 2.2 },
+              1024: { slidesPerView: 2.8 },
+            }}
+            className="w-full h-[500px] md:h-[600px] !overflow-visible"
+          >
+            {projects.map((project) => (
+              <SwiperSlide key={project.id} className="group cursor-hover relative overflow-hidden rounded-lg">
+                <img
+                  src={project.image}
+                  alt={`${project.title} ${project.category} website project`}
+                  loading="lazy"
+                  decoding="async"
+                  width={1200}
+                  height={800}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  data-swiper-parallax="-20%"
+                />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
+                
+                <div className="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <span className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">{project.category} — {project.year}</span>
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-3xl font-heading text-white">{project.title}</h3>
+                    <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ExternalLink size={18} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </section>
   );

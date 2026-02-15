@@ -1,22 +1,4 @@
 {
-  "rewrites": [
-    {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
-    },
-    {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
-    },
-    {
-      "source": "/site.webmanifest",
-      "destination": "/site.webmanifest"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)\\.(css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico)",

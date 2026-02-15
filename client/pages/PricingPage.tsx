@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Seo from '../components/Seo';
 import Pricing from '../components/Pricing';

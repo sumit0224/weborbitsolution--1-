@@ -1,0 +1,139 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/AboutPage": [
+      "static/chunks/5b87b7f73ad5ef7b.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/4c268a8c611225c1.js",
+      "static/chunks/turbopack-972f618c40a9835f.js"
+    ],
+    "/BlogPage": [
+      "static/chunks/3df01bc507f8fcbc.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-6f0c96c918098015.js"
+    ],
+    "/BlogPostPage": [
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/611c9314632a5c76.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-11afa64b49d961af.js"
+    ],
+    "/ContactPage": [
+      "static/chunks/1a6e578749e27d16.js",
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/turbopack-18461a18a77d4610.js"
+    ],
+    "/CookiePolicyPage": [
+      "static/chunks/b7f10d322f44e94e.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-6fc269059f4c9401.js"
+    ],
+    "/Home": [
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/9ada032617bf7022.js",
+      "static/chunks/858d8ac2b83f085f.js",
+      "static/chunks/4c268a8c611225c1.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/turbopack-d9c2dafcfcf15bc3.js"
+    ],
+    "/NotFound": [
+      "static/chunks/b593ea66f6709cad.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-79941d5131b7b845.js"
+    ],
+    "/PaymentStatusPage": [
+      "static/chunks/0745e7bb7ee6c869.js",
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-21727a65ab264279.js"
+    ],
+    "/PricingPage": [
+      "static/chunks/023ce111e19fff0b.js",
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-d01fab307f989db5.js"
+    ],
+    "/PrivacyPage": [
+      "static/chunks/9518dae7dec83958.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-acf55467cde4bb97.js"
+    ],
+    "/RefundPolicyPage": [
+      "static/chunks/4634576421bd8c3a.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-8595dfa850c64151.js"
+    ],
+    "/ServicesPage": [
+      "static/chunks/382eaa075c655b00.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-17857b1d2dfccd67.js"
+    ],
+    "/TermsPage": [
+      "static/chunks/31256cc46b80241d.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-8a6983a23ff19761.js"
+    ],
+    "/WorkPage": [
+      "static/chunks/ee0629bffd6b0cf8.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/858d8ac2b83f085f.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/turbopack-1dddbc42d4daff65.js"
+    ],
+    "/_app": [
+      "static/chunks/a76865496f85a574.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-c87f428ca41c09ce.js"
+    ],
+    "/_error": [
+      "static/chunks/e21bf6969d9fe8a7.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-496ed8a518210912.js"
+    ],
+    "/admin/AdminDashboardPage": [
+      "static/chunks/5850e0e2ebd4ab7d.js",
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/turbopack-232802ed823d053d.js"
+    ],
+    "/admin/AdminLoginPage": [
+      "static/chunks/8016d97b27d767a5.js",
+      "static/chunks/89eb18b6af5a93f9.js",
+      "static/chunks/21bacc4485f02580.js",
+      "static/chunks/da2cdd8a6a1c453c.js",
+      "static/chunks/turbopack-969cd15ad712ce5d.js"
+    ]
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/a6dad97d9634a72d.js"
+  ],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [
+    "static/chunks/431835ba67748a9c.js",
+    "static/chunks/82abf2d65f5428ae.js",
+    "static/chunks/10cbf02e6fc36465.js",
+    "static/chunks/69be39811437728d.js",
+    "static/chunks/turbopack-54abe8efc10b83e1.js"
+  ]
+};
+globalThis.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js"
+];

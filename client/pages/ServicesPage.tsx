@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Seo from '../components/Seo';
 
 const ServicesPage: React.FC = () => {
@@ -251,7 +253,7 @@ const ServicesPage: React.FC = () => {
         </p>
         <div className="mt-8">
           <Link
-            to="/contact"
+            href="/contact"
             className="inline-flex items-center gap-2 border border-white/20 px-6 py-3 uppercase tracking-[0.3em] text-xs hover:border-primary hover:text-primary transition-colors"
           >
             Get a Free Quote
@@ -443,7 +445,7 @@ const ServicesPage: React.FC = () => {
           </p>
           <div className="mt-8">
             <Link
-              to="/contact"
+              href="/contact"
               className="inline-flex items-center gap-2 border border-white/20 px-6 py-3 uppercase tracking-[0.3em] text-xs hover:border-primary hover:text-primary transition-colors"
             >
               Contact an IT Expert

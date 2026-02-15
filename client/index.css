@@ -17,7 +17,7 @@
 
   body {
     @apply bg-black text-white overflow-x-hidden;
-    
+
   }
 }
 
@@ -51,13 +51,16 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #111;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #20B2AA;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #17807a;
 }
@@ -67,6 +70,7 @@
   background: #fff;
   opacity: 0.5;
 }
+
 .swiper-pagination-bullet-active {
   background: #20B2AA;
   opacity: 1;
@@ -84,7 +88,8 @@
   top: 0;
   height: 100%;
   width: 20%;
-  background-color: #20B2AA; /* Cyan Blue */
+  background-color: #20B2AA;
+  /* Cyan Blue */
   z-index: 9998;
   transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1);
   will-change: transform;
@@ -97,7 +102,8 @@
   transform: translate(-50%, -50%);
   z-index: 9999;
   font-family: var(--font-heading);
-  color: #000000; /* Black */
+  color: #000000;
+  /* Black */
   font-size: 2.5rem;
   font-weight: bold;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -113,6 +119,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

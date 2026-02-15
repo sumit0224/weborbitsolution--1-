@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const tiers = [
   {
@@ -50,7 +52,7 @@ const tiers = [
 ];
 
 const Pricing: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [checkoutTier, setCheckoutTier] = useState<(typeof tiers)[number] | null>(null);
   const [checkoutData, setCheckoutData] = useState({ name: '', email: '', phone: '' });
   const [checkoutErrors, setCheckoutErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
@@ -60,7 +62,8 @@ const Pricing: React.FC = () => {
   const payableTierIds = new Set(['launch', 'orbit']);
 
   const handlePlanSelect = (tierName: string) => {
-    navigate('/contact', { state: { plan: tierName } });
+    const plan = encodeURIComponent(tierName);
+    router.push(`/contact?plan=${plan}`);
   };
 
   const openCheckout = (tier: (typeof tiers)[number]) => {
@@ -145,7 +148,7 @@ const Pricing: React.FC = () => {
       setCheckoutStatus('submitting');
       setCheckoutMessage('');
 
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
       const response = await fetch(`${baseUrl}/api/payments/payu/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

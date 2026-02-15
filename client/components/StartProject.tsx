@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const StartProject: React.FC = () => {
   return (
     <section className="bg-black border-t border-white/10 overflow-hidden w-full">
-      <Link to="/contact" className="block w-full group cursor-hover">
+      <Link href="/contact" className="block w-full group cursor-hover">
         <div className="page-container flex flex-col md:flex-row items-center justify-between py-16 md:py-24 gap-8">
           <div className="relative overflow-hidden">
             <h2 className="font-body font-black 

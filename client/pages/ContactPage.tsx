@@ -1,12 +1,13 @@
+'use client';
+
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 import Contact from '../components/Contact';
 import Seo from '../components/Seo';
 
 const ContactPage: React.FC = () => {
-  const location = useLocation();
-  const state = location.state as { plan?: string } | null;
-  const planName = state?.plan;
+  const searchParams = useSearchParams();
+  const planName = searchParams.get('plan') || undefined;
 
   return (
     <section className="bg-black text-white pt-32">

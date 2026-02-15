@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -68,9 +70,18 @@ const About: React.FC = () => {
           </p>
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-10">
             Explore our{' '}
-            <Link to="/services" className="text-primary font-semibold hover:underline">IT services in India</Link>, review{' '}
-            <Link to="/pricing" className="text-primary font-semibold hover:underline">website development pricing</Link>, or browse the{' '}
-            <Link to="/work" className="text-primary font-semibold hover:underline">portfolio of digital work</Link> we have shipped.
+            <Link href="/services" className="text-primary font-semibold hover:underline">
+              IT services in India
+            </Link>
+            , review{' '}
+            <Link href="/pricing" className="text-primary font-semibold hover:underline">
+              website development pricing
+            </Link>
+            , or browse the{' '}
+            <Link href="/work" className="text-primary font-semibold hover:underline">
+              portfolio of digital work
+            </Link>{' '}
+            we have shipped.
           </p>
 
           <div className="grid grid-cols-2 gap-8 mt-12">

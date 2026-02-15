@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import BlogList from './blog/BlogList';
 
 const BlogSection: React.FC = () => {
@@ -21,7 +23,7 @@ const BlogSection: React.FC = () => {
               experiences.
             </p>
             <Link
-              to="/blog"
+              href="/blog"
               className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] font-semibold text-primary"
             >
               View All Articles

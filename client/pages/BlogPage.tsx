@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Seo from '../components/Seo';
 import BlogList from '../components/blog/BlogList';

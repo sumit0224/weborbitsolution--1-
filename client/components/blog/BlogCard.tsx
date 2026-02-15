@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { BlogPost } from '../../data/blogPosts';
 
 interface BlogCardProps {
@@ -16,7 +18,7 @@ const formatDate = (date: string) =>
 const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
   return (
     <article className="group border border-black/10 bg-white text-black rounded-none overflow-hidden transition-all duration-300 hover:border-primary/60 hover:-translate-y-1">
-      <Link to={`/blog/${post.slug}`} className="block focus:outline-none">
+      <Link href={`/blog/${post.slug}`} className="block focus:outline-none">
         <div className="relative overflow-hidden">
           <img
             src={post.featuredImage.src}

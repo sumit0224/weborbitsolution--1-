@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 
 interface SeoProps {
@@ -54,11 +56,11 @@ const upsertJsonLd = (data?: Record<string, unknown> | Array<Record<string, unkn
 
 const Seo = ({ title, description, path, image, type = 'website', jsonLd }: SeoProps) => {
   useEffect(() => {
-    const baseUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     const canonicalUrl = `${baseUrl}${path === '/' ? '' : path}`;
     const existingOgImage =
       document.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-    const metaImage = image || import.meta.env.VITE_OG_IMAGE || existingOgImage;
+    const metaImage = image || process.env.NEXT_PUBLIC_OG_IMAGE || existingOgImage;
 
     document.title = title;
 
