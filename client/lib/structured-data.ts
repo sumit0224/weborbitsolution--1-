@@ -10,6 +10,9 @@ export const organizationJsonLd = () => ({
   name: siteConfig.name,
   url: siteConfig.url,
   logo: `${siteConfig.url}/favicon.png`,
+  description: siteConfig.description,
+  areaServed: ['India', 'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Chennai'],
+  email: 'hello@weborbitsolution.in',
   sameAs: [],
 });
 
@@ -36,6 +39,50 @@ export const serviceJsonLd = (serviceTypes: string[]) => ({
     name: siteConfig.name,
     url: siteConfig.url,
   },
+});
+
+type LocalBusinessJsonLdOptions = {
+  name?: string;
+  description?: string;
+};
+
+export const localBusinessJsonLd = ({ name, description }: LocalBusinessJsonLdOptions = {}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${siteConfig.url}#localbusiness`,
+  name: name || 'WebOrbitSolution',
+  description: description || siteConfig.description,
+  url: siteConfig.url,
+  image: `${siteConfig.url}/logo-v2.png`,
+  email: 'hello@weborbitsolution.in',
+  areaServed: [
+    { '@type': 'Country', name: 'India' },
+    { '@type': 'City', name: 'Mumbai' },
+    { '@type': 'City', name: 'Delhi' },
+    { '@type': 'City', name: 'Bangalore' },
+    { '@type': 'City', name: 'Hyderabad' },
+    { '@type': 'City', name: 'Pune' },
+    { '@type': 'City', name: 'Chennai' },
+    { '@type': 'City', name: 'Ahmedabad' },
+    { '@type': 'City', name: 'Kolkata' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'IN',
+  },
+});
+
+export const faqPageJsonLd = (items: Array<{ q: string; a: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
 });
 
 export const blogPostingJsonLd = (post: BlogPost) => ({

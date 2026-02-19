@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Home from '../pages/Home';
 import JsonLd from '../components/JsonLd';
 import { siteConfig } from '../lib/seo';
-import { breadcrumbJsonLd, organizationJsonLd, websiteJsonLd } from '../lib/structured-data';
+import { breadcrumbJsonLd, localBusinessJsonLd, organizationJsonLd, websiteJsonLd } from '../lib/structured-data';
 
 const homepageTitle = 'Website, App & SaaS Development Company in India';
 const homepageDescription =
@@ -39,7 +39,12 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const jsonLd = [organizationJsonLd(), websiteJsonLd(), breadcrumbJsonLd([{ name: 'Home', path: '/' }])];
+  const jsonLd = [
+    organizationJsonLd(),
+    localBusinessJsonLd({ name: 'WebOrbitSolution - Technology Services in India' }),
+    websiteJsonLd(),
+    breadcrumbJsonLd([{ name: 'Home', path: '/' }]),
+  ];
 
   return (
     <>

@@ -2,7 +2,7 @@ import JsonLd from '../../components/JsonLd';
 import CityLandingPageTemplate from '../../components/CityLandingPageTemplate';
 import { cityLandingPages } from '../../data/cityLandingPages';
 import { createPageMetadata } from '../../lib/seo';
-import { breadcrumbJsonLd, serviceJsonLd } from '../../lib/structured-data';
+import { breadcrumbJsonLd, faqPageJsonLd, localBusinessJsonLd, organizationJsonLd, serviceJsonLd } from '../../lib/structured-data';
 
 const page = cityLandingPages.appDevelopmentBangalore;
 
@@ -13,26 +13,18 @@ export const metadata = createPageMetadata({
 });
 
 export default function Page() {
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: page.faq.map((item) => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.a,
-      },
-    })),
-  };
-
   const jsonLd = [
+    organizationJsonLd(),
+    localBusinessJsonLd({
+      name: 'WebOrbitSolution - App Development Company in Bangalore',
+      description: page.metaDescription,
+    }),
     serviceJsonLd(['App Development', 'Android Development', 'iOS Development', 'Cross-Platform Apps']),
     breadcrumbJsonLd([
       { name: 'Home', path: '/' },
       { name: 'App Development Company in Bangalore', path: `/${page.slug}` },
     ]),
-    faqJsonLd,
+    faqPageJsonLd(page.faq),
   ];
 
   return (
