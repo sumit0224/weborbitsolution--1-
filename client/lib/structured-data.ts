@@ -30,7 +30,7 @@ export const serviceJsonLd = (serviceTypes: string[]) => ({
   '@type': 'Service',
   name: 'Web Development and SEO Services',
   serviceType: serviceTypes,
-  areaServed: ['India', 'Noida', 'Delhi NCR'],
+  areaServed: ['India', 'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Chennai'],
   provider: {
     '@type': 'Organization',
     name: siteConfig.name,

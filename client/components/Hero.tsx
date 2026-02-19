@@ -108,7 +108,7 @@ const Hero: React.FC = () => {
             <div className="hero-sub flex items-center gap-4 mb-6">
               <div className="h-[1px] w-12 bg-primary" aria-hidden="true" />
               <span className="text-primary font-mono text-xs sm:text-sm tracking-[0.2em] uppercase">
-                Web Development Company in India · Noida & Delhi NCR
+                Website, App, and SaaS Partner · PAN India
               </span>
             </div>
 
@@ -116,15 +116,14 @@ const Hero: React.FC = () => {
               id="hero-heading"
               className="text-[10vw] sm:text-[9vw] md:text-[7.5vw] lg:text-[6vw] leading-[0.9] font-black text-white tracking-tighter uppercase"
             >
-              <span className="hero-line-inner block overflow-hidden">Web Development Company</span>
-              <span className="hero-line-inner block overflow-hidden">In India</span>
+              <span className="hero-line-inner block overflow-hidden">Website Development</span>
+              <span className="hero-line-inner block overflow-hidden">Company in India</span>
             </h1>
 
             <p className="hero-sub mt-6 text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl">
-              WebOrbitSolution is a web development company in India, based in Noida, delivering custom website
-              development, ecommerce builds, and SEO-ready web applications for startups, agencies, and local
-              businesses. We align strategy, UI/UX design, and engineering to ship fast Core Web Vitals, clean
-              architecture, and conversion-focused experiences that scale with your growth.
+              We help startups, SMEs, and enterprises launch websites, apps, and SaaS products with measurable speed.
+              From Mumbai and Delhi to Bangalore, Hyderabad, Pune, and Chennai, we deliver scalable engineering that
+              converts growth plans into real outcomes.
             </p>
 
             <div className="hero-cta mt-8 flex flex-wrap items-center gap-4">

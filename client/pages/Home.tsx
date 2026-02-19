@@ -3,6 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Hero from '../components/Hero';
+import HomepageSeoContent from '../components/HomepageSeoContent';
 import Services from '../components/Services';
 import Manifesto from '../components/Manifesto';
 import Pricing from '../components/Pricing';
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
      <>
   {/* Above the fold */}
   <Hero />
+  <HomepageSeoContent />
   <Manifesto />
 
   {/* Core offering */}
