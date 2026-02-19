@@ -1,2 +1,0 @@
-:HL["/_next/static/css/0967a45f6a7cfafe.css","style"]
-0:{"buildId":"crJOzQp0O1u-nlxsj6JAl","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"mobile-app-development-company","paramType":null,"paramKey":"mobile-app-development-company","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

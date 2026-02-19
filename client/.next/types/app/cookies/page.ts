@@ -1,4 +1,4 @@
-// File: /Users/harshvardhan/Desktop/weborbitsolution--1-/client/app/cookies/page.tsx
+// File: /Users/sumitgautam/Desktop/weborbitsolution--1-/client/app/cookies/page.tsx
 import * as entry from '../../../../app/cookies/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

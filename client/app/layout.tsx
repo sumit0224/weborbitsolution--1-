@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { headers } from 'next/headers';
 import SiteLayout from '../layouts/SiteLayout';
 import LoaderCleanup from './LoaderCleanup';
+import ChatbotMount from '../components/chatbot/ChatbotMount';
 import './globals.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -55,6 +56,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </div>
 
         <SiteLayout>{children}</SiteLayout>
+        <ChatbotMount />
         <LoaderCleanup />
 
         <Script id="theme-init" strategy="beforeInteractive" nonce={nonce}>

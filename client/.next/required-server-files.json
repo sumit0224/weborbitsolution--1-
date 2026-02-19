@@ -20,7 +20,7 @@
       "jsx",
       "js"
     ],
-    "poweredByHeader": true,
+    "poweredByHeader": false,
     "compress": true,
     "images": {
       "deviceSizes": [
@@ -49,6 +49,7 @@
       "disableStaticImages": false,
       "minimumCacheTTL": 14400,
       "formats": [
+        "image/avif",
         "image/webp"
       ],
       "maximumRedirects": 3,
@@ -63,7 +64,23 @@
           "search": ""
         }
       ],
-      "remotePatterns": [],
+      "remotePatterns": [
+        {
+          "protocol": "https",
+          "hostname": "images.unsplash.com",
+          "pathname": "/**"
+        },
+        {
+          "protocol": "https",
+          "hostname": "picsum.photos",
+          "pathname": "/**"
+        },
+        {
+          "protocol": "https",
+          "hostname": "cdn.simpleicons.org",
+          "pathname": "/**"
+        }
+      ],
       "qualities": [
         75
       ],
@@ -100,7 +117,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/harshvardhan/Desktop/weborbitsolution--1-/client",
+    "outputFileTracingRoot": "/Users/sumitgautam/Desktop/weborbitsolution--1-/client",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -157,7 +174,7 @@
       "proxyPrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 7,
+      "cpus": 9,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -293,11 +310,11 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
     "turbopack": {
-      "root": "/Users/harshvardhan/Desktop/weborbitsolution--1-/client"
+      "root": "/Users/sumitgautam/Desktop/weborbitsolution--1-/client"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "/Users/harshvardhan/Desktop/weborbitsolution--1-/client",
+  "appDir": "/Users/sumitgautam/Desktop/weborbitsolution--1-/client",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",
