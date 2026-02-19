@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Message = {
   id: string;
@@ -19,6 +19,8 @@ type LeadForm = {
 
 const quickButtons = ['Website Development', 'App Development', 'SaaS Development', 'Talk to Expert'];
 const leadIntentRegex = /(price|pricing|cost|quote|budget|timeline|project|proposal|hire|consultation|demo)/i;
+const SUBMIT_DEBOUNCE_MS = 250;
+const REQUEST_THROTTLE_MS = 1200;
 
 const createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -47,6 +49,9 @@ const ChatbotWidget = () => {
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastRequestAtRef = useRef(0);
+  const lastSubmittedTextRef = useRef('');
 
   const payloadMessages = useMemo(
     () => messages.map((msg) => ({ role: msg.role, content: msg.content })).slice(-12),
@@ -65,6 +70,14 @@ const ChatbotWidget = () => {
   const askAssistant = async (userText: string) => {
     const trimmed = userText.trim();
     if (!trimmed || loading) return;
+    const now = Date.now();
+    const isRapidRepeat = now - lastRequestAtRef.current < REQUEST_THROTTLE_MS;
+    const isDuplicate = lastSubmittedTextRef.current === trimmed.toLowerCase();
+    if (isRapidRepeat && isDuplicate) {
+      return;
+    }
+    lastRequestAtRef.current = now;
+    lastSubmittedTextRef.current = trimmed.toLowerCase();
 
     pushMessage('user', trimmed);
     setInput('');
@@ -98,6 +111,23 @@ const ChatbotWidget = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
+
+  const scheduleAskAssistant = (text: string) => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      askAssistant(text);
+    }, SUBMIT_DEBOUNCE_MS);
   };
 
   const submitLead = async () => {
@@ -177,7 +207,7 @@ const ChatbotWidget = () => {
                   onClick={() =>
                     label === 'Talk to Expert'
                       ? setLeadOpen(true)
-                      : askAssistant(`I need help with ${label.toLowerCase()} in India.`)
+                      : scheduleAskAssistant(`I need help with ${label.toLowerCase()} in India.`)
                   }
                   className="text-[11px] px-2 py-1 border border-white/20 text-gray-200 hover:border-primary hover:text-primary transition-colors"
                 >
@@ -255,7 +285,7 @@ const ChatbotWidget = () => {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
-                    askAssistant(input);
+                    scheduleAskAssistant(input);
                   }
                 }}
                 placeholder="Ask about pricing, timeline, or services..."
@@ -263,7 +293,7 @@ const ChatbotWidget = () => {
               />
               <button
                 type="button"
-                onClick={() => askAssistant(input)}
+                onClick={() => scheduleAskAssistant(input)}
                 disabled={loading}
                 className="px-3 py-2 text-xs uppercase tracking-[0.2em] border border-white/30 hover:border-primary hover:text-primary transition-colors disabled:opacity-60"
               >
@@ -286,4 +316,3 @@ const ChatbotWidget = () => {
 };
 
 export default ChatbotWidget;
-
