@@ -37,7 +37,7 @@ const BlogSection: React.FC = () => {
         </div>
 
         <div className="mt-12">
-          <BlogList limit={3} />
+          <BlogList limit={6} mode="carousel" />
         </div>
       </div>
     </section>

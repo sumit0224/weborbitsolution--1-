@@ -18,7 +18,7 @@ const formatDate = (date: string) =>
 
 const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
   return (
-    <article className="group border border-black/10 bg-white text-black rounded-none overflow-hidden transition-all duration-300 hover:border-primary/60 hover:-translate-y-1">
+    <article className="group h-full border border-black/10 bg-white text-black rounded-none overflow-hidden transition-all duration-300 hover:border-primary/60 hover:-translate-y-1">
       <Link href={`/blog/${post.slug}`} className="block focus:outline-none">
         <div className="relative overflow-hidden">
           <Image

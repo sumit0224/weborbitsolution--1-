@@ -1,14 +1,17 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import BlogCard from './BlogCard';
 import { BlogPost, blogPosts } from '../../data/blogPosts';
 
 interface BlogListProps {
   limit?: number;
+  mode?: 'grid' | 'carousel';
 }
 
-const BlogList: React.FC<BlogListProps> = ({ limit }) => {
+const BlogList: React.FC<BlogListProps> = ({ limit, mode = 'grid' }) => {
   const fallbackPosts = useMemo(
     () =>
       [...blogPosts]
@@ -52,6 +55,43 @@ const BlogList: React.FC<BlogListProps> = ({ limit }) => {
   }, [fallbackPosts, hasFallback]);
 
   const visiblePosts = limit ? posts.slice(0, limit) : posts;
+  const isCarousel = mode === 'carousel';
+  const canLoop = visiblePosts.length > 3;
+
+  if (isCarousel) {
+    return (
+      <section>
+        {status === 'loading' && <p className="text-gray-400">Loading articles...</p>}
+        {status === 'error' && <p className="text-red-500">Unable to load posts right now.</p>}
+        {status === 'idle' && visiblePosts.length === 0 && (
+          <p className="text-gray-400">New articles are coming soon.</p>
+        )}
+        {status === 'idle' && visiblePosts.length > 0 && (
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={24}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            loop={canLoop}
+            breakpoints={{
+              768: { slidesPerView: 2 },
+              1280: { slidesPerView: 3 },
+            }}
+            className="pb-12"
+          >
+            {visiblePosts.map((post) => (
+              <SwiperSlide key={post.slug}>
+                <div className="h-full">
+                  <BlogCard post={post} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+      </section>
+    );
+  }
 
   return (
     <section className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Home from '../../pages/Home';
 import JsonLd from '../../components/JsonLd';
+import HomepageSeoContent from '../../components/HomepageSeoContent';
 import { siteConfig } from '../../lib/seo';
 import { breadcrumbJsonLd, organizationJsonLd, websiteJsonLd } from '../../lib/structured-data';
 
@@ -52,6 +53,7 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd} />
       <Home />
+      <HomepageSeoContent />
     </>
   );
 }
