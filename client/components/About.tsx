@@ -4,10 +4,11 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -48,15 +49,18 @@ const About: React.FC = () => {
       <div className="page-container flex flex-col md:flex-row items-center gap-16">
 
         <div className="w-full md:w-1/2 relative h-[600px] overflow-hidden rounded-lg">
-          <img
+          <div
             ref={imageRef}
-            src="/images/about/studio.jpg"
-            alt="WebOrbitSolution IT services team in Noida, India"
-            loading="lazy"
-            width={1200}
-            height={1440}
-            className="absolute top-0 left-0 w-full h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 will-change-transform"
-          />
+            className="absolute top-0 left-0 w-full h-[120%] grayscale hover:grayscale-0 transition-all duration-700 will-change-transform"
+          >
+            <Image
+              src="/images/about/studio.jpg"
+              alt="WebOrbitSolution IT services team in Noida, India"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
         </div>
 
         <div ref={textRef} className="w-full md:w-1/2">

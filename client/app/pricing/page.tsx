@@ -1,4 +1,5 @@
 import PricingPage from '../../pages/PricingPage';
+import Link from 'next/link';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
@@ -6,7 +7,7 @@ import { breadcrumbJsonLd } from '../../lib/structured-data';
 export const metadata = createPageMetadata({
   title: 'IT Services Pricing in India | Web & App Development',
   description:
-    'Transparent pricing for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT support in India. Compare packages and choose the right scope.',
+    'Compare transparent pricing for website, app, SaaS, SEO, and IT consulting services in India. Choose packages aligned to scope, timeline, and growth goals.',
   path: '/pricing',
 });
 
@@ -65,6 +66,11 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
+      <aside className="sr-only" aria-label="Related internal links">
+        <Link href="/services">Compare services</Link>
+        <Link href="/custom-software-development-india">Custom software development</Link>
+        <Link href="/mobile-app-development-company">Mobile app development</Link>
+      </aside>
       <PricingPage />
     </>
   );

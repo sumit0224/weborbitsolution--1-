@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const servicesList = [
   {
@@ -146,12 +147,12 @@ const Services: React.FC = () => {
         }}
       >
         {servicesList.map((service) => (
-          <img
+          <Image
             key={service.id}
             src={service.image}
             alt={service.alt}
-            loading="lazy"
-            decoding="async"
+            fill
+            sizes="200px"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${activeIndex === service.id ? 'opacity-100' : 'opacity-0'}`}
           />
         ))}

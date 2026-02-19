@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { seedBlogPosts } from '../utils/seedBlogPosts.js';
+
+dotenv.config();
 
 const connectDb = async () => {
   if (!process.env.MONGODB_URI) {

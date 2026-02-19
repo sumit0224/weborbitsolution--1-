@@ -1,4 +1,5 @@
 import ContactPage from '../../pages/ContactPage';
+import Link from 'next/link';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
@@ -6,7 +7,7 @@ import { breadcrumbJsonLd } from '../../lib/structured-data';
 export const metadata = createPageMetadata({
   title: 'Contact WebOrbitSolution | IT Services in India',
   description:
-    'Contact WebOrbitSolution for website development, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting. Get a clear plan and quote within 24 hours.',
+    'Contact WebOrbitSolution for website, app, SaaS, SEO, and IT consulting services in India. Get a scoped roadmap, timeline, and budget estimate within 24 hours.',
   path: '/contact',
 });
 
@@ -26,6 +27,11 @@ export default async function Page({ searchParams }: ContactPageProps) {
   return (
     <>
       <JsonLd data={jsonLd} />
+      <aside className="sr-only" aria-label="Related internal links">
+        <Link href="/services">Explore services</Link>
+        <Link href="/pricing">View pricing</Link>
+        <Link href="/work">See case studies</Link>
+      </aside>
       <ContactPage planName={planName} />
     </>
   );

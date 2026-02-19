@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ServicesPage: React.FC = () => {
   useEffect(() => {
@@ -339,11 +340,12 @@ const ServicesPage: React.FC = () => {
                 {techItems.map((item) => {
                   return (
                     <div key={item.name} className="tech-chip">
-                      <img
+                      <Image
                         src={item.logo}
                         alt={`${item.name} logo`}
-                        loading="lazy"
-                        decoding="async"
+                        width={20}
+                        height={20}
+                        sizes="20px"
                         className="tech-logo"
                       />
                       <span className="text-xs  px-4 uppercase tracking-[0.3em] text-gray-200">{item.name}</span>
@@ -355,12 +357,13 @@ const ServicesPage: React.FC = () => {
                 {techItems.map((item, index) => {
                   return (
                     <div key={`${item.name}-${index}`} className="tech-chip">
-                      <img
+                      <Image
                         src={item.logo}
                         alt=""
                         aria-hidden="true"
-                        loading="lazy"
-                        decoding="async"
+                        width={20}
+                        height={20}
+                        sizes="20px"
                         className="tech-logo"
                       />
                       <span className="text-xs px-8 uppercase tracking-[0.3em] text-gray-200">{item.name}</span>
@@ -376,11 +379,12 @@ const ServicesPage: React.FC = () => {
                 {techItems.map((item) => {
                   return (
                     <div key={`${item.name}-alt`} className="tech-chip tech-chip-alt">
-                      <img
+                      <Image
                         src={item.logo}
                         alt={`${item.name} logo`}
-                        loading="lazy"
-                        decoding="async"
+                        width={20}
+                        height={20}
+                        sizes="20px"
                         className="tech-logo"
                       />
                       <span className="text-xs px-4 uppercase tracking-[0.3em] text-gray-200">{item.name}</span>
@@ -392,12 +396,13 @@ const ServicesPage: React.FC = () => {
                 {techItems.map((item, index) => {
                   return (
                     <div key={`${item.name}-alt-${index}`} className="tech-chip tech-chip-alt">
-                      <img
+                      <Image
                         src={item.logo}
                         alt=""
                         aria-hidden="true"
-                        loading="lazy"
-                        decoding="async"
+                        width={20}
+                        height={20}
+                        sizes="20px"
                         className="tech-logo"
                       />
                       <span className="text-xs px-4 uppercase tracking-[0.3em] text-gray-200">{item.name}</span>

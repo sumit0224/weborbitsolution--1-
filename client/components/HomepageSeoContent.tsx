@@ -190,16 +190,16 @@ const HomepageSeoContent = () => {
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Blog Topics Driving India Traffic</h3>
           <div className="grid md:grid-cols-2 gap-3 text-sm md:text-base text-gray-300">
             <Link href="/blog/website-development-cost-in-india-2026" className="text-primary hover:underline">
-              Website Development Cost in India (2026 Guide)
+              Website Development Cost in India 2026
             </Link>
-            <Link href="/blog" className="text-primary hover:underline">
+            <Link href="/blog/saas-product-development-cost-in-india" className="text-primary hover:underline">
+              SaaS Product Development Cost in India
+            </Link>
+            <Link href="/blog/best-saas-development-company-in-india" className="text-primary hover:underline">
               Best SaaS Development Company in India
             </Link>
-            <Link href="/blog" className="text-primary hover:underline">
-              App Development Cost in India
-            </Link>
-            <Link href="/blog" className="text-primary hover:underline">
-              Custom Software Development Trends in India
+            <Link href="/blog/how-much-does-custom-software-cost-in-india" className="text-primary hover:underline">
+              How Much Does Custom Software Cost in India?
             </Link>
           </div>
 

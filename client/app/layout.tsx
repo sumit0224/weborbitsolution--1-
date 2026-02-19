@@ -9,6 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { baseMetadata } from '../lib/seo';
+import { organizationJsonLd } from '../lib/structured-data';
 
 export const metadata = baseMetadata;
 export const viewport: Viewport = {
@@ -21,10 +22,18 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const nonce = (await headers()).get('x-nonce') || undefined;
+  const globalOrgSchema = organizationJsonLd();
 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body>
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalOrgSchema) }}
+        />
+
         <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
           <defs>
             <filter id="liquid-flow">
