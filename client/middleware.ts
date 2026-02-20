@@ -30,6 +30,8 @@ export function middleware(req: NextRequest) {
     !!hostname &&
     !DEV_HOSTS.has(hostname) &&
     !hostname.endsWith('.vercel.app');
+  const isApiRoute = req.nextUrl.pathname.startsWith('/api/');
+  const isRedirectSafeMethod = req.method === 'GET' || req.method === 'HEAD';
   const shouldSkipCsp = isDev || !hostname || DEV_HOSTS.has(hostname) || hostname.endsWith('.vercel.app');
 
   const forwardedProto = req.headers.get('x-forwarded-proto');
@@ -37,6 +39,8 @@ export function middleware(req: NextRequest) {
   const redirectedPath = LEGACY_PATH_REDIRECTS[req.nextUrl.pathname] || req.nextUrl.pathname;
   const needsRedirect =
     shouldEnforceCanonical &&
+    !isApiRoute &&
+    isRedirectSafeMethod &&
     (!isHttps || hostname !== CANONICAL_HOST || redirectedPath !== req.nextUrl.pathname);
 
   const requestHeaders = new Headers(req.headers);

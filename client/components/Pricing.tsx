@@ -121,9 +121,14 @@ const Pricing: React.FC = () => {
     };
 
   const postToPayu = (url: string, params: Record<string, string>) => {
+    if (!/^https?:\/\//i.test(url)) {
+      throw new Error('Invalid payment gateway URL. Please contact support.');
+    }
+
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = url;
+    form.target = '_self';
     form.style.display = 'none';
 
     Object.entries(params).forEach(([key, value]) => {
@@ -135,8 +140,16 @@ const Pricing: React.FC = () => {
     });
 
     document.body.appendChild(form);
-    form.submit();
-    form.remove();
+    if (typeof form.requestSubmit === 'function') {
+      form.requestSubmit();
+    } else {
+      form.submit();
+    }
+
+    // Keep form briefly; removing immediately can cancel submission on some mobile browsers.
+    setTimeout(() => {
+      form.remove();
+    }, 3000);
   };
 
   const handleCheckoutSubmit = async (event: React.FormEvent) => {
@@ -148,18 +161,41 @@ const Pricing: React.FC = () => {
       setCheckoutStatus('submitting');
       setCheckoutMessage('');
 
-      const response = await fetch('/api/payments/payu/create', {
+      const payload = {
+        planId: checkoutTier.id,
+        customer: checkoutData,
+      };
+
+      const readResponse = async (response: Response) => {
+        const contentType = response.headers.get('content-type') || '';
+        const isJson = contentType.includes('application/json');
+        return isJson ? await response.json() : { error: await response.text() };
+      };
+
+      let response = await fetch('/api/payments/payu/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          planId: checkoutTier.id,
-          customer: checkoutData,
-        }),
+        body: JSON.stringify(payload),
       });
+      let data = await readResponse(response);
 
-      const contentType = response.headers.get('content-type') || '';
-      const isJson = contentType.includes('application/json');
-      const data = isJson ? await response.json() : { error: await response.text() };
+      const directApiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/+$/, '');
+      if (!response.ok && directApiBase) {
+        try {
+          const directResponse = await fetch(`${directApiBase}/api/payments/payu/create`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const directData = await readResponse(directResponse);
+          if (directResponse.ok) {
+            response = directResponse;
+            data = directData;
+          }
+        } catch (directError) {
+          // Keep primary error response if direct fallback also fails.
+        }
+      }
 
       if (!response.ok) {
         throw new Error(data?.error || 'Unable to start payment.');
@@ -170,6 +206,14 @@ const Pricing: React.FC = () => {
       }
 
       postToPayu(data.paymentUrl, data.params);
+
+      // If navigation does not happen, recover UI state and show a clear action message.
+      setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          setCheckoutStatus('error');
+          setCheckoutMessage('Redirect to PayU was blocked. Please try again or contact support.');
+        }
+      }, 4000);
     } catch (error) {
       console.error('PayU checkout error:', error);
       setCheckoutStatus('error');
