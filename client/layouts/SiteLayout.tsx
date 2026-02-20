@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import BacklinksSection from '../components/BacklinksSection';
 
 const SiteLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -35,7 +34,6 @@ const SiteLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         {children}
       </main>
       <Footer />
-      <BacklinksSection />
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import PricingPage from '../../pages/PricingPage';
-import Link from 'next/link';
+import PricingPage from '../../views/PricingPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
@@ -66,11 +65,6 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <aside className="sr-only" aria-label="Related internal links">
-        <Link href="/services">Compare services</Link>
-        <Link href="/custom-software-development-india">Custom software development</Link>
-        <Link href="/mobile-app-development-company">Mobile app development</Link>
-      </aside>
       <PricingPage />
     </>
   );

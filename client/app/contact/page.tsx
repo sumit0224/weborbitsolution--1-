@@ -1,5 +1,4 @@
-import ContactPage from '../../pages/ContactPage';
-import Link from 'next/link';
+import ContactPage from '../../views/ContactPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
@@ -27,11 +26,6 @@ export default async function Page({ searchParams }: ContactPageProps) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <aside className="sr-only" aria-label="Related internal links">
-        <Link href="/services">Explore services</Link>
-        <Link href="/pricing">View pricing</Link>
-        <Link href="/work">See case studies</Link>
-      </aside>
       <ContactPage planName={planName} />
     </>
   );

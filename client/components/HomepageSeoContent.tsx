@@ -27,44 +27,41 @@ const HomepageSeoContent = () => {
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Website Development Company in India</h3>
           <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-            As a premium <strong>Website Development Company in India</strong>, we design and engineer high-performance
-            websites that rank better, load faster, and convert consistently. Whether you need a brand website, product
-            website, landing architecture, or enterprise web platform, we build for growth from day one. Every build
-            includes clean information architecture, conversion-focused copy structure, and SEO-ready page frameworks.
+            We design and engineer high-performance websites that rank better, load faster, and convert consistently.
+            Whether you need a brand website, product website, landing architecture, or enterprise web platform, we
+            build for growth from day one. Every build includes clean information architecture, conversion-focused copy
+            structure, and SEO-ready page frameworks.
           </p>
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">App Development Company in India</h3>
           <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-            As an experienced <strong>App Development Company in India</strong>, we deliver Android, iOS, and
-            cross-platform products with robust backend systems and user-first interfaces. We support MVP launches,
-            product upgrades, and enterprise mobility programs with stable architecture and release reliability. Our
-            app teams focus on activation, retention, and performance so your product drives business value, not just
-            installs.
+            We deliver Android, iOS, and cross-platform products with robust backend systems and user-first interfaces.
+            We support MVP launches, product upgrades, and enterprise mobility programs with stable architecture and
+            release reliability. Our app teams focus on activation, retention, and performance so your product drives
+            business value, not just installs.
           </p>
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">SaaS Product Development Company in India</h3>
           <p className="text-base md:text-lg text-gray-300 leading-relaxed">
             If your growth depends on subscriptions, workflow automation, and recurring revenue, our team is built for
-            you. As a focused <strong>SaaS Product Development Company in India</strong>, we build scalable SaaS
-            solutions for Indian businesses with multi-tenant architecture, role-based access, secure billing flows,
-            analytics, and modular feature releases. This is the niche where we drive the highest long-term impact for
-            founders and product teams.
+            you. We build scalable SaaS solutions with multi-tenant architecture, role-based access, secure billing
+            flows, analytics, and modular feature releases. This is the niche where we drive the highest long-term
+            impact for founders and product teams.
           </p>
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">IT Consulting and Services in India</h3>
           <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-            Strong execution starts with strong technical decisions. Our <strong>IT Consulting and Services in India</strong>
-            {' '}cover architecture planning, modernization roadmaps, migration strategy, cloud decisions, security
-            planning, and engineering governance. We help you reduce technical risk early, avoid rework, and build a
-            product roadmap that aligns with revenue milestones.
+            Strong execution starts with strong technical decisions. Our consulting engagements cover architecture
+            planning, modernization roadmaps, migration strategy, cloud decisions, security planning, and engineering
+            governance. We help you reduce technical risk early, avoid rework, and build a product roadmap that aligns
+            with revenue milestones.
           </p>
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Custom Software Development Company in India</h3>
           <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-            Every business has unique workflows. As a <strong>Custom Software Development Company in India</strong>, we
-            build tailored business platforms, internal systems, and customer-facing applications designed around your
-            operations. We integrate CRMs, ERPs, payment systems, and data dashboards so leadership teams get one
-            source of truth and faster operational decisions.
+            Every business has unique workflows. We build tailored business platforms, internal systems, and
+            customer-facing applications designed around your operations. We integrate CRMs, ERPs, payment systems, and
+            data dashboards so leadership teams get one source of truth and faster operational decisions.
           </p>
 
           <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase leading-tight">Why Choose Us</h2>
@@ -177,29 +174,29 @@ const HomepageSeoContent = () => {
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">City Landing Pages for Local SEO at Scale</h3>
           <div className="grid md:grid-cols-3 gap-3 text-sm md:text-base">
             <Link href="/website-development-company-mumbai" className="text-primary hover:underline">
-              Website Development Company in Mumbai
+              Mumbai web development services
             </Link>
             <Link href="/app-development-company-bangalore" className="text-primary hover:underline">
-              App Development Company in Bangalore
+              Bangalore app development services
             </Link>
             <Link href="/saas-development-company-hyderabad" className="text-primary hover:underline">
-              SaaS Development Company in Hyderabad
+              Hyderabad SaaS product development
             </Link>
           </div>
 
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Blog Topics Driving India Traffic</h3>
           <div className="grid md:grid-cols-2 gap-3 text-sm md:text-base text-gray-300">
             <Link href="/blog/website-development-cost-in-india-2026" className="text-primary hover:underline">
-              Website Development Cost in India 2026
+              2026 website build cost guide
             </Link>
             <Link href="/blog/saas-product-development-cost-in-india" className="text-primary hover:underline">
-              SaaS Product Development Cost in India
+              SaaS product cost guide
             </Link>
             <Link href="/blog/best-saas-development-company-in-india" className="text-primary hover:underline">
-              Best SaaS Development Company in India
+              How to choose a SaaS partner
             </Link>
             <Link href="/blog/how-much-does-custom-software-cost-in-india" className="text-primary hover:underline">
-              How Much Does Custom Software Cost in India?
+              Custom software cost planning
             </Link>
           </div>
 

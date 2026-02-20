@@ -1,4 +1,4 @@
-import AdminDashboardPage from '../../pages/admin/AdminDashboardPage';
+import AdminDashboardPage from '../../views/admin/AdminDashboardPage';
 import { createPageMetadata } from '../../lib/seo';
 
 export const metadata = createPageMetadata({

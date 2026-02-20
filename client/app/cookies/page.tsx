@@ -1,4 +1,4 @@
-import CookiePolicyPage from '../../pages/CookiePolicyPage';
+import CookiePolicyPage from '../../views/CookiePolicyPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';

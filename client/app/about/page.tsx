@@ -1,5 +1,4 @@
-import AboutPage from '../../pages/AboutPage';
-import Link from 'next/link';
+import AboutPage from '../../views/AboutPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';
@@ -20,11 +19,6 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <aside className="sr-only" aria-label="Related internal links">
-        <Link href="/services">Explore services</Link>
-        <Link href="/work">View portfolio</Link>
-        <Link href="/contact">Book consultation</Link>
-      </aside>
       <AboutPage />
     </>
   );

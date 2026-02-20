@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import Home from '../pages/Home';
+import Home from '../views/Home';
 import JsonLd from '../components/JsonLd';
 import { siteConfig } from '../lib/seo';
 import { breadcrumbJsonLd, localBusinessJsonLd, organizationJsonLd, websiteJsonLd } from '../lib/structured-data';
 
-const homepageTitle = 'Website, App & SaaS Development Company in India';
+const homepageTitle = 'WebOrbitSolution | SaaS, App & Web Development India';
 const homepageDescription =
-  'PAN India website, app, SaaS, and custom software development company. Get enterprise-grade engineering and IT consulting for faster product delivery.';
+  'WebOrbitSolution is a PAN India technology partner for SaaS platforms, mobile apps, websites, and IT consulting services.';
 
 export const metadata: Metadata = {
   title: { absolute: homepageTitle },

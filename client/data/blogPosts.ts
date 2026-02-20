@@ -685,6 +685,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'SEO and Content Marketing Agency Playbook',
     metaDescription:
       'Learn how an SEO and content marketing agency builds compounding growth with keyword strategy, editorial systems, and performance metrics.',
+    published: false,
   },
   {
     slug: 'affordable-seo-marketing-agency-pricing',
@@ -728,6 +729,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'Affordable SEO and Marketing Agency Pricing',
     metaDescription:
       'Understand what affordable SEO and marketing agency packages should include and how to avoid low-quality services.',
+    published: false,
   },
   {
     slug: 'seo-agency-wordpress-themes-roundup',
@@ -771,6 +773,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'SEO Agency WordPress Themes 2026',
     metaDescription:
       'Compare top SEO and digital marketing agency WordPress themes like Seoland, Seocify, Ewebot, Score, Digon, and Artistic.',
+    published: false,
   },
   {
     slug: 'avoid-nulled-seo-agency-themes',
@@ -808,6 +811,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'Avoid Nulled SEO Agency WordPress Themes',
     metaDescription:
       'Learn why nulled WordPress themes are a bad idea for SEO agencies and what secure alternatives to choose.',
+    published: false,
   },
   {
     slug: 'local-seo-marketing-agency-reviews',
@@ -850,6 +854,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'Local SEO and Marketing Agency Reviews Checklist',
     metaDescription:
       'How to evaluate a local SEO and marketing agency using reviews, photos, and real performance proof.',
+    published: false,
   },
   {
     slug: 'best-website-solutions-small-business-india',
@@ -1128,6 +1133,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle: 'Creative Website Solutions That Convert',
     metaDescription:
       'A UX playbook for innovative and creative website solutions that convert without hurting usability.',
+    published: false,
   },
   {
     slug: 'web-design-cost-in-india',

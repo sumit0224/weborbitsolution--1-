@@ -1,4 +1,4 @@
-import BlogPage from '../../pages/BlogPage';
+import BlogPage from '../../views/BlogPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';

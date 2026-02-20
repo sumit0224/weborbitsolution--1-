@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /admin/login
-Disallow: /payment-status
-
-Sitemap: https://www.weborbitsolution.in/sitemap.xml

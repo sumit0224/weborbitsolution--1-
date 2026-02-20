@@ -21,11 +21,6 @@ export const websiteJsonLd = () => ({
   '@type': 'WebSite',
   name: siteConfig.name,
   url: siteConfig.url,
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: `${siteConfig.url}/blog?query={search_term_string}`,
-    'query-input': 'required name=search_term_string',
-  },
 });
 
 export const serviceJsonLd = (serviceTypes: string[]) => ({

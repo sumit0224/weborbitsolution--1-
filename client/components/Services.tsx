@@ -206,7 +206,7 @@ const Services: React.FC = () => {
           </Link>
           <span className="hidden md:inline">·</span>
           <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
-            SEO services in India
+            SEO growth services
           </Link>
           <span className="hidden md:inline">·</span>
           <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">

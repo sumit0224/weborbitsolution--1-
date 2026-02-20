@@ -25,7 +25,7 @@ const WorkPage: React.FC = () => {
           </Link>{' '}
           or{' '}
           <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
-            SEO services in India
+            SEO growth services
           </Link>
           .
         </p>

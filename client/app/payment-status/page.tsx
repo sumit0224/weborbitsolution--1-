@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import PaymentStatusPage from '../../pages/PaymentStatusPage';
+import PaymentStatusPage from '../../views/PaymentStatusPage';
 import { createPageMetadata } from '../../lib/seo';
 
 export const metadata = createPageMetadata({

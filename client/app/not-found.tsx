@@ -1,4 +1,4 @@
-import NotFound from '../pages/NotFound';
+import NotFound from '../views/NotFound';
 import { createPageMetadata } from '../lib/seo';
 
 export const metadata = createPageMetadata({

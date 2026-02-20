@@ -1,4 +1,4 @@
-import PrivacyPage from '../../pages/PrivacyPage';
+import PrivacyPage from '../../views/PrivacyPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';

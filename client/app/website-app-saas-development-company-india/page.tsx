@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Home from '../../pages/Home';
 import JsonLd from '../../components/JsonLd';
 import HomepageSeoContent from '../../components/HomepageSeoContent';
 import { siteConfig } from '../../lib/seo';
@@ -85,7 +84,17 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <Home />
+      <section className="bg-black text-white pt-32 border-t border-white/10">
+        <div className="page-container">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase">
+            Website, App and SaaS Development Company in India
+          </h1>
+          <p className="text-gray-300 mt-5 max-w-4xl text-base md:text-lg leading-relaxed">
+            WebOrbitSolution partners with Indian startups, SMEs, and growth teams to deliver scalable digital products
+            with consulting-led execution, clear timelines, and conversion-focused architecture.
+          </p>
+        </div>
+      </section>
       <HomepageSeoContent />
       <section className="bg-black text-white border-t border-white/10">
         <div className="page-container py-16 md:py-20">

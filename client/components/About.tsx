@@ -81,7 +81,7 @@ const About: React.FC = () => {
           <p className="font-body text-lg leading-relaxed text-gray-800 mb-10">
             Explore our{' '}
             <Link href="/services" className="text-primary font-semibold hover:underline">
-              IT services in India
+              technology consulting services
             </Link>
             , review{' '}
             <Link href="/pricing" className="text-primary font-semibold hover:underline">
@@ -93,7 +93,7 @@ const About: React.FC = () => {
             </Link>{' '}
             we have shipped. You can also explore our{' '}
             <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
-              SEO services in India
+              SEO growth services
             </Link>{' '}
             or{' '}
             <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">

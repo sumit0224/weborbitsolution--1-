@@ -228,7 +228,7 @@ const ServicesPage: React.FC = () => {
         <p className="text-gray-400 text-base md:text-lg max-w-3xl mt-4">
           Explore dedicated pages for{' '}
           <Link href="/seo-services-in-india" className="text-primary font-semibold hover:underline">
-            SEO services in India
+            SEO growth services
           </Link>
           ,{' '}
           <Link href="/react-js-development-company" className="text-primary font-semibold hover:underline">

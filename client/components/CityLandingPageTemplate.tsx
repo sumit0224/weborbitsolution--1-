@@ -25,26 +25,29 @@ const processSteps = [
 ];
 
 const CityLandingPageTemplate = ({ page }: CityLandingPageTemplateProps) => {
+  const servicePreview = page.primaryServices.slice(0, 3).join(', ');
+  const industryPreview = page.industries.slice(0, 3).join(', ');
+
   const answerSections = [
     {
-      title: `What is ${page.keyword}?`,
+      title: `${page.city} Delivery Scope and Execution Model`,
       answer:
-        'It means working with a delivery partner who combines business strategy, engineering quality, and measurable execution. The focus is to build digital systems that improve visibility, user conversion, and long-term scalability.',
+        `Our ${page.city} engagements are scoped around measurable business outcomes, not generic deliverables. Typical scopes include ${servicePreview}. Every project starts with discovery, then moves into architecture, phased delivery, and post-launch optimization.`,
     },
     {
-      title: `How much does ${page.keyword.toLowerCase()} cost?`,
+      title: `Investment Range and Timeline Expectations in ${page.city}`,
       answer:
-        'Cost depends on scope, integrations, design complexity, and timeline. A lean launch costs less than a multi-module build. We recommend phased delivery with clear milestones so investment stays aligned to measurable outcomes.',
+        `Project investment depends on scope, integrations, and release speed. Lean launches are faster and lower cost than multi-module platforms. We recommend phased milestones so teams in ${page.city} can validate early outcomes before scaling budget.`,
     },
     {
-      title: `Why choose our ${page.city} team?`,
+      title: `Why ${page.city} Teams Choose WebOrbitSolution`,
       answer:
-        'We provide startup-friendly execution speed with enterprise-grade quality standards. You get transparent progress, accountable ownership, and technical planning that supports growth across Mumbai, Delhi, Bangalore, Hyderabad, Pune, Chennai, and wider India.',
+        `Teams choose us for startup-speed execution with enterprise-grade QA and delivery discipline. We support local stakeholders in ${page.city} while running PAN India coordination across distributed teams and multi-city decision makers.`,
     },
     {
-      title: `Best company comparison for ${page.city} projects`,
+      title: `${page.city} Industry Fit and Expansion Readiness`,
       answer:
-        'Choose based on architecture quality, communication clarity, and post-launch ownership. The best partner should provide both technical depth and business-aligned roadmap execution.',
+        `We commonly work with businesses in ${industryPreview}. The delivery focus is consistent: clear ownership, architecture quality, and expansion-ready systems that support growth beyond a single city market.`,
     },
   ];
 

@@ -1,4 +1,4 @@
-import TermsPage from '../../pages/TermsPage';
+import TermsPage from '../../views/TermsPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';

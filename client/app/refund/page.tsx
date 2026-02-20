@@ -1,4 +1,4 @@
-import RefundPolicyPage from '../../pages/RefundPolicyPage';
+import RefundPolicyPage from '../../views/RefundPolicyPage';
 import JsonLd from '../../components/JsonLd';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd } from '../../lib/structured-data';

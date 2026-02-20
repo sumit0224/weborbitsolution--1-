@@ -3,6 +3,22 @@ import type { NextRequest } from 'next/server';
 
 const CANONICAL_HOST = 'www.weborbitsolution.in';
 const DEV_HOSTS = new Set(['localhost', '127.0.0.1']);
+const LEGACY_PATH_REDIRECTS: Record<string, string> = {
+  '/website-app-saas-development-company-delhi-india': '/website-app-saas-development-company-india',
+  '/Home': '/',
+  '/ServicesPage': '/services',
+  '/WorkPage': '/work',
+  '/PricingPage': '/pricing',
+  '/AboutPage': '/about',
+  '/ContactPage': '/contact',
+  '/BlogPage': '/blog',
+  '/CookiePolicyPage': '/cookies',
+  '/PrivacyPage': '/privacy',
+  '/RefundPolicyPage': '/refund',
+  '/TermsPage': '/terms',
+  '/PaymentStatusPage': '/payment-status',
+  '/NotFound': '/404',
+};
 
 export function middleware(req: NextRequest) {
   const forwardedHost = req.headers.get('x-forwarded-host');
@@ -13,7 +29,8 @@ export function middleware(req: NextRequest) {
 
   const forwardedProto = req.headers.get('x-forwarded-proto');
   const isHttps = req.nextUrl.protocol === 'https:' || forwardedProto?.split(',')[0] === 'https';
-  const needsRedirect = !isHttps || hostname !== CANONICAL_HOST;
+  const redirectedPath = LEGACY_PATH_REDIRECTS[req.nextUrl.pathname] || req.nextUrl.pathname;
+  const needsRedirect = !isHttps || hostname !== CANONICAL_HOST || redirectedPath !== req.nextUrl.pathname;
 
   const requestHeaders = new Headers(req.headers);
   let nonce: string | null = null;
@@ -59,7 +76,7 @@ export function middleware(req: NextRequest) {
   }
 
   const response = needsRedirect
-    ? NextResponse.redirect(new URL(`https://${CANONICAL_HOST}${req.nextUrl.pathname}${req.nextUrl.search}`), 301)
+    ? NextResponse.redirect(new URL(`https://${CANONICAL_HOST}${redirectedPath}${req.nextUrl.search}`), 301)
     : NextResponse.next({ request: { headers: requestHeaders } });
 
   if (csp) {
