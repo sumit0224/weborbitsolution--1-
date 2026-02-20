@@ -32,7 +32,7 @@ export function middleware(req: NextRequest) {
     !hostname.endsWith('.vercel.app');
   const isApiRoute = req.nextUrl.pathname.startsWith('/api/');
   const isRedirectSafeMethod = req.method === 'GET' || req.method === 'HEAD';
-  const shouldSkipCsp = isDev || !hostname || DEV_HOSTS.has(hostname) || hostname.endsWith('.vercel.app');
+  const shouldSkipCsp = isDev || !hostname || DEV_HOSTS.has(hostname);
 
   const forwardedProto = req.headers.get('x-forwarded-proto');
   const isHttps = req.nextUrl.protocol === 'https:' || forwardedProto?.split(',')[0] === 'https';
@@ -72,14 +72,17 @@ export function middleware(req: NextRequest) {
     csp = [
       "default-src 'self'",
       `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms`,
+      "script-src-attr 'none'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://cdn.simpleicons.org https://www.google-analytics.com https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms",
       "font-src 'self' data: https://fonts.gstatic.com",
       `connect-src ${connectSrc.join(' ')}`,
       "frame-ancestors 'none'",
+      "frame-src 'self' https://test.payu.in https://secure.payu.in",
       "base-uri 'self'",
       // Allow secure and test PayU form POST handoff from checkout.
       "form-action 'self' https://test.payu.in https://secure.payu.in",
+      "manifest-src 'self'",
       "object-src 'none'",
       "worker-src 'self' blob:",
       'upgrade-insecure-requests',

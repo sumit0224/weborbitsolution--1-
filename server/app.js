@@ -291,9 +291,11 @@ const blogPostUpdateSchema = blogPostSchema.partial();
 const PAYU_KEY = process.env.PAYU_MERCHANT_KEY || '';
 const PAYU_SALT = process.env.PAYU_MERCHANT_SALT || '';
 const PAYU_BASE_URL = process.env.PAYU_BASE_URL || 'https://test.payu.in/_payment';
+const PAYU_ALLOWED_HOSTS = new Set(['test.payu.in', 'secure.payu.in']);
 const PAYU_CURRENCY = process.env.PAYU_CURRENCY || 'INR';
 const SERVER_PUBLIC_URL = process.env.SERVER_PUBLIC_URL || '';
 const PAYMENT_CLIENT_URL = process.env.PAYMENT_CLIENT_URL || '';
+const PAYMENTS_PROXY_SECRET = process.env.PAYMENTS_PROXY_SECRET || '';
 const PRIMARY_CLIENT_ORIGIN = normalizeOrigin(
   PAYMENT_CLIENT_URL || allowedOrigins.find((origin) => !isLocalOrigin(origin)) || allowedOrigins[0] || ''
 );
@@ -319,6 +321,21 @@ const formatAmount = (value) => {
 };
 
 const sha512 = (value) => crypto.createHash('sha512').update(value).digest('hex');
+
+const isTrustedPayuBaseUrl = (value) => {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' && PAYU_ALLOWED_HOSTS.has(parsed.hostname);
+  } catch {
+    return false;
+  }
+};
+
+const hasValidPaymentsProxyRequest = (req) => {
+  if (!PAYMENTS_PROXY_SECRET) return true;
+  const provided = String(req.get('x-payments-proxy') || '');
+  return safeCompare(provided, PAYMENTS_PROXY_SECRET);
+};
 
 const createPayuRequestHash = ({ key, txnid, amount, productinfo, firstname, email, udf1 = '', udf2 = '', udf3 = '', udf4 = '', udf5 = '' }) => {
   const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${PAYU_SALT}`;
@@ -354,6 +371,9 @@ const ensurePayuConfigured = () => {
   }
   if (!PAYU_BASE_URL || !/^https?:\/\//i.test(PAYU_BASE_URL)) {
     return { ok: false, error: 'PayU base URL is not configured correctly.' };
+  }
+  if (!isTrustedPayuBaseUrl(PAYU_BASE_URL)) {
+    return { ok: false, error: 'PayU base URL must use a trusted PayU domain.' };
   }
   if (!PAYU_SURL || !PAYU_FURL) {
     return { ok: false, error: 'PayU redirect URLs are not configured.' };
@@ -510,6 +530,10 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/payments/payu/create', validateBody(payuCreateSchema), async (req, res) => {
   try {
+    if (!hasValidPaymentsProxyRequest(req)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
     const configCheck = ensurePayuConfigured();
     if (!configCheck.ok) {
       return res.status(500).json({ error: configCheck.error });
@@ -604,35 +628,86 @@ app.post('/api/payments/payu/create', validateBody(payuCreateSchema), async (req
 const handlePayuCallback = async (req, res, fallbackStatus) => {
   try {
     const payload = req.body || {};
-    const txnid = payload.txnid;
-    const status = payload.status || fallbackStatus || 'failed';
-    const normalizedStatus = String(status).toLowerCase();
-    const isHashValid = verifyPayuResponseHash(payload);
+    const txnid = String(payload.txnid || '').trim();
+    const status = String(payload.status || fallbackStatus || 'failed').toLowerCase();
+    const keyMatches = String(payload.key || '').trim() === PAYU_KEY;
+    const isHashValid = keyMatches && verifyPayuResponseHash(payload);
 
-    const order = txnid ? await Order.findOne({ orderId: txnid }) : null;
-    const amountMatches = order && Number(payload.amount || 0).toFixed(2) === order.amount.toFixed(2);
-    const payuSaysSuccess = normalizedStatus === 'success';
-    const isPaymentSuccessful = isHashValid && payuSaysSuccess && amountMatches;
-
-    if (order) {
-      await Order.updateOne(
-        { orderId: txnid },
-        {
-          status: isPaymentSuccessful ? 'paid' : 'failed',
-          paymentId: payload.mihpayid || payload.paymentId || null,
-          signature: payload.hash || null,
-          paidAt: isPaymentSuccessful ? new Date() : null,
-        }
-      );
+    if (!txnid) {
+      return res.status(400).json({ error: 'Missing transaction id.' });
     }
 
-    const redirectStatus = isPaymentSuccessful ? 'success' : payuSaysSuccess ? 'verification_failed' : 'failure';
+    const order = await Order.findOne({ orderId: txnid });
+    if (!order) {
+      const unknownOrderRedirect = buildClientRedirect('failure', txnid);
+      if (unknownOrderRedirect) {
+        return res.redirect(302, unknownOrderRedirect);
+      }
+      return res.status(404).json({ error: 'Order not found.' });
+    }
+
+    if (!isHashValid) {
+      const invalidSignatureRedirect = buildClientRedirect('verification_failed', txnid);
+      if (invalidSignatureRedirect) {
+        return res.redirect(302, invalidSignatureRedirect);
+      }
+      return res.status(400).json({ error: 'Invalid callback signature.' });
+    }
+
+    const amountMatches = Number(payload.amount || 0).toFixed(2) === order.amount.toFixed(2);
+    const payuSaysSuccess = status === 'success';
+    let redirectStatus = 'failure';
+
+    if (payuSaysSuccess && amountMatches) {
+      await Order.updateOne(
+        { _id: order._id, status: { $ne: 'paid' } },
+        {
+          status: 'paid',
+          paymentId: payload.mihpayid || payload.paymentId || null,
+          signature: payload.hash || null,
+          paidAt: new Date(),
+        }
+      );
+      redirectStatus = 'success';
+    } else if (payuSaysSuccess && !amountMatches) {
+      if (order.status !== 'paid') {
+        await Order.updateOne(
+          { _id: order._id, status: { $ne: 'paid' } },
+          {
+            status: 'failed',
+            paymentId: payload.mihpayid || payload.paymentId || null,
+            signature: payload.hash || null,
+            paidAt: null,
+          }
+        );
+      }
+      redirectStatus = 'verification_failed';
+    } else {
+      if (order.status !== 'paid') {
+        await Order.updateOne(
+          { _id: order._id, status: { $ne: 'paid' } },
+          {
+            status: 'failed',
+            paymentId: payload.mihpayid || payload.paymentId || null,
+            signature: payload.hash || null,
+            paidAt: null,
+          }
+        );
+      }
+      redirectStatus = 'failure';
+    }
+
     const redirectUrl = buildClientRedirect(redirectStatus, txnid);
     if (redirectUrl) {
       return res.redirect(302, redirectUrl);
     }
 
-    return res.json({ ok: isPaymentSuccessful, orderId: txnid, status });
+    return res.json({
+      ok: redirectStatus === 'success',
+      orderId: txnid,
+      status: redirectStatus,
+      verified: true,
+    });
   } catch (error) {
     console.error('PayU callback error:', error);
     return res.status(500).json({ error: 'Payment verification failed.' });
@@ -641,6 +716,34 @@ const handlePayuCallback = async (req, res, fallbackStatus) => {
 
 app.post('/api/payments/payu/success', (req, res) => handlePayuCallback(req, res, 'success'));
 app.post('/api/payments/payu/failure', (req, res) => handlePayuCallback(req, res, 'failure'));
+
+app.get('/api/payments/payu/status/:txnid', async (req, res) => {
+  try {
+    if (!hasValidPaymentsProxyRequest(req)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const txnid = String(req.params.txnid || '').trim();
+    if (!/^WO\d+[a-f0-9]{8}$/i.test(txnid)) {
+      return res.status(400).json({ error: 'Invalid transaction id.' });
+    }
+
+    const order = await Order.findOne({ orderId: txnid }).select(
+      'orderId status planId planName amount currency paidAt createdAt updatedAt'
+    );
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found.' });
+    }
+
+    return res.json({
+      ok: true,
+      order,
+    });
+  } catch (error) {
+    console.error('PayU status lookup error:', error);
+    return res.status(500).json({ error: 'Unable to fetch payment status.' });
+  }
+});
 
 app.post('/api/inquiry', formLimiter, validateBody(inquirySchema), async (req, res) => {
   try {

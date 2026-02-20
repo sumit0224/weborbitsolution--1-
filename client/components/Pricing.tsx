@@ -51,6 +51,9 @@ const tiers = [
   }
 ];
 
+const PAYU_ALLOWED_HOSTS = new Set(['test.payu.in', 'secure.payu.in']);
+const CHECKOUT_REQUEST_TIMEOUT_MS = 12_000;
+
 const Pricing: React.FC = () => {
   const router = useRouter();
   const [checkoutTier, setCheckoutTier] = useState<(typeof tiers)[number] | null>(null);
@@ -120,14 +123,37 @@ const Pricing: React.FC = () => {
       }
     };
 
-  const postToPayu = (url: string, params: Record<string, string>) => {
-    if (!/^https?:\/\//i.test(url)) {
+  const fetchWithTimeout = async (url: string, init: RequestInit, timeoutMs = CHECKOUT_REQUEST_TIMEOUT_MS) => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, {
+        ...init,
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
+  };
+
+  const getTrustedPayuUrl = (url: string) => {
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== 'https:' || !PAYU_ALLOWED_HOSTS.has(parsed.hostname)) {
+        throw new Error('Untrusted host');
+      }
+      return parsed.toString();
+    } catch {
       throw new Error('Invalid payment gateway URL. Please contact support.');
     }
+  };
+
+  const postToPayu = (url: string, params: Record<string, string>) => {
+    const trustedUrl = getTrustedPayuUrl(url);
 
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = url;
+    form.action = trustedUrl;
     form.target = '_self';
     form.acceptCharset = 'utf-8';
     form.enctype = 'application/x-www-form-urlencoded';
@@ -171,30 +197,12 @@ const Pricing: React.FC = () => {
         return isJson ? await response.json() : { error: await response.text() };
       };
 
-      let response = await fetch('/api/payments/payu/create', {
+      const response = await fetchWithTimeout('/api/payments/payu/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      let data = await readResponse(response);
-
-      const directApiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/+$/, '');
-      if (!response.ok && directApiBase) {
-        try {
-          const directResponse = await fetch(`${directApiBase}/api/payments/payu/create`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
-          const directData = await readResponse(directResponse);
-          if (directResponse.ok) {
-            response = directResponse;
-            data = directData;
-          }
-        } catch (directError) {
-          // Keep primary error response if direct fallback also fails.
-        }
-      }
+      const data = await readResponse(response);
 
       if (!response.ok) {
         throw new Error(data?.error || 'Unable to start payment.');
@@ -215,6 +223,7 @@ const Pricing: React.FC = () => {
 
       // Only show an error if the browser stays on the same page after submit.
       setTimeout(() => {
+        window.removeEventListener('pagehide', onPageHide);
         if (!hasNavigatedAway && `${window.location.pathname}${window.location.search}` === currentPath) {
           setCheckoutStatus('error');
           setCheckoutMessage('Redirect to PayU was blocked. Please try again or contact support.');
@@ -223,6 +232,10 @@ const Pricing: React.FC = () => {
     } catch (error) {
       console.error('PayU checkout error:', error);
       setCheckoutStatus('error');
+      if (error instanceof Error && error.name === 'AbortError') {
+        setCheckoutMessage('Payment request timed out. Please try again.');
+        return;
+      }
       setCheckoutMessage(error instanceof Error ? error.message : 'Payment setup failed.');
     }
   };

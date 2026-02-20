@@ -18,7 +18,7 @@ const getBackendBaseUrl = () => {
 };
 
 const getProxyHeaders = () => {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const headers: Record<string, string> = {};
   const proxySecret = process.env.PAYMENTS_PROXY_SECRET;
   if (proxySecret) {
     headers['x-payments-proxy'] = proxySecret;
@@ -33,6 +33,7 @@ const fetchWithTimeout = async (url: string, init: RequestInit, timeoutMs = UPST
     return await fetch(url, {
       ...init,
       signal: controller.signal,
+      cache: 'no-store',
     });
   } finally {
     clearTimeout(timeout);
@@ -46,35 +47,38 @@ const readUpstreamBody = async (response: Response) => {
   }
 
   const text = await response.text().catch(() => '');
-  return { error: text || 'Payment request failed.' };
+  return { error: text || 'Unable to fetch payment status.' };
 };
 
-export async function POST(req: Request) {
+export async function GET(_req: Request, context: { params: Promise<{ txnid: string }> }) {
   try {
     const backendBaseUrl = getBackendBaseUrl();
     if (!backendBaseUrl) {
-      return NextResponse.json(
-        { error: 'Payment backend is not configured. Set PAYMENTS_BACKEND_URL on the client app.' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Payment backend is not configured.' }, { status: 500 });
     }
 
-    const payload = await req.json();
-    const upstreamResponse = await fetchWithTimeout(`${backendBaseUrl}/api/payments/payu/create`, {
-      method: 'POST',
-      headers: getProxyHeaders(),
-      body: JSON.stringify(payload),
-      cache: 'no-store',
-    });
+    const params = await context.params;
+    const txnid = String(params?.txnid || '').trim();
+    if (!txnid) {
+      return NextResponse.json({ error: 'Missing transaction id.' }, { status: 400 });
+    }
+
+    const upstreamResponse = await fetchWithTimeout(
+      `${backendBaseUrl}/api/payments/payu/status/${encodeURIComponent(txnid)}`,
+      {
+        method: 'GET',
+        headers: getProxyHeaders(),
+      },
+    );
 
     const responseBody = await readUpstreamBody(upstreamResponse);
-
     return NextResponse.json(responseBody, { status: upstreamResponse.status });
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
-      return NextResponse.json({ error: 'Payment service timeout. Please try again.' }, { status: 504 });
+      return NextResponse.json({ error: 'Payment status request timed out.' }, { status: 504 });
     }
-    console.error('PayU proxy route failed:', error);
-    return NextResponse.json({ error: 'Unable to start payment at the moment.' }, { status: 500 });
+
+    console.error('PayU status proxy route failed:', error);
+    return NextResponse.json({ error: 'Unable to fetch payment status right now.' }, { status: 500 });
   }
 }
