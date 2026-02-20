@@ -129,6 +129,8 @@ const Pricing: React.FC = () => {
     form.method = 'POST';
     form.action = url;
     form.target = '_self';
+    form.acceptCharset = 'utf-8';
+    form.enctype = 'application/x-www-form-urlencoded';
     form.style.display = 'none';
 
     Object.entries(params).forEach(([key, value]) => {
@@ -140,11 +142,8 @@ const Pricing: React.FC = () => {
     });
 
     document.body.appendChild(form);
-    if (typeof form.requestSubmit === 'function') {
-      form.requestSubmit();
-    } else {
-      form.submit();
-    }
+    // Use native submit to avoid submit-event interception from app-level handlers.
+    HTMLFormElement.prototype.submit.call(form);
 
     // Keep form briefly; removing immediately can cancel submission on some mobile browsers.
     setTimeout(() => {
@@ -205,15 +204,22 @@ const Pricing: React.FC = () => {
         throw new Error('Payment gateway response is invalid. Please try again.');
       }
 
+      const currentPath = `${window.location.pathname}${window.location.search}`;
+      let hasNavigatedAway = false;
+      const onPageHide = () => {
+        hasNavigatedAway = true;
+      };
+      window.addEventListener('pagehide', onPageHide, { once: true });
+
       postToPayu(data.paymentUrl, data.params);
 
-      // If navigation does not happen, recover UI state and show a clear action message.
+      // Only show an error if the browser stays on the same page after submit.
       setTimeout(() => {
-        if (document.visibilityState === 'visible') {
+        if (!hasNavigatedAway && `${window.location.pathname}${window.location.search}` === currentPath) {
           setCheckoutStatus('error');
           setCheckoutMessage('Redirect to PayU was blocked. Please try again or contact support.');
         }
-      }, 4000);
+      }, 8000);
     } catch (error) {
       console.error('PayU checkout error:', error);
       setCheckoutStatus('error');

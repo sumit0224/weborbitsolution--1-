@@ -78,7 +78,8 @@ export function middleware(req: NextRequest) {
       `connect-src ${connectSrc.join(' ')}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self' https://secure.payu.in https://test.payu.in",
+      // Allow secure and test PayU form POST handoff from checkout.
+      "form-action 'self' https://test.payu.in https://secure.payu.in",
       "object-src 'none'",
       "worker-src 'self' blob:",
       'upgrade-insecure-requests',
