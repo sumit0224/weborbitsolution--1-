@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.weborbitsolution.in';
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.weborbitsolution.in';
+const siteUrl = rawSiteUrl.replace(/\/$/, '');
 const ogImage =
   process.env.NEXT_PUBLIC_OG_IMAGE ||
   'https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80';
+const twitterHandle = process.env.NEXT_PUBLIC_TWITTER_HANDLE;
 
 export const siteConfig = {
   name: 'WebOrbitSolution',
@@ -52,6 +54,7 @@ export const baseMetadata: Metadata = {
     siteName: siteConfig.name,
     type: 'website',
     locale: siteConfig.locale,
+    alternateLocale: ['en_US'],
     images: [
       {
         url: siteConfig.ogImage,
@@ -66,6 +69,7 @@ export const baseMetadata: Metadata = {
     title: 'IT Services & Web Development Company in India | WebOrbitSolution',
     description: siteConfig.description,
     images: [siteConfig.ogImage],
+    ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
   },
   robots: {
     index: true,
@@ -120,6 +124,7 @@ export const createPageMetadata = ({
       url: canonicalUrl,
       siteName: siteConfig.name,
       type,
+      locale: siteConfig.locale,
       images: [
         {
           url: resolvedImage,
@@ -135,6 +140,7 @@ export const createPageMetadata = ({
       title,
       description,
       images: [resolvedImage],
+      ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
       ...twitter,
     },
   };

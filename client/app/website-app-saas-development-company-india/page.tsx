@@ -8,6 +8,7 @@ import { breadcrumbJsonLd, faqPageJsonLd, localBusinessJsonLd, organizationJsonL
 const pageTitle = 'Website, App & SaaS Development Company in India';
 const pageDescription =
   'PAN India website, app, SaaS, and custom software development company. Get enterprise-grade engineering and IT consulting for faster product delivery.';
+const twitterHandle = process.env.NEXT_PUBLIC_TWITTER_HANDLE;
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     type: 'website',
     locale: siteConfig.locale,
+    alternateLocale: ['en_US'],
     images: [
       {
         url: siteConfig.ogImage,
@@ -36,6 +38,7 @@ export const metadata: Metadata = {
     title: pageTitle,
     description: pageDescription,
     images: [siteConfig.ogImage],
+    ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
   },
 };
 

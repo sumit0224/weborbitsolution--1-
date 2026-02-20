@@ -1,8 +1,8 @@
 import JsonLd from '../../components/JsonLd';
-import ServiceSeoPage from '../../components/ServiceSeoPage';
 import { serviceSeoPages } from '../../data/serviceSeoPages';
 import { createPageMetadata } from '../../lib/seo';
 import { breadcrumbJsonLd, faqPageJsonLd, localBusinessJsonLd, organizationJsonLd, serviceJsonLd } from '../../lib/structured-data';
+import ServicesPage from '../../views/ServicesPage';
 
 const config = serviceSeoPages.servicesOverview;
 
@@ -30,7 +30,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <ServiceSeoPage config={config} />
+      <ServicesPage />
     </>
   );
 }

@@ -25,12 +25,19 @@ export function middleware(req: NextRequest) {
   const hostHeader = forwardedHost || req.headers.get('host') || '';
   const hostname = hostHeader.split(',')[0].split(':')[0];
   const isDev = process.env.NODE_ENV !== 'production';
+  const shouldEnforceCanonical =
+    process.env.NODE_ENV === 'production' &&
+    !!hostname &&
+    !DEV_HOSTS.has(hostname) &&
+    !hostname.endsWith('.vercel.app');
   const shouldSkipCsp = isDev || !hostname || DEV_HOSTS.has(hostname) || hostname.endsWith('.vercel.app');
 
   const forwardedProto = req.headers.get('x-forwarded-proto');
   const isHttps = req.nextUrl.protocol === 'https:' || forwardedProto?.split(',')[0] === 'https';
   const redirectedPath = LEGACY_PATH_REDIRECTS[req.nextUrl.pathname] || req.nextUrl.pathname;
-  const needsRedirect = !isHttps || hostname !== CANONICAL_HOST || redirectedPath !== req.nextUrl.pathname;
+  const needsRedirect =
+    shouldEnforceCanonical &&
+    (!isHttps || hostname !== CANONICAL_HOST || redirectedPath !== req.nextUrl.pathname);
 
   const requestHeaders = new Headers(req.headers);
   let nonce: string | null = null;
@@ -62,7 +69,7 @@ export function middleware(req: NextRequest) {
       "default-src 'self'",
       `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://www.google-analytics.com https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms",
+      "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://cdn.simpleicons.org https://www.google-analytics.com https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms",
       "font-src 'self' data: https://fonts.gstatic.com",
       `connect-src ${connectSrc.join(' ')}`,
       "frame-ancestors 'none'",

@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 const ServicesPage: React.FC = () => {
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>('.scroll-reveal'));
     if (!elements.length) return;
@@ -160,20 +162,20 @@ const ServicesPage: React.FC = () => {
   ];
 
   const techItems = [
-    { name: 'React', logo: 'https://cdn.simpleicons.org/react/61DAFB' },
-    { name: 'Next.js', logo: 'https://cdn.simpleicons.org/nextdotjs/FFFFFF' },
-    { name: 'Vue.js', logo: 'https://cdn.simpleicons.org/vuedotjs/41B883' },
-    { name: 'Node.js', logo: 'https://cdn.simpleicons.org/nodedotjs/339933' },
-    { name: 'Laravel', logo: 'https://cdn.simpleicons.org/laravel/FF2D20' },
-    { name: 'Python', logo: 'https://cdn.simpleicons.org/python/3776AB' },
-    { name: 'Flutter', logo: 'https://cdn.simpleicons.org/flutter/02569B' },
-    { name: 'React Native', logo: 'https://cdn.simpleicons.org/react/61DAFB' },
-    { name: 'AWS', logo: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
-    { name: 'Firebase', logo: 'https://cdn.simpleicons.org/firebase/FFCA28' },
-    { name: 'Vercel', logo: 'https://cdn.simpleicons.org/vercel/FFFFFF' },
-    { name: 'Figma', logo: 'https://cdn.simpleicons.org/figma/F24E1E' },
-    { name: 'GA4', logo: 'https://cdn.simpleicons.org/googleanalytics/F9AB00' },
-    { name: 'Search Console', logo: 'https://cdn.simpleicons.org/googlesearchconsole/1A73E8' },
+    { name: 'React', logo: '/images/tech/react.webp' },
+    { name: 'Next.js', logo: '/images/tech/nextjs.webp' },
+    { name: 'Vue.js', logo: '/images/tech/vuejs.webp' },
+    { name: 'Node.js', logo: '/images/tech/nodejs.webp' },
+    { name: 'Laravel', logo: '/images/tech/laravel.webp' },
+    { name: 'Python', logo: '/images/tech/python.webp' },
+    { name: 'Flutter', logo: '/images/tech/flutter.webp' },
+    { name: 'React Native', logo: '/images/tech/react-native.webp' },
+    { name: 'AWS', logo: '/images/tech/aws.webp' },
+    { name: 'Firebase', logo: '/images/tech/firebase.webp' },
+    { name: 'Vercel', logo: '/images/tech/vercel.webp' },
+    { name: 'Figma', logo: '/images/tech/figma.webp' },
+    { name: 'GA4', logo: '/images/tech/ga4.webp' },
+    { name: 'Search Console', logo: '/images/tech/search-console.webp' },
   ];
 
   const faqs = [
@@ -210,12 +212,12 @@ const ServicesPage: React.FC = () => {
   return (
     <section className="bg-black text-white pt-32 pb-20">
       <div className="px-6 md:px-12 mb-16 scroll-reveal">
-          <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Services</p>
-          <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
+        <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Services</p>
+        <h1 className="font-body font-black text-5xl md:text-7xl uppercase tracking-tighter mt-4">
           Web Development Company
           <br />
           In India That Scales
-          </h1>
+        </h1>
         <p className="text-gray-400 text-lg md:text-xl max-w-3xl mt-6">
           WebOrbitSolution is a web development company in India helping startups, small businesses, and growing
           companies build high-performing websites, web apps, and digital systems. Based in Noida, serving India and
@@ -422,10 +424,29 @@ const ServicesPage: React.FC = () => {
         <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">FAQs</p>
         <h2 className="text-3xl md:text-4xl font-semibold mt-4">Frequently Asked Questions</h2>
         <div className="mt-8 space-y-6">
-          {faqs.map((item) => (
-            <div key={item.q} className="border border-white/10 p-6 bg-white/5 scroll-reveal">
-              <h3 className="text-lg font-semibold text-white">{item.q}</h3>
-              <p className="text-gray-400 mt-3">{item.a}</p>
+          {faqs.map((item, index) => (
+            <div key={item.q} className="border border-white/10 bg-white/5 scroll-reveal">
+              <h3>
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between gap-4 p-6 text-left"
+                  aria-expanded={openFaqIndex === index}
+                  aria-controls={`services-faq-answer-${index}`}
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                >
+                  <span className="text-lg font-semibold text-white">{item.q}</span>
+                  <span className="text-primary text-xl leading-none" aria-hidden="true">
+                    {openFaqIndex === index ? '-' : '+'}
+                  </span>
+                </button>
+              </h3>
+              <div
+                id={`services-faq-answer-${index}`}
+                className={`px-6 transition-all duration-300 ${openFaqIndex === index ? 'max-h-40 pb-6 opacity-100' : 'max-h-0 overflow-hidden opacity-0'
+                  }`}
+              >
+                <p className="text-gray-400">{item.a}</p>
+              </div>
             </div>
           ))}
         </div>

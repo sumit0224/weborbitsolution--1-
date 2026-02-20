@@ -7,6 +7,7 @@ import { breadcrumbJsonLd, localBusinessJsonLd, organizationJsonLd, websiteJsonL
 const homepageTitle = 'WebOrbitSolution | SaaS, App & Web Development India';
 const homepageDescription =
   'WebOrbitSolution is a PAN India technology partner for SaaS platforms, mobile apps, websites, and IT consulting services.';
+const twitterHandle = process.env.NEXT_PUBLIC_TWITTER_HANDLE;
 
 export const metadata: Metadata = {
   title: { absolute: homepageTitle },
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     type: 'website',
     locale: siteConfig.locale,
+    alternateLocale: ['en_US'],
     images: [
       {
         url: siteConfig.ogImage,
@@ -35,6 +37,7 @@ export const metadata: Metadata = {
     title: homepageTitle,
     description: homepageDescription,
     images: [siteConfig.ogImage],
+    ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
   },
 };
 
