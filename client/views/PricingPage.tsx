@@ -1,376 +1,241 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import Pricing from '../components/Pricing';
 
 const faqItems = [
   {
     question: 'How much does website development cost in India?',
     answer:
-      'Professional website development in India typically ranges from INR 40,000 to INR 4,00,000+ depending on scope, UX depth, and performance requirements.'
+      'Most website projects start from INR 25,000 and scale based on page count, design complexity, integrations, and conversion requirements.',
   },
   {
-    question: 'What is included in a WebOrbitSolution pricing package?',
+    question: 'Do you provide fixed packages in INR?',
     answer:
-      'Every package includes strategy, UX/UI design, development, QA, and launch support. Higher tiers add motion design, conversion optimization, and deeper branding.'
+      'Yes. We provide clear INR package starting points for website, app, SaaS, SEO, and support services. Final quotes are confirmed after discovery.',
   },
   {
-    question: 'How long does a website project take?',
+    question: 'Can I start with an MVP and scale later?',
     answer:
-      'Most launches take 3–6 weeks for marketing sites and 8–12 weeks for complex builds. Final timelines depend on content and approvals.'
+      'Yes. Many startups begin with an MVP package and then expand in phases. This keeps initial investment controlled and growth measurable.',
   },
   {
-    question: 'Do you offer SEO-ready websites?',
+    question: 'Are taxes included in listed pricing?',
     answer:
-      'Yes. We ship SEO-ready structures, performance optimization, and metadata support so your site can rank from day one.'
-  }
+      'Listed prices are base package estimates. GST and third-party tool costs, if any, are added as applicable in the final proposal.',
+  },
+  {
+    question: 'Do you offer monthly retainers after launch?',
+    answer:
+      'Yes. We offer monthly plans for SEO, maintenance, optimization, and growth support so you can keep improving after launch.',
+  },
+];
+
+const serviceBands = [
+  {
+    service: 'Website Development',
+    range: '₹25,000 - ₹1,50,000+',
+    timeline: '2-8 weeks',
+    bestFor: 'Startups, local businesses, and growth-focused brands',
+    includes: ['UI/UX design', 'SEO-ready setup', 'Performance optimization'],
+  },
+  {
+    service: 'App Development (MVP to Scale)',
+    range: '₹2,50,000 - ₹12,00,000+',
+    timeline: '6-20 weeks',
+    bestFor: 'Founders building Android/iOS/cross-platform products',
+    includes: ['Product architecture', 'API integrations', 'Secure authentication'],
+  },
+  {
+    service: 'SaaS Product Development',
+    range: '₹3,50,000 - ₹20,00,000+',
+    timeline: '8-28 weeks',
+    bestFor: 'SaaS founders and enterprise workflow platforms',
+    includes: ['MVP planning', 'Scalable backend', 'Admin and analytics modules'],
+  },
+  {
+    service: 'SEO Services (Monthly)',
+    range: '₹15,000 - ₹70,000/month',
+    timeline: '3-6 months for strong gains',
+    bestFor: 'Teams needing consistent qualified organic leads',
+    includes: ['Technical SEO', 'Content strategy', 'Reporting and tracking'],
+  },
+];
+
+const engagementModels = [
+  {
+    title: 'Fixed Scope Package',
+    summary: 'Best for clear requirements and faster delivery.',
+    points: ['Milestone-based delivery', 'Predictable budget', 'Defined deliverables'],
+  },
+  {
+    title: 'Monthly Retainer',
+    summary: 'Best for ongoing SEO, support, and iterative product growth.',
+    points: ['Continuous optimization', 'Monthly roadmap', 'Priority support'],
+  },
+  {
+    title: 'Dedicated Team',
+    summary: 'Best for larger products and aggressive roadmap velocity.',
+    points: ['Cross-functional team', 'Weekly sprint cycles', 'Scalable execution'],
+  },
 ];
 
 const PricingPage: React.FC = () => {
-  const pricingSections = [
-    {
-      id: 'website-development',
-      title: 'Website Development (INR)',
-      plans: [
-        {
-          name: 'Basic Website',
-          price: 'Starting from ₹35,000',
-          bestFor: 'Startups and small businesses launching a simple, professional website.',
-          timeline: '2–3 weeks',
-          features: ['Up to 5 pages', 'Responsive design', 'Basic SEO setup', 'Contact form', 'Speed optimization'],
-          cta: 'Contact Us',
-        },
-        {
-          name: 'Standard Website',
-          price: 'Starting from ₹75,000',
-          bestFor: 'Growing businesses that need a stronger brand presence and conversions.',
-          timeline: '3–5 weeks',
-          features: [
-            '8–12 pages',
-            'Custom UI/UX design',
-            'SEO-ready structure',
-            'CMS integration',
-            'Performance optimization',
-          ],
-          cta: 'Get a Free Quote',
-        },
-        {
-          name: 'Premium Website',
-          price: 'Starting from ₹1,50,000',
-          bestFor: 'Brands that want a premium, high-converting digital experience.',
-          timeline: '5–8 weeks',
-          features: [
-            '15+ pages or custom layout system',
-            'Advanced UI/UX and animations',
-            'Conversion-focused layout',
-            'Advanced SEO and tracking setup',
-            'High-performance build',
-          ],
-          cta: 'Contact Us',
-        },
-      ],
-    },
-    {
-      id: 'web-app-development',
-      title: 'Web & App Development (Custom Pricing)',
-      plans: [
-        {
-          name: 'Custom Build',
-          price: 'Starting from custom quote',
-          bestFor: 'Businesses building platforms, SaaS products, internal tools, or mobile apps.',
-          timeline: '6–16+ weeks (based on complexity)',
-          features: [
-            'Custom features and workflows',
-            'Scalable architecture',
-            'API integrations',
-            'Secure authentication',
-            'QA and performance testing',
-          ],
-          cta: 'Get a Free Quote',
-        },
-      ],
-    },
-    {
-      id: 'ui-ux-design',
-      title: 'UI / UX Design (INR)',
-      plans: [
-        {
-          name: 'Starter UI/UX',
-          price: 'Starting from ₹25,000',
-          bestFor: 'Landing pages, MVPs, or feature refresh.',
-          timeline: '1–2 weeks',
-          features: ['UX research + wireframes', '1–3 key screens', 'Modern UI kit', 'Design handoff'],
-          cta: 'Contact Us',
-        },
-        {
-          name: 'Growth UI/UX',
-          price: 'Starting from ₹60,000',
-          bestFor: 'Apps or websites with multiple flows and conversion goals.',
-          timeline: '2–4 weeks',
-          features: ['UX mapping and flows', '5–10 screens', 'Interactive prototype', 'Component library'],
-          cta: 'Get a Free Quote',
-        },
-        {
-          name: 'Premium UI/UX',
-          price: 'Starting from ₹1,20,000',
-          bestFor: 'SaaS, enterprise dashboards, or complex apps.',
-          timeline: '4–6 weeks',
-          features: ['Research + UX strategy', '12+ screens', 'Advanced prototyping', 'Design system'],
-          cta: 'Contact Us',
-        },
-      ],
-    },
-    {
-      id: 'seo-services',
-      title: 'SEO Services (Monthly INR)',
-      plans: [
-        {
-          name: 'SEO Starter',
-          price: 'Starting from ₹15,000/month',
-          bestFor: 'Businesses starting SEO and local visibility.',
-          timeline: '1–2 months to see traction',
-          features: ['Technical SEO audit', 'On-page optimization', 'Keyword research', 'Monthly reporting'],
-          cta: 'Get a Free Quote',
-        },
-        {
-          name: 'SEO Growth',
-          price: 'Starting from ₹35,000/month',
-          bestFor: 'Growing brands needing consistent leads.',
-          timeline: '2–4 months for measurable growth',
-          features: ['On-page + off-page SEO', 'Content strategy', 'Local + global SEO', 'Conversion tracking'],
-          cta: 'Contact Us',
-        },
-        {
-          name: 'SEO Premium',
-          price: 'Starting from ₹70,000/month',
-          bestFor: 'Competitive industries and high-growth targets.',
-          timeline: '3–6 months for scalable results',
-          features: ['Full SEO + content pipeline', 'Technical optimization', 'Authority building', 'CRO insights'],
-          cta: 'Get a Free Quote',
-        },
-      ],
-    },
-    {
-      id: 'digital-marketing',
-      title: 'Digital Marketing (Monthly INR)',
-      plans: [
-        {
-          name: 'Marketing Starter',
-          price: 'Starting from ₹12,000/month',
-          bestFor: 'Brands starting paid and social campaigns.',
-          timeline: '1–2 months to see traction',
-          features: ['Campaign strategy', 'Paid ads setup', 'Audience targeting', 'Monthly reporting'],
-          cta: 'Get a Free Quote',
-        },
-        {
-          name: 'Marketing Growth',
-          price: 'Starting from ₹30,000/month',
-          bestFor: 'Growing brands needing consistent demand.',
-          timeline: '2–3 months for steady lead flow',
-          features: ['Multi-channel campaigns', 'Creative testing', 'Landing page optimization', 'Conversion tracking'],
-          cta: 'Contact Us',
-        },
-        {
-          name: 'Marketing Performance',
-          price: 'Starting from ₹60,000/month',
-          bestFor: 'High-growth teams scaling paid performance.',
-          timeline: '3–6 months for scalable results',
-          features: ['Full-funnel strategy', 'Budget scaling', 'Performance optimization', 'Weekly insights'],
-          cta: 'Get a Free Quote',
-        },
-      ],
-    },
-    {
-      id: 'maintenance',
-      title: 'Maintenance & Support Plans (Monthly INR)',
-      plans: [
-        {
-          name: 'Basic Care',
-          price: 'Starting from ₹5,000/month',
-          bestFor: 'Small websites needing routine updates.',
-          timeline: 'Response time: 48–72 hours',
-          features: ['Security monitoring', 'Minor content updates', 'Backup management', 'Basic uptime checks'],
-          cta: 'Contact Us',
-        },
-        {
-          name: 'Growth Support',
-          price: 'Starting from ₹12,000/month',
-          bestFor: 'Business sites needing faster updates and performance tuning.',
-          timeline: 'Response time: 24–48 hours',
-          features: ['Priority updates', 'Performance monitoring', 'Monthly optimization report', 'Bug fixes'],
-          cta: 'Get a Free Quote',
-        },
-        {
-          name: 'Premium Support',
-          price: 'Starting from ₹25,000/month',
-          bestFor: 'High-traffic or revenue-critical platforms.',
-          timeline: 'Response time: 8–24 hours',
-          features: ['Dedicated support window', 'Proactive monitoring', 'SLA-based response', 'Security audits'],
-          cta: 'Contact Us',
-        },
-      ],
-    },
-  ];
+  const [openFaqIndex, setOpenFaqIndex] = useState<number>(0);
 
   return (
     <section className="bg-black text-white pt-32 pb-24">
       <div className="page-container">
-        <div className="max-w-3xl">
-          <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing</p>
-          <h1 className="font-heading text-4xl md:text-6xl tracking-tight mt-4">
-            IT Services Pricing
-            <br />
-            in India
-          </h1>
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mt-6">
-            Choose a package built for speed, conversion, and long-term growth. Every plan includes strategy, UI/UX design, and high-performance development.
-          </p>
+        <div className="border border-primary/30 bg-primary/10 px-4 py-2 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em]">
+          <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+          All Prices in Indian Rupees (INR)
+        </div>
+
+        <div className="mt-8 grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
+          <div>
+            <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing</p>
+            <h1 className="font-heading text-4xl md:text-6xl tracking-tight mt-4">
+              Reimagined Pricing for
+              <br />
+              Startups and Growth Teams
+            </h1>
+            <p className="text-gray-300 text-lg md:text-xl mt-6 max-w-3xl">
+              Choose a package, validate faster, and scale with confidence. Our pricing is built for Indian startups,
+              SMEs, and enterprises that want clear outcomes and transparent delivery.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-3 bg-primary text-black text-xs uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors"
+              >
+                Get Custom Quote
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center px-8 py-3 border border-white/20 text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
+              >
+                Explore Services
+              </Link>
+            </div>
+          </div>
+
+          <aside className="border border-white/10 bg-white/5 p-6 md:p-8">
+            <p className="text-xs uppercase tracking-[0.3em] text-primary">Quick Snapshot</p>
+            <div className="mt-5 space-y-4">
+              <div className="border border-white/10 bg-black/40 p-4">
+                <p className="text-sm text-gray-400">Website packages</p>
+                <p className="text-2xl font-semibold mt-1">From ₹25,000</p>
+              </div>
+              <div className="border border-white/10 bg-black/40 p-4">
+                <p className="text-sm text-gray-400">SaaS MVP packages</p>
+                <p className="text-2xl font-semibold mt-1">From ₹3,50,000</p>
+              </div>
+              <div className="border border-white/10 bg-black/40 p-4">
+                <p className="text-sm text-gray-400">Monthly SEO plans</p>
+                <p className="text-2xl font-semibold mt-1">From ₹15,000/month</p>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-14">
         <Pricing />
       </div>
 
       <div className="page-container mt-16">
-        <div className="max-w-3xl">
-          <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing Details</p>
-          <h2 className="font-heading text-3xl md:text-5xl tracking-tight mt-4">
-            Clear, flexible pricing
-            <br />
-            for every stage
-          </h2>
-          <p className="text-gray-400 mt-4">
-            All pricing is in INR and listed as <span className="text-white font-semibold">starting from</span>. Final
-            quotes depend on scope, features, and delivery timelines.
-          </p>
-          <a
-            href="/contact"
-            className="inline-flex items-center justify-center px-8 py-3 mt-8 border border-white/20 text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
-          >
-            Get a Free Quote for IT Services
-          </a>
-        </div>
-      </div>
-
-      <div className="page-container mt-12 space-y-12">
-        {pricingSections.map((section) => (
-          <div key={section.id} className="border border-white/10 bg-white/5 p-8 md:p-10">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-primary">Plans</p>
-                <h3 className="text-2xl md:text-3xl font-semibold mt-3">{section.title}</h3>
-              </div>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center px-6 py-2 border border-white/20 text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
-              >
-                Contact Us
-              </a>
-            </div>
-            <div className="mt-8 grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {section.plans.map((plan) => (
-                <div key={plan.name} className="border border-white/10 p-6 bg-black/40">
-                  <p className="text-primary text-xs uppercase tracking-[0.3em]">Plan</p>
-                  <h4 className="text-xl font-semibold mt-3">{plan.name}</h4>
-                  <p className="text-white text-lg font-semibold mt-3">{plan.price}</p>
-                  <p className="text-gray-400 mt-3">Best for: {plan.bestFor}</p>
-                  <div className="mt-4">
-                    <p className="text-white font-semibold mb-2">Key features</p>
-                    <ul className="list-disc list-inside space-y-2 text-gray-300">
-                      {plan.features.map((feature) => (
-                        <li key={feature}>{feature}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <p className="text-gray-400 mt-4">Estimated timeline: {plan.timeline}</p>
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-5 py-2 mt-5 border border-white/20 text-xs uppercase tracking-[0.3em] font-bold hover:border-primary hover:text-primary transition-colors"
-                  >
-                    {plan.cta}
-                  </a>
-                </div>
-              ))}
-            </div>
+        <div className="flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Service Bands</p>
+            <h2 className="font-heading text-3xl md:text-5xl tracking-tight mt-4">Service-Wise INR Pricing Ranges</h2>
           </div>
-        ))}
-      </div>
-
-      <div className="page-container mt-12">
-        <div className="border border-white/10 bg-black/60 p-6 md:p-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-primary">Transparency Notes</p>
-          <div className="mt-4 space-y-2 text-gray-400">
-            <p>All prices are starting from and depend on scope, features, and delivery timelines.</p>
-            <p>Taxes (GST) are additional as applicable.</p>
-            <p>Final pricing is confirmed after a short discovery call and proposal.</p>
-          </div>
+          <p className="text-gray-400 text-sm uppercase tracking-[0.2em]">Starting estimates</p>
         </div>
-      </div>
 
-      <div className="page-container mt-12">
-        <div className="grid md:grid-cols-3 gap-8 border border-white/10 bg-white/5 p-8 md:p-10">
-          {[
-            {
-              title: 'What Drives Cost',
-              desc: 'Scope, number of page templates, motion design, and performance optimization determine final pricing.'
-            },
-            {
-              title: 'Flexible Add-ons',
-              desc: 'Content, SEO support, analytics, and integrations can be added as growth needs expand.'
-            },
-            {
-              title: 'Payment Structure',
-              desc: 'We follow a milestone-based structure with clear deliverables and transparent timelines.'
-            }
-          ].map((item) => (
-            <div key={item.title}>
-              <h2 className="text-xl font-semibold mb-3 text-primary">{item.title}</h2>
-              <p className="text-gray-400 leading-relaxed">{item.desc}</p>
-            </div>
+        <div className="mt-8 grid md:grid-cols-2 gap-6">
+          {serviceBands.map((item) => (
+            <article key={item.service} className="border border-white/10 bg-white/5 p-6 md:p-8">
+              <h3 className="text-xl md:text-2xl font-semibold">{item.service}</h3>
+              <p className="text-primary text-lg font-semibold mt-3">{item.range}</p>
+              <p className="text-gray-400 mt-2">Estimated timeline: {item.timeline}</p>
+              <p className="text-gray-300 mt-4">Best for: {item.bestFor}</p>
+              <ul className="mt-4 space-y-2 text-gray-300">
+                {item.includes.map((point) => (
+                  <li key={point}>- {point}</li>
+                ))}
+              </ul>
+            </article>
           ))}
         </div>
       </div>
 
       <div className="page-container mt-16">
-        <div className="flex flex-col lg:flex-row gap-12">
-          <div className="w-full lg:w-5/12">
-            <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">FAQ</p>
-            <h2 className="font-heading text-3xl md:text-5xl tracking-tight mt-4">
-              Pricing
-              <br />
-              Questions
-            </h2>
-            <p className="text-gray-400 mt-4">
-              Clear answers to help you scope your web design and development investment.
-            </p>
-          </div>
-          <div className="w-full lg:w-7/12">
-            <div className="border-t border-white/20">
-              {faqItems.map((item) => (
-                <div key={item.question} className="border-b border-white/20 py-6">
-                  <h3 className="text-lg md:text-xl font-semibold text-white">{item.question}</h3>
-                  <p className="text-gray-400 mt-3 leading-relaxed">{item.answer}</p>
+        <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Engagement Models</p>
+        <h2 className="font-heading text-3xl md:text-5xl tracking-tight mt-4">Pick the Model That Fits Your Stage</h2>
+        <div className="mt-8 grid md:grid-cols-3 gap-6">
+          {engagementModels.map((model) => (
+            <article key={model.title} className="border border-white/10 bg-black/50 p-6">
+              <h3 className="text-xl font-semibold">{model.title}</h3>
+              <p className="text-gray-400 mt-3">{model.summary}</p>
+              <ul className="mt-4 space-y-2 text-gray-300">
+                {model.points.map((point) => (
+                  <li key={point}>- {point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="page-container mt-16">
+        <div className="border border-white/10 bg-white/5 p-8">
+          <p className="text-primary font-mono uppercase tracking-[0.35em] text-xs">Pricing FAQ</p>
+          <h2 className="font-heading text-3xl md:text-5xl tracking-tight mt-4">Questions About Cost and Scope</h2>
+          <div className="mt-8 border-t border-white/10">
+            {faqItems.map((item, index) => (
+              <div key={item.question} className="border-b border-white/10">
+                <h3>
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between text-left py-5"
+                    aria-expanded={openFaqIndex === index}
+                    aria-controls={`pricing-faq-${index}`}
+                    onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
+                  >
+                    <span className="text-lg font-semibold">{item.question}</span>
+                    <span className="text-primary text-xl" aria-hidden="true">
+                      {openFaqIndex === index ? '-' : '+'}
+                    </span>
+                  </button>
+                </h3>
+                <div
+                  id={`pricing-faq-${index}`}
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openFaqIndex === index ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <p className="text-gray-400">{item.answer}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="page-container mt-16">
-        <div className="border border-primary/40 bg-primary/10 p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="border border-primary/40 bg-primary/10 p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-primary">Ready to Start?</p>
-            <h2 className="text-3xl md:text-4xl font-heading mt-3">Get a custom quote</h2>
-            <p className="text-gray-400 mt-3">Tell us your goals and we will respond with a clear scope and timeline.</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-primary">Next Step</p>
+            <h2 className="text-3xl md:text-4xl font-heading mt-3">Get a Precise INR Proposal in 24 Hours</h2>
+            <p className="text-gray-300 mt-3">Share your goals and get scope, timeline, and package recommendation.</p>
           </div>
-          <a
+          <Link
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-3 bg-primary text-black text-xs uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors"
           >
-            Start a Web Development Project
-          </a>
+            Book Free Consultation
+          </Link>
         </div>
       </div>
     </section>

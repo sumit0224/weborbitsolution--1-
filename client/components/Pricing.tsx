@@ -7,12 +7,12 @@ const tiers = [
   {
     id: 'launch',
     name: 'Launch',
-    price: '$300',
-    term: 'per project',
-    description: 'For early-stage brands that need a bold, fast launch with premium polish.',
+    price: '₹25,000',
+    term: 'starting per project',
+    description: 'For early-stage teams launching a polished website with clear conversion goals.',
     features: [
-      'Brand starter kit + 1 page site',
-      'Design system with core UI blocks',
+      'Brand starter setup + focused pages',
+      'Core UI blocks and reusable components',
       'Performance and SEO essentials',
       '2-3 week delivery timeline'
     ],
@@ -22,9 +22,9 @@ const tiers = [
   {
     id: 'orbit',
     name: 'Orbit',
-    price: '$800',
-    term: 'per project',
-    description: 'Our most requested package for growth teams ready to scale their presence.',
+    price: '₹65,000',
+    term: 'starting per project',
+    description: 'Most selected package for growth teams scaling website performance and lead quality.',
     features: [
       'Multi-page marketing site',
       'Custom motion and interaction design',
@@ -37,9 +37,9 @@ const tiers = [
   {
     id: 'gravity',
     name: 'Gravity',
-    price: 'Custom',
+    price: '₹1,50,000+',
     term: 'tailored scope',
-    description: 'Complex builds, platform work, or full brand systems with dedicated squads.',
+    description: 'Complex products, SaaS builds, and platform work with dedicated execution support.',
     features: [
       'Discovery, research, and positioning',
       'Product design + engineering pods',
@@ -193,7 +193,7 @@ const Pricing: React.FC = () => {
             </h2>
           </div>
           <p className="text-gray-400 text-lg md:text-xl max-w-xl">
-            Pick a baseline and we tailor the scope. Transparent milestones, clear deliverables, and zero fluff.
+            INR-first packages with transparent milestones, clear deliverables, and flexible scope expansion.
           </p>
         </div>
 
