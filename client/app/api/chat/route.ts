@@ -18,6 +18,7 @@ type ChatRequestBody = {
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 25;
 const THROTTLE_MIN_INTERVAL_MS = 800;
+const OPENAI_TIMEOUT_MS = 14_000;
 const rateStore = new Map<string, { count: number; resetAt: number; lastAt: number }>();
 
 const leadIntentRegex = /(price|pricing|cost|quote|budget|timeline|project|proposal|hire|consultation|demo)/i;
@@ -45,6 +46,15 @@ const getClientKey = (request: NextRequest) => {
 
 const getTrafficState = (key: string) => {
   const now = Date.now();
+
+  if (rateStore.size > 2_000) {
+    for (const [entryKey, entry] of rateStore.entries()) {
+      if (now > entry.resetAt + RATE_WINDOW_MS) {
+        rateStore.delete(entryKey);
+      }
+    }
+  }
+
   const existing = rateStore.get(key);
 
   if (!existing || now > existing.resetAt) {
@@ -65,6 +75,32 @@ const getTrafficState = (key: string) => {
   existing.count += 1;
   existing.lastAt = now;
   return { limited: false, reason: '' };
+};
+
+const normalizeReply = (value: string) => value.toLowerCase().replace(/\s+/g, ' ').trim();
+
+const diversifyReply = (reply: string, messages: ChatMessage[]) => {
+  const latestAssistant = [...messages].reverse().find((msg) => msg.role === 'assistant')?.content || '';
+  if (!latestAssistant) {
+    return reply;
+  }
+
+  if (normalizeReply(latestAssistant) !== normalizeReply(reply)) {
+    return reply;
+  }
+
+  const latestUser = [...messages].reverse().find((msg) => msg.role === 'user')?.content || '';
+  const userIntent = detectServiceIntent(latestUser);
+  const hint =
+    userIntent === 'saas'
+      ? 'If helpful, share your MVP scope and target launch month for a tailored plan.'
+      : userIntent === 'app'
+        ? 'If helpful, share your platform preference and core features for a tailored estimate.'
+        : userIntent === 'website'
+          ? 'If helpful, share required pages and integrations for a tailored estimate.'
+          : 'If helpful, share your project scope, budget, and timeline for a tailored estimate.';
+
+  return `${reply} ${hint}`;
 };
 
 const detectServiceIntent = (text: string): ServiceIntent => {
@@ -182,6 +218,9 @@ const callOpenAI = async (messages: ChatMessage[]) => {
     return fallbackReply(messages);
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), OPENAI_TIMEOUT_MS);
+
   const completion = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -190,15 +229,16 @@ const callOpenAI = async (messages: ChatMessage[]) => {
     },
     body: JSON.stringify({
       model: 'gpt-4o-mini',
-      temperature: 0.3,
+      temperature: 0.65,
+      top_p: 0.9,
+      frequency_penalty: 0.2,
+      presence_penalty: 0.15,
       response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: getChatbotSystemPrompt() },
-        ...messages,
-      ],
+      messages: [{ role: 'system', content: getChatbotSystemPrompt() }, ...messages],
     }),
     cache: 'no-store',
-  });
+    signal: controller.signal,
+  }).finally(() => clearTimeout(timeout));
 
   if (!completion.ok) {
     return fallbackReply(messages);
@@ -212,12 +252,13 @@ const callOpenAI = async (messages: ChatMessage[]) => {
 
   try {
     const parsed = JSON.parse(content);
+    const reply = diversifyReply(String(parsed.reply || '').trim(), messages);
     return {
-      reply: String(parsed.reply || '').trim() || fallbackReply(messages).reply,
+      reply: reply || fallbackReply(messages).reply,
       shouldCaptureLead: Boolean(parsed.shouldCaptureLead),
     };
   } catch {
-    const plainTextReply = content.trim();
+    const plainTextReply = diversifyReply(content.trim(), messages);
     return {
       reply: plainTextReply || fallbackReply(messages).reply,
       shouldCaptureLead: leadIntentRegex.test(plainTextReply) || fallbackReply(messages).shouldCaptureLead,

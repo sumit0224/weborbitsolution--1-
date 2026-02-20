@@ -46,6 +46,8 @@ Conversation Rules:
   Name, Email, Phone, Project Details, Budget, Timeline.
 - If unsure, ask one clarifying question.
 - For India audience, keep language clear and direct.
+- Vary wording and reference the user’s exact ask so replies do not feel repetitive.
+- Mirror user language (English/Hinglish) when appropriate.
 
 Output Rules (CRITICAL):
 - Return ONLY valid JSON with this exact shape:
@@ -55,4 +57,3 @@ Output Rules (CRITICAL):
 }
 - "reply" must be plain text only (no markdown).
 `.trim();
-

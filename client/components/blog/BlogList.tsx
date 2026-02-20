@@ -29,8 +29,12 @@ const BlogList: React.FC<BlogListProps> = ({ limit, mode = 'grid' }) => {
         if (!hasFallback) {
           setStatus('loading');
         }
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-        const response = await fetch(`${baseUrl}/api/blog/posts`);
+        const params = new URLSearchParams();
+        if (limit) {
+          params.set('limit', String(Math.max(1, limit)));
+        }
+        const endpoint = params.toString() ? `/api/blog/posts?${params.toString()}` : '/api/blog/posts';
+        const response = await fetch(endpoint);
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data?.error || 'Failed to load posts.');
@@ -52,7 +56,7 @@ const BlogList: React.FC<BlogListProps> = ({ limit, mode = 'grid' }) => {
     };
 
     fetchPosts();
-  }, [fallbackPosts, hasFallback]);
+  }, [fallbackPosts, hasFallback, limit]);
 
   const visiblePosts = limit ? posts.slice(0, limit) : posts;
   const isCarousel = mode === 'carousel';

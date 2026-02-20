@@ -61,8 +61,7 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-      const response = await fetch(`${baseUrl}/api/inquiry`, {
+      const response = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

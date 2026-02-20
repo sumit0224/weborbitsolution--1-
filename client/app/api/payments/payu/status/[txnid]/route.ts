@@ -1,54 +1,10 @@
 import { NextResponse } from 'next/server';
-
-const trimSlash = (value: string) => value.replace(/\/+$/, '');
-const UPSTREAM_TIMEOUT_MS = 12_000;
-
-const getBackendBaseUrl = () => {
-  const configured = process.env.PAYMENTS_BACKEND_URL || process.env.API_BASE_URL || '';
-
-  if (configured) {
-    return trimSlash(configured);
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    return trimSlash(process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000');
-  }
-
-  return '';
-};
-
-const getProxyHeaders = () => {
-  const headers: Record<string, string> = {};
-  const proxySecret = process.env.PAYMENTS_PROXY_SECRET;
-  if (proxySecret) {
-    headers['x-payments-proxy'] = proxySecret;
-  }
-  return headers;
-};
-
-const fetchWithTimeout = async (url: string, init: RequestInit, timeoutMs = UPSTREAM_TIMEOUT_MS) => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, {
-      ...init,
-      signal: controller.signal,
-      cache: 'no-store',
-    });
-  } finally {
-    clearTimeout(timeout);
-  }
-};
-
-const readUpstreamBody = async (response: Response) => {
-  const contentType = response.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
-    return response.json().catch(() => ({}));
-  }
-
-  const text = await response.text().catch(() => '');
-  return { error: text || 'Unable to fetch payment status.' };
-};
+import {
+  fetchWithTimeout,
+  getBackendBaseUrl,
+  readUpstreamBody,
+  withPaymentsProxyHeader,
+} from '../../../../../../lib/server/backendProxy';
 
 export async function GET(_req: Request, context: { params: Promise<{ txnid: string }> }) {
   try {
@@ -67,11 +23,11 @@ export async function GET(_req: Request, context: { params: Promise<{ txnid: str
       `${backendBaseUrl}/api/payments/payu/status/${encodeURIComponent(txnid)}`,
       {
         method: 'GET',
-        headers: getProxyHeaders(),
+        headers: withPaymentsProxyHeader(),
       },
     );
 
-    const responseBody = await readUpstreamBody(upstreamResponse);
+    const responseBody = await readUpstreamBody(upstreamResponse, 'Unable to fetch payment status.');
     return NextResponse.json(responseBody, { status: upstreamResponse.status });
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {

@@ -25,6 +25,10 @@ jobs:
         working-directory: ./client
         run: npm ci
 
+      - name: Type Check Client
+        working-directory: ./client
+        run: npm run lint
+
       - name: Build Client
         working-directory: ./client
         run: npm run build
@@ -49,4 +53,6 @@ jobs:
 
       - name: Verify Server Syntax
         working-directory: ./server
-        run: node --check index.js
+        run: |
+          node --check index.js
+          node --check app.js

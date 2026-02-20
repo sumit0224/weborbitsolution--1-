@@ -1,53 +1,10 @@
 import { NextResponse } from 'next/server';
-
-const trimSlash = (value: string) => value.replace(/\/+$/, '');
-const UPSTREAM_TIMEOUT_MS = 12_000;
-
-const getBackendBaseUrl = () => {
-  const configured = process.env.PAYMENTS_BACKEND_URL || process.env.API_BASE_URL || '';
-
-  if (configured) {
-    return trimSlash(configured);
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    return trimSlash(process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000');
-  }
-
-  return '';
-};
-
-const getProxyHeaders = () => {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  const proxySecret = process.env.PAYMENTS_PROXY_SECRET;
-  if (proxySecret) {
-    headers['x-payments-proxy'] = proxySecret;
-  }
-  return headers;
-};
-
-const fetchWithTimeout = async (url: string, init: RequestInit, timeoutMs = UPSTREAM_TIMEOUT_MS) => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, {
-      ...init,
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timeout);
-  }
-};
-
-const readUpstreamBody = async (response: Response) => {
-  const contentType = response.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
-    return response.json().catch(() => ({}));
-  }
-
-  const text = await response.text().catch(() => '');
-  return { error: text || 'Payment request failed.' };
-};
+import {
+  fetchWithTimeout,
+  getBackendBaseUrl,
+  readUpstreamBody,
+  withPaymentsProxyHeader,
+} from '../../../../../lib/server/backendProxy';
 
 export async function POST(req: Request) {
   try {
@@ -62,12 +19,11 @@ export async function POST(req: Request) {
     const payload = await req.json();
     const upstreamResponse = await fetchWithTimeout(`${backendBaseUrl}/api/payments/payu/create`, {
       method: 'POST',
-      headers: getProxyHeaders(),
+      headers: withPaymentsProxyHeader({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload),
-      cache: 'no-store',
     });
 
-    const responseBody = await readUpstreamBody(upstreamResponse);
+    const responseBody = await readUpstreamBody(upstreamResponse, 'Payment request failed.');
 
     return NextResponse.json(responseBody, { status: upstreamResponse.status });
   } catch (error) {

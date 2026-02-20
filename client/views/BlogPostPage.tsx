@@ -18,8 +18,7 @@ const BlogPostPage: React.FC = () => {
       if (!slug) return;
       try {
         setStatus('loading');
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-        const response = await fetch(`${baseUrl}/api/blog/posts/${slug}`);
+        const response = await fetch(`/api/blog/posts/${slug}`);
         const data = await response.json();
         if (response.ok && data?.post) {
           setPost(data.post);

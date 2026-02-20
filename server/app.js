@@ -39,6 +39,12 @@ const devOrigins = process.env.NODE_ENV === 'production' ? [] : ['http://localho
 const allowedOrigins = [...new Set([...baseOrigins, ...devOrigins])];
 const normalizeOrigin = (origin) => String(origin || '').trim().replace(/\/+$/, '');
 const isLocalOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(String(origin || '').trim());
+const PRIMARY_ALLOWED_ORIGIN = normalizeOrigin(
+  allowedOrigins.find((origin) => !isLocalOrigin(origin)) || allowedOrigins[0] || ''
+);
+const trustedOrigins = new Set(
+  [PRIMARY_ALLOWED_ORIGIN, ...allowedOrigins.map((origin) => normalizeOrigin(origin))].filter(Boolean)
+);
 
 app.use(
   helmet({
@@ -83,6 +89,30 @@ const formLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many form submissions. Please try again later.' },
+});
+
+const paymentCreateLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many payment attempts. Please try again shortly.' },
+});
+
+const paymentStatusLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many payment status checks. Please wait.' },
+});
+
+const paymentCallbackLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 180,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many payment callbacks. Please retry.' },
 });
 
 app.use('/api/', apiLimiter);
@@ -194,6 +224,53 @@ const clearSessionCookie = (res) => {
   });
 };
 
+const parsePositiveInt = (value, fallback) => {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return fallback;
+  }
+  return parsed;
+};
+
+const getRequestOrigin = (req) => normalizeOrigin(req.get('origin') || '');
+const getRefererOrigin = (req) => {
+  const referer = req.get('referer');
+  if (!referer) return '';
+  try {
+    return normalizeOrigin(new URL(referer).origin);
+  } catch {
+    return '';
+  }
+};
+
+const hasTrustedOrigin = (req) => {
+  if (process.env.NODE_ENV !== 'production') {
+    return true;
+  }
+
+  const hostOrigin = normalizeOrigin(`${req.protocol}://${req.get('host') || ''}`);
+  const origin = getRequestOrigin(req);
+  if (origin && trustedOrigins.has(origin)) {
+    return true;
+  }
+  if (origin && hostOrigin && origin === hostOrigin) {
+    return true;
+  }
+
+  const refererOrigin = getRefererOrigin(req);
+  if (refererOrigin && trustedOrigins.has(refererOrigin)) {
+    return true;
+  }
+  return Boolean(refererOrigin && hostOrigin && refererOrigin === hostOrigin);
+};
+
+const requireTrustedOrigin = (req, res, next) => {
+  if (!hasTrustedOrigin(req)) {
+    return res.status(403).json({ error: 'Invalid request origin.' });
+  }
+  return next();
+};
+
 const requireAdmin = (req, res, next) => {
   const token = req.cookies[SESSION_COOKIE];
   const payload = verifySessionToken(token);
@@ -297,8 +374,11 @@ const SERVER_PUBLIC_URL = process.env.SERVER_PUBLIC_URL || '';
 const PAYMENT_CLIENT_URL = process.env.PAYMENT_CLIENT_URL || '';
 const PAYMENTS_PROXY_SECRET = process.env.PAYMENTS_PROXY_SECRET || '';
 const PRIMARY_CLIENT_ORIGIN = normalizeOrigin(
-  PAYMENT_CLIENT_URL || allowedOrigins.find((origin) => !isLocalOrigin(origin)) || allowedOrigins[0] || ''
+  PAYMENT_CLIENT_URL || PRIMARY_ALLOWED_ORIGIN || ''
 );
+if (PRIMARY_CLIENT_ORIGIN) {
+  trustedOrigins.add(PRIMARY_CLIENT_ORIGIN);
+}
 const PAYU_SURL =
   process.env.PAYU_SURL || (SERVER_PUBLIC_URL ? `${SERVER_PUBLIC_URL}/api/payments/payu/success` : '');
 const PAYU_FURL =
@@ -332,7 +412,9 @@ const isTrustedPayuBaseUrl = (value) => {
 };
 
 const hasValidPaymentsProxyRequest = (req) => {
-  if (!PAYMENTS_PROXY_SECRET) return true;
+  if (!PAYMENTS_PROXY_SECRET) {
+    return process.env.NODE_ENV !== 'production';
+  }
   const provided = String(req.get('x-payments-proxy') || '');
   return safeCompare(provided, PAYMENTS_PROXY_SECRET);
 };
@@ -368,6 +450,9 @@ const verifyPayuResponseHash = (payload) => {
 const ensurePayuConfigured = () => {
   if (!PAYU_KEY || !PAYU_SALT) {
     return { ok: false, error: 'PayU credentials are not configured.' };
+  }
+  if (process.env.NODE_ENV === 'production' && !PAYMENTS_PROXY_SECRET) {
+    return { ok: false, error: 'PAYMENTS_PROXY_SECRET is required in production.' };
   }
   if (!PAYU_BASE_URL || !/^https?:\/\//i.test(PAYU_BASE_URL)) {
     return { ok: false, error: 'PayU base URL is not configured correctly.' };
@@ -528,7 +613,7 @@ app.get('/api/health', (req, res) => {
 
 // --- PayU Payments ---
 
-app.post('/api/payments/payu/create', validateBody(payuCreateSchema), async (req, res) => {
+app.post('/api/payments/payu/create', paymentCreateLimiter, validateBody(payuCreateSchema), async (req, res) => {
   try {
     if (!hasValidPaymentsProxyRequest(req)) {
       return res.status(403).json({ error: 'Forbidden' });
@@ -714,10 +799,10 @@ const handlePayuCallback = async (req, res, fallbackStatus) => {
   }
 };
 
-app.post('/api/payments/payu/success', (req, res) => handlePayuCallback(req, res, 'success'));
-app.post('/api/payments/payu/failure', (req, res) => handlePayuCallback(req, res, 'failure'));
+app.post('/api/payments/payu/success', paymentCallbackLimiter, (req, res) => handlePayuCallback(req, res, 'success'));
+app.post('/api/payments/payu/failure', paymentCallbackLimiter, (req, res) => handlePayuCallback(req, res, 'failure'));
 
-app.get('/api/payments/payu/status/:txnid', async (req, res) => {
+app.get('/api/payments/payu/status/:txnid', paymentStatusLimiter, async (req, res) => {
   try {
     if (!hasValidPaymentsProxyRequest(req)) {
       return res.status(403).json({ error: 'Forbidden' });
@@ -789,7 +874,7 @@ app.post('/api/inquiry', formLimiter, validateBody(inquirySchema), async (req, r
 
 // --- Admin Auth ---
 
-app.post('/api/admin/login', authLimiter, validateBody(adminLoginSchema), (req, res) => {
+app.post('/api/admin/login', authLimiter, requireTrustedOrigin, validateBody(adminLoginSchema), (req, res) => {
   const { email, password } = req.body || {};
 
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
@@ -805,7 +890,7 @@ app.post('/api/admin/login', authLimiter, validateBody(adminLoginSchema), (req, 
   res.json({ ok: true, admin: { email } });
 });
 
-app.post('/api/admin/logout', (req, res) => {
+app.post('/api/admin/logout', requireTrustedOrigin, (req, res) => {
   clearSessionCookie(res);
   res.json({ ok: true });
 });
@@ -823,10 +908,30 @@ app.get('/api/admin/me', (req, res) => {
 
 app.get('/api/blog/posts', async (req, res) => {
   try {
-    const posts = await BlogPost.find({ published: true })
-      .sort({ date: -1 })
-      .select('title slug excerpt date readTime author category featuredImage');
-    res.json({ posts });
+    const page = parsePositiveInt(req.query.page, 1);
+    const limit = Math.min(parsePositiveInt(req.query.limit, 30), 100);
+    const skip = (page - 1) * limit;
+    const filter = { published: true };
+
+    const [posts, total] = await Promise.all([
+      BlogPost.find(filter)
+        .sort({ date: -1 })
+        .skip(skip)
+        .limit(limit)
+        .select('title slug excerpt date readTime author category featuredImage'),
+      BlogPost.countDocuments(filter),
+    ]);
+
+    res.json({
+      posts,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+        hasNext: page * limit < total,
+      },
+    });
   } catch (error) {
     console.error('Fetch posts error:', error);
     res.status(500).json({ error: 'Failed to load posts.' });
@@ -850,15 +955,32 @@ app.get('/api/blog/posts/:slug', async (req, res) => {
 
 app.get('/api/admin/posts', requireAdmin, async (req, res) => {
   try {
-    const posts = await BlogPost.find().sort({ date: -1 });
-    res.json({ posts });
+    const page = parsePositiveInt(req.query.page, 1);
+    const limit = Math.min(parsePositiveInt(req.query.limit, 50), 100);
+    const skip = (page - 1) * limit;
+
+    const [posts, total] = await Promise.all([
+      BlogPost.find().sort({ date: -1 }).skip(skip).limit(limit),
+      BlogPost.countDocuments(),
+    ]);
+
+    res.json({
+      posts,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+        hasNext: page * limit < total,
+      },
+    });
   } catch (error) {
     console.error('Admin posts error:', error);
     res.status(500).json({ error: 'Failed to load posts.' });
   }
 });
 
-app.post('/api/admin/uploads', requireAdmin, formLimiter, (req, res) => {
+app.post('/api/admin/uploads', requireAdmin, requireTrustedOrigin, formLimiter, (req, res) => {
   upload.single('image')(req, res, (error) => {
     if (error) {
       return res.status(400).json({ error: error.message || 'Upload failed.' });
@@ -872,7 +994,7 @@ app.post('/api/admin/uploads', requireAdmin, formLimiter, (req, res) => {
   });
 });
 
-app.post('/api/admin/posts', requireAdmin, formLimiter, validateBody(blogPostSchema), async (req, res) => {
+app.post('/api/admin/posts', requireAdmin, requireTrustedOrigin, formLimiter, validateBody(blogPostSchema), async (req, res) => {
   try {
     const {
       title,
@@ -914,7 +1036,7 @@ app.post('/api/admin/posts', requireAdmin, formLimiter, validateBody(blogPostSch
   }
 });
 
-app.put('/api/admin/posts/:id', requireAdmin, formLimiter, validateBody(blogPostUpdateSchema), async (req, res) => {
+app.put('/api/admin/posts/:id', requireAdmin, requireTrustedOrigin, formLimiter, validateBody(blogPostUpdateSchema), async (req, res) => {
   try {
     const updates = { ...req.body };
     if (updates.slug) {
@@ -935,7 +1057,7 @@ app.put('/api/admin/posts/:id', requireAdmin, formLimiter, validateBody(blogPost
   }
 });
 
-app.delete('/api/admin/posts/:id', requireAdmin, async (req, res) => {
+app.delete('/api/admin/posts/:id', requireAdmin, requireTrustedOrigin, async (req, res) => {
   try {
     const post = await BlogPost.findByIdAndDelete(req.params.id);
     if (!post) {

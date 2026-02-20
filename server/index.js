@@ -5,16 +5,22 @@ import { seedBlogPosts } from './utils/seedBlogPosts.js';
 dotenv.config();
 
 const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 4000);
+const shouldSeedBlogOnBoot = process.env.SEED_BLOG_ON_BOOT === 'true';
+const seedMode = process.env.BLOG_SEED_MODE || 'insert-missing';
 
 const start = async () => {
   try {
     await connectDb();
     console.log('MongoDB connected');
 
-    try {
-      await seedBlogPosts();
-    } catch (error) {
-      console.error('Blog seed failed:', error);
+    if (shouldSeedBlogOnBoot) {
+      try {
+        await seedBlogPosts({ mode: seedMode });
+      } catch (error) {
+        console.error('Blog seed failed:', error);
+      }
+    } else {
+      console.log('Blog seed skipped on boot. Set SEED_BLOG_ON_BOOT=true to enable.');
     }
 
     app.listen(PORT, () => {

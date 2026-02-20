@@ -28,20 +28,46 @@ const loadBlogPosts = () => {
   return sandbox.result || [];
 };
 
-export const seedBlogPosts = async () => {
+export const seedBlogPosts = async ({ mode } = {}) => {
+  const seedMode = mode === 'upsert' || process.env.BLOG_SEED_MODE === 'upsert' ? 'upsert' : 'insert-missing';
   const posts = loadBlogPosts();
   if (!Array.isArray(posts) || posts.length === 0) {
     console.log('Seed: no blog posts found.');
     return;
   }
 
-  const results = [];
+  const operations = [];
   for (const post of posts) {
-    if (!post?.slug) continue;
+    if (!post?.slug) {
+      continue;
+    }
+
     const update = { ...post };
-    results.push(BlogPost.updateOne({ slug: post.slug }, { $set: update }, { upsert: true }));
+    const updatePayload = seedMode === 'upsert' ? { $set: update } : { $setOnInsert: update };
+    operations.push({
+      updateOne: {
+        filter: { slug: post.slug },
+        update: updatePayload,
+        upsert: true,
+      },
+    });
   }
 
-  await Promise.all(results);
-  console.log(`Seed: upserted ${results.length} blog posts.`);
+  if (operations.length === 0) {
+    console.log('Seed: no valid blog posts to process.');
+    return;
+  }
+
+  const result = await BlogPost.bulkWrite(operations, { ordered: false });
+  const inserted = Number(result.upsertedCount || 0);
+
+  if (seedMode === 'upsert') {
+    const modified = Number(result.modifiedCount || 0);
+    const matched = Number(result.matchedCount || 0);
+    console.log(`Seed mode: upsert. Inserted ${inserted}, modified ${modified}, matched ${matched}.`);
+    return;
+  }
+
+  const skippedExisting = operations.length - inserted;
+  console.log(`Seed mode: insert-missing. Inserted ${inserted}, skipped existing ${skippedExisting}.`);
 };

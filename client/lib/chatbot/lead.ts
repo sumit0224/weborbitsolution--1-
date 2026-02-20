@@ -21,7 +21,24 @@ const splitName = (fullName: string) => {
   };
 };
 
-const getLeadApiBase = () => process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
+const trimSlash = (value: string) => value.replace(/\/+$/, '');
+const getLeadApiUrl = () => {
+  if (typeof window !== 'undefined') {
+    return '/api/inquiry';
+  }
+
+  const configured =
+    process.env.API_BASE_URL || process.env.PAYMENTS_BACKEND_URL || process.env.NEXT_PUBLIC_API_BASE_URL || '';
+  if (configured) {
+    return `${trimSlash(configured)}/api/inquiry`;
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return 'http://localhost:4000/api/inquiry';
+  }
+
+  return '';
+};
 
 const buildInquiryMessage = (lead: LeadCaptureInput, messages: ChatMessage[]) => {
   const userContext = messages
@@ -68,7 +85,12 @@ export const saveLeadToBackend = async (lead: LeadCaptureInput, messages: ChatMe
   );
 
   try {
-    const response = await fetch(`${getLeadApiBase()}/api/inquiry`, {
+    const inquiryUrl = getLeadApiUrl();
+    if (!inquiryUrl) {
+      return { ok: false, error: 'Lead service is not configured.' };
+    }
+
+    const response = await fetch(inquiryUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

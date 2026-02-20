@@ -20,7 +20,7 @@ const LEGACY_PATH_REDIRECTS: Record<string, string> = {
   '/NotFound': '/404',
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const forwardedHost = req.headers.get('x-forwarded-host');
   const hostHeader = forwardedHost || req.headers.get('host') || '';
   const hostname = hostHeader.split(',')[0].split(':')[0];

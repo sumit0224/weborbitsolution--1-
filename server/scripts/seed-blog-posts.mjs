@@ -13,7 +13,8 @@ const connectDb = async () => {
 
 try {
   await connectDb();
-  await seedBlogPosts();
+  const mode = process.env.BLOG_SEED_MODE || 'upsert';
+  await seedBlogPosts({ mode });
   await mongoose.disconnect();
   process.exit(0);
 } catch (error) {
