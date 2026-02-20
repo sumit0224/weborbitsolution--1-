@@ -37,6 +37,8 @@ const baseOrigins = (process.env.CLIENT_ORIGIN || '')
   .filter(Boolean);
 const devOrigins = process.env.NODE_ENV === 'production' ? [] : ['http://localhost:3000', 'http://localhost:5173'];
 const allowedOrigins = [...new Set([...baseOrigins, ...devOrigins])];
+const normalizeOrigin = (origin) => String(origin || '').trim().replace(/\/+$/, '');
+const isLocalOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(String(origin || '').trim());
 
 app.use(
   helmet({
@@ -291,7 +293,10 @@ const PAYU_SALT = process.env.PAYU_MERCHANT_SALT || '';
 const PAYU_BASE_URL = process.env.PAYU_BASE_URL || 'https://test.payu.in/_payment';
 const PAYU_CURRENCY = process.env.PAYU_CURRENCY || 'INR';
 const SERVER_PUBLIC_URL = process.env.SERVER_PUBLIC_URL || '';
-const PRIMARY_CLIENT_ORIGIN = allowedOrigins[0] || '';
+const PAYMENT_CLIENT_URL = process.env.PAYMENT_CLIENT_URL || '';
+const PRIMARY_CLIENT_ORIGIN = normalizeOrigin(
+  PAYMENT_CLIENT_URL || allowedOrigins.find((origin) => !isLocalOrigin(origin)) || allowedOrigins[0] || ''
+);
 const PAYU_SURL =
   process.env.PAYU_SURL || (SERVER_PUBLIC_URL ? `${SERVER_PUBLIC_URL}/api/payments/payu/success` : '');
 const PAYU_FURL =
@@ -346,6 +351,9 @@ const verifyPayuResponseHash = (payload) => {
 const ensurePayuConfigured = () => {
   if (!PAYU_KEY || !PAYU_SALT) {
     return { ok: false, error: 'PayU credentials are not configured.' };
+  }
+  if (!PAYU_BASE_URL || !/^https?:\/\//i.test(PAYU_BASE_URL)) {
+    return { ok: false, error: 'PayU base URL is not configured correctly.' };
   }
   if (!PAYU_SURL || !PAYU_FURL) {
     return { ok: false, error: 'PayU redirect URLs are not configured.' };
