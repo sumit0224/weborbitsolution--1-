@@ -7,4 +7,5 @@ coverage
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+*.tsbuildinfo
 seo
