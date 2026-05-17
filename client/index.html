@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>IT Services & Web Development Company in India | WebOrbitSolution</title>
+
+  <meta name="description"
+    content="WebOrbitSolution provides website development services, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses in India." />
+  <meta name="keywords"
+    content="IT Services in India, Web Development Company, Website Development Services, Web & App Development, UI UX Design Services, SEO Services in India, Digital Marketing Agency, IT Consulting Services, Web Development Company for Startups" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="WebOrbitSolution" />
+  <meta name="author" content="WebOrbitSolution" />
+
+  <meta name="google-site-verification" content="frSTDY8ADOGq28z77obwWkjvF4U1ZRuZAfOCCP7YvmE" />
+
+  <meta property="og:title" content="IT Services & Web Development Company in India | WebOrbitSolution" />
+  <meta property="og:description"
+    content="Website development, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses in India." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.weborbitsolution.in/" />
+  <meta property="og:image"
+    content="https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IT Services & Web Development Company in India | WebOrbitSolution" />
+  <meta name="twitter:description"
+    content="Website development, web & app development, UI/UX design, SEO services, digital marketing, and IT consulting for startups and growing businesses in India." />
+  <meta name="twitter:image"
+    content="https://images.unsplash.com/photo-1460904577954-8fadb262612c?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="canonical" href="https://www.weborbitsolution.in/" />
+
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="preconnect" href="https://picsum.photos" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;700;900&display=swap"
+    rel="stylesheet">
+
+  <script>
+    (function () {
+      const stored = localStorage.getItem('theme');
+      const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <link rel="stylesheet" href="/index.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBPMWFC2RV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TBPMWFC2RV');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vfn1lr7rml");
+  </script>
+</head>
+
+<body>
+  <!-- SVG Filter Definition for Liquid/Ziggle Effect -->
+  <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+    <defs>
+      <filter id="liquid-flow">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" result="noise">
+          <animate attributeName="baseFrequency" dur="8s" values="0.015; 0.025; 0.015" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Ladder Loader Structure -->
+  <div id="loader-wrapper">
+    <div id="loader-text" class="loader-text-container">WebOrbit Solution</div>
+
+    <!-- 5 Vertical Blinds (Ladder Effect) -->
+    <div class="loader-blind" style="left: 0%; transition-delay: 0.0s;"></div>
+    <div class="loader-blind" style="left: 20%; transition-delay: 0.1s;"></div>
+    <div class="loader-blind" style="left: 40%; transition-delay: 0.15s;"></div>
+    <div class="loader-blind" style="left: 60%; transition-delay: 0.2s;"></div>
+    <div class="loader-blind" style="left: 80%; transition-delay: 0.25s;"></div>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const text = document.getElementById('loader-text');
+      const blinds = document.querySelectorAll('.loader-blind');
+      const wrapper = document.getElementById('loader-wrapper');
+
+      // Step 1: Fade out text
+      setTimeout(() => {
+        text.style.opacity = '0';
+        text.style.transform = 'translate(-50%, -60%)'; // Slight drift up
+      }, 1200);
+
+      // Step 2: Slide blinds up (Ladder Effect)
+      setTimeout(() => {
+        blinds.forEach(blind => {
+          blind.style.transform = 'translateY(-100%)';
+        });
+
+        // Cleanup
+        setTimeout(() => {
+          wrapper.remove();
+        }, 2000); // Wait for transition + delay
+      }, 1600);
+    });
+  </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

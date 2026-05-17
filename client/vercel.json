@@ -1,0 +1,21 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "weborbitsolution.in" }],
+      "destination": "https://www.weborbitsolution.in/$1",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.(css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}

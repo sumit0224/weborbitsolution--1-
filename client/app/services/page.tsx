@@ -1,0 +1,36 @@
+import JsonLd from '../../components/JsonLd';
+import { serviceSeoPages } from '../../data/serviceSeoPages';
+import { createPageMetadata } from '../../lib/seo';
+import { breadcrumbJsonLd, faqPageJsonLd, localBusinessJsonLd, organizationJsonLd, serviceJsonLd } from '../../lib/structured-data';
+import ServicesPage from '../../views/ServicesPage';
+
+const config = serviceSeoPages.servicesOverview;
+
+export const metadata = createPageMetadata({
+  title: config.metaTitle,
+  description: config.metaDescription,
+  path: config.path,
+});
+
+export default function Page() {
+  const jsonLd = [
+    organizationJsonLd(),
+    localBusinessJsonLd({
+      name: 'WebOrbitSolution - IT Consulting and Services in India',
+      description: config.metaDescription,
+    }),
+    serviceJsonLd(config.serviceTypes),
+    faqPageJsonLd(config.faqs),
+    breadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: config.breadcrumbName, path: config.path },
+    ]),
+  ];
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <ServicesPage />
+    </>
+  );
+}
