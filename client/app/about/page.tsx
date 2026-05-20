@@ -1,25 +1,27 @@
-import AboutPage from '../../views/AboutPage';
-import JsonLd from '../../components/JsonLd';
-import { createPageMetadata } from '../../lib/seo';
-import { breadcrumbJsonLd } from '../../lib/structured-data';
+import type { Metadata } from 'next'
+import { Navbar } from '@/components/layout/navbar'
+import { Footer } from '@/components/layout/footer'
+import { AboutHero } from './about-hero'
+import { AboutValues } from './about-values'
+import { AboutTeam } from './about-team'
+import { CTABanner } from '@/components/sections/cta-banner'
 
-export const metadata = createPageMetadata({
-  title: 'About WebOrbitSolution | IT Services Company India',
-  description:
-    'WebOrbitSolution is an India-based technology partner delivering website, app, SaaS, SEO, and IT consulting services for startups, SMEs, and enterprises.',
-  path: '/about',
-});
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: 'Learn about Web Orbit Solution — our mission, values, and the talented team behind our award-winning digital experiences.',
+}
 
-export default function Page() {
-  const jsonLd = breadcrumbJsonLd([
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-  ]);
-
+export default function AboutPage() {
   return (
     <>
-      <JsonLd data={jsonLd} />
-      <AboutPage />
+      <Navbar />
+      <main>
+        <AboutHero />
+        <AboutValues />
+        <AboutTeam />
+        <CTABanner />
+      </main>
+      <Footer />
     </>
-  );
+  )
 }

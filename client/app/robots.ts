@@ -1,13 +1,14 @@
-import type { MetadataRoute } from 'next';
-import { siteConfig } from '../lib/seo';
+import { MetadataRoute } from 'next'
+
+const SITE_URL = 'https://weborbitsolution.in'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin', '/admin/login', '/payment-status'],
+      disallow: ['/api/', '/_next/', '/studio'],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
-  };
+    sitemap: `${SITE_URL}/sitemap.xml`,
+  }
 }

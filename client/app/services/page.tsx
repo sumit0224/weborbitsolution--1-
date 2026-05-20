@@ -1,36 +1,25 @@
-import JsonLd from '../../components/JsonLd';
-import { serviceSeoPages } from '../../data/serviceSeoPages';
-import { createPageMetadata } from '../../lib/seo';
-import { breadcrumbJsonLd, faqPageJsonLd, localBusinessJsonLd, organizationJsonLd, serviceJsonLd } from '../../lib/structured-data';
-import ServicesPage from '../../views/ServicesPage';
+import type { Metadata } from 'next'
+import { Navbar } from '@/components/layout/navbar'
+import { Footer } from '@/components/layout/footer'
+import { ServicesHero } from './services-hero'
+import { ServicesList } from './services-list'
+import { CTABanner } from '@/components/sections/cta-banner'
 
-const config = serviceSeoPages.servicesOverview;
+export const metadata: Metadata = {
+  title: 'Services',
+  description: 'Explore our comprehensive digital services including web design, development, SEO, digital marketing, and brand strategy.',
+}
 
-export const metadata = createPageMetadata({
-  title: config.metaTitle,
-  description: config.metaDescription,
-  path: config.path,
-});
-
-export default function Page() {
-  const jsonLd = [
-    organizationJsonLd(),
-    localBusinessJsonLd({
-      name: 'WebOrbitSolution - IT Consulting and Services in India',
-      description: config.metaDescription,
-    }),
-    serviceJsonLd(config.serviceTypes),
-    faqPageJsonLd(config.faqs),
-    breadcrumbJsonLd([
-      { name: 'Home', path: '/' },
-      { name: config.breadcrumbName, path: config.path },
-    ]),
-  ];
-
+export default function ServicesPage() {
   return (
     <>
-      <JsonLd data={jsonLd} />
-      <ServicesPage />
+      <Navbar />
+      <main>
+        <ServicesHero />
+        <ServicesList />
+        <CTABanner />
+      </main>
+      <Footer />
     </>
-  );
+  )
 }
